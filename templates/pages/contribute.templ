@@ -1,0 +1,231 @@
+package pages
+
+import "judo_stats_site/templates/layouts"
+
+templ Contribute() {
+	@layouts.BaseWithJS("Добавить информацию", []string{"contribute.js"}, "contribute.css") {
+		<!-- Breadcrumbs -->
+		<div class="breadcrumbs">
+			<div class="container">
+				<a href="/">Главная</a>
+				<span>/</span>
+				<span style="color: #0F172A; font-weight: 600;">Добавить информацию</span>
+			</div>
+		</div>
+
+		<!-- Page Header -->
+		<section class="page-header">
+			<div class="container">
+				<h1>Добавить информацию</h1>
+				<p>Помогите нам сделать архив лучше - добавьте данные или сообщите об ошибке</p>
+			</div>
+		</section>
+
+		<!-- Main Content -->
+		<div class="main-content">
+			<div class="container">
+				<!-- Type Selection -->
+				<div class="type-selection">
+					<h2>Что вы хотите добавить?</h2>
+					<div class="type-cards">
+						<div class="type-card" onclick="selectType('tournament')">
+							<div class="type-icon">🏆</div>
+							<h3>Турнир</h3>
+							<p>Добавить информацию о турнире и результатах</p>
+						</div>
+						<div class="type-card" onclick="selectType('athlete')">
+							<div class="type-icon">👤</div>
+							<h3>Спортсмен</h3>
+							<p>Добавить профиль дзюдоиста или обновить данные</p>
+						</div>
+						<div class="type-card" onclick="selectType('error')">
+							<div class="type-icon">⚠️</div>
+							<h3>Сообщить об ошибке</h3>
+							<p>Нашли неточность? Помогите нам исправить</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- Tournament Form -->
+				<div class="form-section" id="tournament-form">
+					<h2><span>🏆</span> Добавить информацию о турнире</h2>
+					<form hx-post="/api/contribute/tournament" hx-target="#form-result">
+						<div class="form-grid">
+							<div class="form-group full-width">
+								<label>Название турнира <span class="required">*</span></label>
+								<input type="text" name="tournament_name" placeholder="Например: Чемпионат России по дзюдо 2024" required/>
+							</div>
+							<div class="form-group">
+								<label>Дата начала <span class="required">*</span></label>
+								<input type="date" name="start_date" required/>
+							</div>
+							<div class="form-group">
+								<label>Дата окончания <span class="required">*</span></label>
+								<input type="date" name="end_date" required/>
+							</div>
+							<div class="form-group">
+								<label>Город проведения <span class="required">*</span></label>
+								<input type="text" name="city" placeholder="Москва" required/>
+							</div>
+							<div class="form-group">
+								<label>Страна <span class="required">*</span></label>
+								<select name="country" required>
+									<option value="">Выберите страну</option>
+									<option value="russia">Россия</option>
+									<option value="japan">Япония</option>
+									<option value="france">Франция</option>
+								</select>
+							</div>
+							<div class="form-group full-width">
+								<label>Дополнительная информация</label>
+								<textarea name="additional_info" placeholder="Любая дополнительная информация о турнире..."></textarea>
+							</div>
+						</div>
+
+						<div class="contact-info">
+							<h3>📧 Контактная информация (необязательно)</h3>
+							<p>Укажите ваши контакты, если мы можем связаться с вами для уточнения информации</p>
+						</div>
+
+						<div class="form-grid">
+							<div class="form-group">
+								<label>Ваше имя</label>
+								<input type="text" name="contact_name" placeholder="Иван Иванов"/>
+							</div>
+							<div class="form-group">
+								<label>Email</label>
+								<input type="email" name="contact_email" placeholder="example@email.com"/>
+							</div>
+							<div class="form-group">
+								<label>Телефон</label>
+								<input type="tel" name="contact_phone" placeholder="+7 (XXX) XXX-XX-XX"/>
+							</div>
+						</div>
+
+						<div class="form-actions">
+							<button type="submit" class="btn btn-primary"><span>✓</span> Отправить информацию</button>
+							<button type="button" class="btn btn-secondary" onclick="resetForm('tournament')"><span>↻</span> Очистить форму</button>
+						</div>
+					</form>
+				</div>
+
+				<!-- Athlete Form -->
+				<div class="form-section" id="athlete-form">
+					<h2><span>👤</span> Добавить информацию о спортсмене</h2>
+					<form hx-post="/api/contribute/athlete" hx-target="#form-result">
+						<div class="form-grid">
+							<div class="form-group">
+								<label>Фамилия <span class="required">*</span></label>
+								<input type="text" name="last_name" placeholder="Иванов" required/>
+							</div>
+							<div class="form-group">
+								<label>Имя <span class="required">*</span></label>
+								<input type="text" name="first_name" placeholder="Иван" required/>
+							</div>
+							<div class="form-group">
+								<label>Отчество</label>
+								<input type="text" name="middle_name" placeholder="Иванович"/>
+							</div>
+							<div class="form-group">
+								<label>Дата рождения <span class="required">*</span></label>
+								<input type="date" name="birth_date" required/>
+							</div>
+							<div class="form-group">
+								<label>Страна <span class="required">*</span></label>
+								<select name="country" required>
+									<option value="">Выберите страну</option>
+									<option value="russia">Россия</option>
+									<option value="japan">Япония</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label>Весовая категория</label>
+								<select name="weight_category">
+									<option value="">Выберите категорию</option>
+									<option value="-60">-60 кг</option>
+									<option value="-66">-66 кг</option>
+									<option value="-73">-73 кг</option>
+									<option value="+100">+100 кг</option>
+								</select>
+							</div>
+							<div class="form-group full-width">
+								<label>Биография и дополнительная информация</label>
+								<textarea name="biography" placeholder="Краткая биография, интересные факты..."></textarea>
+							</div>
+						</div>
+
+						<div class="contact-info">
+							<h3>📧 Контактная информация (необязательно)</h3>
+							<p>Укажите ваши контакты, если мы можем связаться с вами для уточнения информации</p>
+						</div>
+
+						<div class="form-grid">
+							<div class="form-group">
+								<label>Ваше имя</label>
+								<input type="text" name="contact_name" placeholder="Иван Иванов"/>
+							</div>
+							<div class="form-group">
+								<label>Email</label>
+								<input type="email" name="contact_email" placeholder="example@email.com"/>
+							</div>
+						</div>
+
+						<div class="form-actions">
+							<button type="submit" class="btn btn-primary"><span>✓</span> Отправить информацию</button>
+							<button type="button" class="btn btn-secondary" onclick="resetForm('athlete')"><span>↻</span> Очистить форму</button>
+						</div>
+					</form>
+				</div>
+
+				<!-- Error Report Form -->
+				<div class="form-section" id="error-form">
+					<h2><span>⚠️</span> Сообщить об ошибке</h2>
+					<form hx-post="/api/contribute/error" hx-target="#form-result">
+						<div class="form-grid">
+							<div class="form-group full-width">
+								<label>Тип ошибки <span class="required">*</span></label>
+								<select name="error_type" required>
+									<option value="">Выберите тип ошибки</option>
+									<option value="athlete_data">Неверные данные спортсмена</option>
+									<option value="tournament_data">Неверные данные турнира</option>
+									<option value="results">Неправильные результаты</option>
+									<option value="other">Другое</option>
+								</select>
+							</div>
+							<div class="form-group full-width">
+								<label>Описание ошибки <span class="required">*</span></label>
+								<textarea name="error_description" placeholder="Опишите, в чем заключается ошибка..." required></textarea>
+								<div class="form-help">Чем подробнее, тем лучше</div>
+							</div>
+							<div class="form-group full-width">
+								<label>Правильная информация</label>
+								<textarea name="correct_info" placeholder="Укажите правильные данные..."></textarea>
+							</div>
+						</div>
+
+						<div class="contact-info">
+							<h3>📧 Контактная информация (необязательно)</h3>
+							<p>Укажите ваши контакты, если мы можем связаться с вами для уточнения</p>
+						</div>
+
+						<div class="form-grid">
+							<div class="form-group">
+								<label>Ваше имя</label>
+								<input type="text" name="contact_name" placeholder="Иван Иванов"/>
+							</div>
+							<div class="form-group">
+								<label>Email</label>
+								<input type="email" name="contact_email" placeholder="example@email.com"/>
+							</div>
+						</div>
+
+						<div class="form-actions">
+							<button type="submit" class="btn btn-primary"><span>✓</span> Отправить сообщение</button>
+							<button type="button" class="btn btn-secondary" onclick="resetForm('error')"><span>↻</span> Очистить форму</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	}
+}

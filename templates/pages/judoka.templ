@@ -1,0 +1,319 @@
+package pages
+
+import "judo_stats_site/templates/layouts"
+import "fmt"
+
+type JudokaData struct {
+	Name           string
+	Country        string
+	CountryFlag    string
+	WeightCategory string
+	BirthDate      string
+	Age            int
+	BirthPlace     string
+	SportClub      string
+	Coach          string
+	GoldMedals     int
+	SilverMedals   int
+	BronzeMedals   int
+}
+
+templ Judoka(data JudokaData) {
+	@layouts.BaseWithJS(data.Name, []string{"judoka.js"}, "judoka.css") {
+		<!-- Breadcrumbs -->
+		<div class="breadcrumbs">
+			<div class="container">
+				<a href="/">Главная</a>
+				<span>/</span>
+				<a href="/search">Поиск</a>
+				<span>/</span>
+				<span style="color: #0F172A; font-weight: 600;">{ data.Name }</span>
+			</div>
+		</div>
+
+		<!-- Profile Hero -->
+		<div class="container">
+			<div class="profile-hero">
+				<div class="profile-main">
+					<div class="profile-photo">
+						<div class="photo-wrapper">
+							<div style="width: 100%; height: 100%; background: linear-gradient(135deg, #0F172A 0%, #0D9488 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 72px;">
+								🥋
+							</div>
+						</div>
+						<div class="flag-badge">{ data.CountryFlag }</div>
+					</div>
+
+					<div class="profile-info">
+						<h1 class="profile-name">{ data.Name }</h1>
+						<p class="profile-subtitle">{ data.Country } • Весовая категория { data.WeightCategory }</p>
+
+						<div class="info-grid">
+							<div class="info-item">
+								<div class="info-label">Дата рождения</div>
+								<div class="info-value">{ data.BirthDate }</div>
+							</div>
+							<div class="info-item">
+								<div class="info-label">Возраст</div>
+								<div class="info-value">{ fmt.Sprintf("%d лет", data.Age) }</div>
+							</div>
+							<div class="info-item">
+								<div class="info-label">Место рождения</div>
+								<div class="info-value">{ data.BirthPlace }</div>
+							</div>
+							<div class="info-item">
+								<div class="info-label">Спортивное общество</div>
+								<div class="info-value">{ data.SportClub }</div>
+							</div>
+							<div class="info-item">
+								<div class="info-label">Тренер</div>
+								<div class="info-value">{ data.Coach }</div>
+							</div>
+							<div class="info-item">
+								<div class="info-label">Весовая категория</div>
+								<div class="info-value">{ data.WeightCategory }</div>
+							</div>
+						</div>
+
+						<div class="achievements-quick">
+							<div class="medal-badge">🥇 { fmt.Sprintf("%d", data.GoldMedals) } золотых медалей</div>
+							<div class="medal-badge silver">🥈 { fmt.Sprintf("%d", data.SilverMedals) } серебряных медалей</div>
+							<div class="medal-badge bronze">🥉 { fmt.Sprintf("%d", data.BronzeMedals) } бронзовых медалей</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Tabs Section -->
+			<div class="tabs-section">
+				<div class="tabs">
+					<button class="tab active" onclick="openTab('career')">Карьера</button>
+					<button class="tab" onclick="openTab('results')">Результаты</button>
+					<button class="tab" onclick="openTab('statistics')">Статистика</button>
+					<button class="tab" onclick="openTab('media')">Медиа</button>
+				</div>
+
+				<!-- Career Tab -->
+				<div id="career" class="tab-content active">
+					<div class="career-overview">
+						<h3>О спортсмене</h3>
+						<div class="bio-text">
+							<p style="margin-bottom: 15px;">
+								Федор Емельяненко - выдающийся российский дзюдоист и боец смешанных единоборств,
+								многократный чемпион России и призер международных турниров по дзюдо. Начал заниматься
+								дзюдо в возрасте 11 лет под руководством тренера Виталия Бородина.
+							</p>
+							<p style="margin-bottom: 15px;">
+								За свою карьеру в дзюдо завоевал множество наград на российских и международных соревнованиях.
+								Выступал в тяжелой весовой категории (+100 кг), где демонстрировал высокий уровень
+								технического мастерства и тактической подготовки.
+							</p>
+							<p>
+								Представлял спортивное общество ЦСКА. Известен своим фирменным броском через бедро
+								и мощными удержаниями. После завершения карьеры в дзюдо успешно перешел в смешанные
+								единоборства, где стал одним из самых титулованных бойцов в истории.
+							</p>
+						</div>
+						<div style="margin-top: 20px; padding: 15px; background: linear-gradient(135deg, rgba(147, 51, 234, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%); border-left: 4px solid #14B8A6; border-radius: 8px;">
+							<p style="margin: 0; font-size: 14px; color: #0F172A;">
+								<strong>💡 Нашли неточность?</strong> Если вы обнаружили ошибку в фамилии или имени, а также обладаете более ценной информацией, поделитесь ей с нами, пожалуйста.
+								<a href="/contribute" style="color: #0F172A; font-weight: 600; text-decoration: underline;">Отправить информацию →</a>
+							</p>
+						</div>
+					</div>
+
+					<div class="results-section">
+						<h3>Основные достижения</h3>
+						<div class="stats-grid">
+							<div class="stat-card">
+								<div class="number">24</div>
+								<div class="label">Всего турниров</div>
+							</div>
+							<div class="stat-card">
+								<div class="number">12</div>
+								<div class="label">Победы</div>
+							</div>
+							<div class="stat-card">
+								<div class="number">7</div>
+								<div class="label">2-е места</div>
+							</div>
+							<div class="stat-card">
+								<div class="number">5</div>
+								<div class="label">3-и места</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Results Tab -->
+				<div id="results" class="tab-content">
+					<div class="results-section">
+						<h3>Результаты турниров</h3>
+						<table class="results-table">
+							<thead>
+								<tr>
+									<th>Год</th>
+									<th>Турнир</th>
+									<th>Место</th>
+									<th>Категория</th>
+									<th>Город</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>1999</td>
+									<td><a href="/tournament" class="tournament-link">Чемпионат России по дзюдо</a></td>
+									<td><span class="place-badge place-1">🥇 1 место</span></td>
+									<td>+100 кг</td>
+									<td>Москва</td>
+								</tr>
+								<tr>
+									<td>1999</td>
+									<td><a href="/tournament" class="tournament-link">Кубок России</a></td>
+									<td><span class="place-badge place-2">🥈 2 место</span></td>
+									<td>+100 кг</td>
+									<td>Санкт-Петербург</td>
+								</tr>
+								<tr>
+									<td>1998</td>
+									<td><a href="/tournament" class="tournament-link">Первенство ЦФО</a></td>
+									<td><span class="place-badge place-1">🥇 1 место</span></td>
+									<td>+100 кг</td>
+									<td>Воронеж</td>
+								</tr>
+								<tr>
+									<td>1998</td>
+									<td><a href="/tournament" class="tournament-link">Международный турнир памяти В.С. Ощепкова</a></td>
+									<td><span class="place-badge place-3">🥉 3 место</span></td>
+									<td>+100 кг</td>
+									<td>Владивосток</td>
+								</tr>
+								<tr>
+									<td>1997</td>
+									<td><a href="/tournament" class="tournament-link">Чемпионат Сибирского федерального округа</a></td>
+									<td><span class="place-badge place-1">🥇 1 место</span></td>
+									<td>+100 кг</td>
+									<td>Новосибирск</td>
+								</tr>
+								<tr>
+									<td>1997</td>
+									<td><a href="/tournament" class="tournament-link">Кубок Губернатора Алтайского края</a></td>
+									<td><span class="place-badge place-1">🥇 1 место</span></td>
+									<td>+100 кг</td>
+									<td>Барнаул</td>
+								</tr>
+								<tr>
+									<td>1996</td>
+									<td><a href="/tournament" class="tournament-link">Первенство России среди юниоров</a></td>
+									<td><span class="place-badge place-2">🥈 2 место</span></td>
+									<td>+100 кг</td>
+									<td>Екатеринбург</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<!-- Statistics Tab -->
+				<div id="statistics" class="tab-content">
+					<div class="results-section">
+						<h3>Статистика по годам</h3>
+						<div class="stats-grid" style="margin-bottom: 40px;">
+							<div class="stat-card">
+								<div class="number">85%</div>
+								<div class="label">Процент побед</div>
+							</div>
+							<div class="stat-card">
+								<div class="number">156</div>
+								<div class="label">Всего боев</div>
+							</div>
+							<div class="stat-card">
+								<div class="number">12</div>
+								<div class="label">Лет в спорте</div>
+							</div>
+							<div class="stat-card">
+								<div class="number">67</div>
+								<div class="label">Иппоны</div>
+							</div>
+						</div>
+
+						<h3 style="margin-bottom: 20px;">Статистика по типам турниров</h3>
+						<table class="results-table">
+							<thead>
+								<tr>
+									<th>Тип турнира</th>
+									<th>Участий</th>
+									<th>Золото</th>
+									<th>Серебро</th>
+									<th>Бронза</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Чемпионаты России</td>
+									<td>8</td>
+									<td>4</td>
+									<td>3</td>
+									<td>1</td>
+								</tr>
+								<tr>
+									<td>Кубки России</td>
+									<td>6</td>
+									<td>3</td>
+									<td>2</td>
+									<td>1</td>
+								</tr>
+								<tr>
+									<td>Региональные турниры</td>
+									<td>7</td>
+									<td>4</td>
+									<td>2</td>
+									<td>1</td>
+								</tr>
+								<tr>
+									<td>Международные турниры</td>
+									<td>3</td>
+									<td>1</td>
+									<td>0</td>
+									<td>2</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<!-- Media Tab -->
+				<div id="media" class="tab-content">
+					<div class="results-section">
+						<h3>Фото и медиа</h3>
+						<div class="media-grid">
+							<div class="media-item">
+								<div style="width: 100%; height: 100%; background: linear-gradient(135deg, #0F172A 0%, #0D9488 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
+									📸
+								</div>
+							</div>
+							<div class="media-item">
+								<div style="width: 100%; height: 100%; background: linear-gradient(135deg, #0F172A 0%, #0D9488 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
+									🏆
+								</div>
+							</div>
+							<div class="media-item">
+								<div style="width: 100%; height: 100%; background: linear-gradient(135deg, #0F172A 0%, #0D9488 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
+									🥋
+								</div>
+							</div>
+							<div class="media-item">
+								<div style="width: 100%; height: 100%; background: linear-gradient(135deg, #0F172A 0%, #0D9488 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
+									📰
+								</div>
+							</div>
+						</div>
+						<p style="margin-top: 30px; color: #0F172A; text-align: center;">
+							Загрузка фотографий будет доступна после подключения к базе данных
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+}

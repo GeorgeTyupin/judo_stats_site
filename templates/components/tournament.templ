@@ -1,0 +1,123 @@
+package components
+
+templ WeightCategories() {
+	<div class="space-y-8">
+		<!-- Men's Categories -->
+		<div>
+			<h3 class="text-2xl font-bold text-gray-900 mb-6">👨 Мужчины</h3>
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+				@CategoryCard("men", "-60 кг", "Алексей Буданов", "Динамо Москва", "Олег Малышев", "ЦСКА СПб", "Сергей Косоротов", "Спартак Волгоград")
+				@CategoryCard("men", "-66 кг", "Арсен Галстян", "ЦСКА Москва", "Михаил Пулаев", "Динамо Москва", "Давид Мойсеев", "Спартак СПб")
+				@CategoryCard("men", "-73 кг", "Мансур Исаев", "Динамо Челябинск", "Кирилл Денисов", "ЦСКА Москва", "Виталий Макаров", "Динамо Москва")
+				@CategoryCard("men", "-81 кг", "Иван Нифонтов", "Спартак Москва", "Александр Михайлин", "ЦСКА Москва", "Дмитрий Носов", "Динамо Челябинск")
+				@CategoryCard("men", "-90 кг", "Денис Иартсев", "Динамо Москва", "Кирилл Вопросов", "ЦСКА СПб", "Алан Хубецов", "Спартак Владикавказ")
+				@CategoryCard("men", "-100 кг", "Тагир Хайбулаев", "Динамо Москва", "Хасан Халмурзаев", "ЦСКА Москва", "Олег Степанов", "Спартак СПб")
+				@CategoryCard("men", "+100 кг", "Федор Емельяненко", "ЦСКА Москва", "Александр Поветкин", "Динамо Челябинск", "Руслан Шарафеев", "Спартак Москва")
+			</div>
+		</div>
+
+		<!-- Women's Categories -->
+		<div>
+			<h3 class="text-2xl font-bold text-gray-900 mb-6">👩 Женщины</h3>
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+				@CategoryCard("women", "-48 кг", "Ольга Смирнова", "Динамо Москва", "Татьяна Москалёва", "ЦСКА СПб", "Любовь Бруле", "Спартак Москва")
+				@CategoryCard("women", "-52 кг", "Наталья Юшкова", "ЦСКА Москва", "Алина Думкина", "Динамо Москва", "Евгения Подрезова", "Спартак СПб")
+				@CategoryCard("women", "-57 кг", "Ирина Родина", "Динамо Челябинск", "Мария Коновалова", "ЦСКА Москва", "Дарья Полякова", "Спартак Москва")
+				@CategoryCard("women", "-63 кг", "Екатерина Вдовина", "Динамо Москва", "Светлана Галант", "ЦСКА СПб", "Анна Хворост", "Спартак Москва")
+			</div>
+		</div>
+	</div>
+}
+
+templ CategoryCard(gender, category, gold, goldClub, silver, silverClub, bronze, bronzeClub string) {
+	<div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200">
+		<div class="bg-gradient-to-r from-teal-500 to-teal-600 p-4 flex justify-between items-center">
+			<div class="text-white font-bold text-lg">{ category }</div>
+			if gender == "men" {
+				<div class="bg-white/20 px-3 py-1 rounded-full text-white text-sm font-semibold">👨 М</div>
+			} else {
+				<div class="bg-white/20 px-3 py-1 rounded-full text-white text-sm font-semibold">👩 Ж</div>
+			}
+		</div>
+		<div class="p-4 space-y-3">
+			@MedalResult("🥇", gold, goldClub)
+			@MedalResult("🥈", silver, silverClub)
+			@MedalResult("🥉", bronze, bronzeClub)
+		</div>
+	</div>
+}
+
+templ MedalResult(medal, athlete, club string) {
+	<div class="flex items-start gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+		<div class="text-2xl flex-shrink-0">{ medal }</div>
+		<div class="flex-1 min-w-0">
+			<a href="/judoka" class="text-gray-900 font-semibold hover:text-teal-600 transition-colors block truncate">
+				{ athlete }
+			</a>
+			<div class="text-sm text-gray-600 truncate">{ club }</div>
+		</div>
+		<div class="text-lg flex-shrink-0">🇷🇺</div>
+	</div>
+}
+
+templ TournamentResultsTable() {
+	<div class="overflow-x-auto">
+		<table class="w-full">
+			<thead class="bg-gray-50 border-b-2 border-gray-200">
+				<tr>
+					<th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Место</th>
+					<th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Спортсмен</th>
+					<th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Спортивное общество</th>
+					<th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Регион</th>
+					<th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Тренер</th>
+				</tr>
+			</thead>
+			<tbody>
+				@TournamentResultRow("1", "Федор Емельяненко", "ЦСКА Москва", "Москва", "Виталий Бородин")
+				@TournamentResultRow("2", "Александр Михайлин", "Динамо Московская область", "Москва", "Сергей Кузнецов")
+				@TournamentResultRow("3", "Тимур Ташуев", "Спартак", "Краснодар", "Иван Нетов")
+				@TournamentResultRow("3", "Шамиль Омаров", "Динамо Дагестан", "Махачкала", "Магомед Алиев")
+			</tbody>
+		</table>
+	</div>
+}
+
+templ TournamentResultRow(place, athlete, club, region, coach string) {
+	<tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors">
+		<td class="px-6 py-4">
+			if place == "1" {
+				<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-yellow-100 text-yellow-900">
+					🥇 1 место
+				</span>
+			} else if place == "2" {
+				<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-gray-100 text-gray-900">
+					🥈 2 место
+				</span>
+			} else if place == "3" {
+				<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-orange-100 text-orange-900">
+					🥉 3 место
+				</span>
+			} else {
+				<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-blue-100 text-blue-900">
+					{ place } место
+				</span>
+			}
+		</td>
+		<td class="px-6 py-4">
+			<div class="flex items-center gap-3">
+				<div class="w-10 h-10 bg-gradient-to-br from-gray-900 to-teal-700 rounded-full flex items-center justify-center text-white text-xl flex-shrink-0">
+					🥋
+				</div>
+				<div>
+					<a href="/judoka" class="text-gray-900 font-semibold hover:text-teal-600 transition-colors">
+						{ athlete }
+					</a>
+					<div class="text-sm text-gray-600">🇷🇺 Россия</div>
+				</div>
+			</div>
+		</td>
+		<td class="px-6 py-4 text-gray-700">{ club }</td>
+		<td class="px-6 py-4 text-gray-700">{ region }</td>
+		<td class="px-6 py-4 text-gray-700">{ coach }</td>
+	</tr>
+}

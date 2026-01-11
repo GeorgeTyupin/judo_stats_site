@@ -1,0 +1,55 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+/bin/
+/dist/
+
+# Go build artifacts
+*.test
+*.out
+go.work
+
+# Dependency directories
+vendor/
+
+# Go workspace file
+go.work.sum
+
+# IDE
+.idea/
+.vscode/
+.claude/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs/
+
+# Air (hot reload)
+tmp/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Templ generated files
+*_templ.go
+
+# Static build artifacts
+/static/css/output.css
+/static/dist/

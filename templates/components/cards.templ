@@ -1,0 +1,133 @@
+package components
+
+templ StatCard(icon, number, label string) {
+	<div class="bg-white rounded-xl shadow-lg p-8 text-center transform hover:scale-105 transition-transform duration-300">
+		<div class="text-5xl mb-4">{ icon }</div>
+		<div class="text-4xl font-bold text-gray-900 mb-2">{ number }</div>
+		<div class="text-gray-600 font-medium">{ label }</div>
+	</div>
+}
+
+templ FeatureCard(icon, title, description string) {
+	<div class="bg-white rounded-xl shadow-md p-8 hover:shadow-xl transition-shadow duration-300">
+		<div class="text-5xl mb-4">{ icon }</div>
+		<h3 class="text-xl font-bold text-gray-900 mb-3">{ title }</h3>
+		<p class="text-gray-600 leading-relaxed">{ description }</p>
+	</div>
+}
+
+templ SearchCard() {
+	<div class="bg-white rounded-2xl shadow-xl p-8">
+		<div class="flex justify-between items-center mb-6">
+			<h2 class="text-2xl font-bold text-gray-900">Поиск спортсменов</h2>
+			<button
+				class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-teal-600 transition-colors"
+				onclick="toggleFilters()"
+			>
+				<span id="filter-text">Показать фильтры</span> ⚙️
+			</button>
+		</div>
+
+		<!-- Search Input -->
+		<div class="flex gap-4 mb-6">
+			<input
+				id="search-input"
+				type="text"
+				placeholder="Введите имя спортсмена..."
+				class="flex-1 px-6 py-4 border-2 border-gray-300 rounded-lg focus:border-teal-500 focus:outline-none transition-colors"
+				hx-post="/api/search"
+				hx-trigger="keyup changed delay:500ms"
+				hx-target="#search-results"
+				hx-indicator="#search-spinner"
+			/>
+			<button
+				class="px-8 py-4 bg-teal-600 text-white font-semibold rounded-lg hover:bg-teal-700 transition-colors shadow-md"
+				hx-post="/api/search"
+				hx-include="#search-input"
+				hx-target="#search-results"
+			>
+				🔍 Найти
+			</button>
+		</div>
+
+		<!-- Filters Section (Initially Hidden) -->
+		<div id="filters-section" class="hidden">
+			@SearchFilters()
+		</div>
+
+		<!-- Search Results -->
+		<div id="search-results" class="mt-6"></div>
+		<div id="search-spinner" class="htmx-indicator text-center py-4">
+			<span class="text-gray-500">Загрузка...</span>
+		</div>
+	</div>
+}
+
+templ SearchFilters() {
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-6 bg-gray-50 rounded-lg">
+		<div>
+			<label class="block text-sm font-medium text-gray-700 mb-2">Страна</label>
+			<select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-teal-500 focus:outline-none">
+				<option value="">Все страны</option>
+				<option value="russia">Россия</option>
+				<option value="japan">Япония</option>
+				<option value="france">Франция</option>
+				<option value="brazil">Бразилия</option>
+				<option value="germany">Германия</option>
+			</select>
+		</div>
+
+		<div>
+			<label class="block text-sm font-medium text-gray-700 mb-2">Весовая категория</label>
+			<select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-teal-500 focus:outline-none">
+				<option value="">Все категории</option>
+				<option value="-60">-60 кг</option>
+				<option value="-66">-66 кг</option>
+				<option value="-73">-73 кг</option>
+				<option value="-81">-81 кг</option>
+				<option value="-90">-90 кг</option>
+				<option value="-100">-100 кг</option>
+				<option value="+100">+100 кг</option>
+			</select>
+		</div>
+
+		<div>
+			<label class="block text-sm font-medium text-gray-700 mb-2">Год рождения (от)</label>
+			<input type="number" placeholder="1990" min="1950" max="2010" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-teal-500 focus:outline-none"/>
+		</div>
+
+		<div>
+			<label class="block text-sm font-medium text-gray-700 mb-2">Год рождения (до)</label>
+			<input type="number" placeholder="2005" min="1950" max="2010" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-teal-500 focus:outline-none"/>
+		</div>
+
+		<div>
+			<label class="block text-sm font-medium text-gray-700 mb-2">Спортивное общество</label>
+			<select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-teal-500 focus:outline-none">
+				<option value="">Все общества</option>
+				<option value="dynamo">Динамо</option>
+				<option value="cska">ЦСКА</option>
+				<option value="spartak">Спартак</option>
+			</select>
+		</div>
+
+		<div>
+			<label class="block text-sm font-medium text-gray-700 mb-2">Город</label>
+			<input type="text" placeholder="Москва" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-teal-500 focus:outline-none"/>
+		</div>
+
+		<div>
+			<label class="block text-sm font-medium text-gray-700 mb-2">Пол</label>
+			<select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-teal-500 focus:outline-none">
+				<option value="">Все</option>
+				<option value="male">Мужчины</option>
+				<option value="female">Женщины</option>
+			</select>
+		</div>
+
+		<div>
+			<label class="block text-sm font-medium text-gray-700 mb-2">Тренер</label>
+			<input type="text" placeholder="Имя тренера" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-teal-500 focus:outline-none"/>
+		</div>
+	</div>
+}

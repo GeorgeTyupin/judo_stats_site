@@ -1,0 +1,110 @@
+package layouts
+
+templ Base(title string, pageCSS ...string) {
+	@BaseWithJS(title, nil, pageCSS...)
+}
+
+templ BaseWithJS(title string, pageJS []string, pageCSS ...string) {
+	<!DOCTYPE html>
+	<html lang="ru">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>{ title } - Архив Дзюдо</title>
+			<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+			<link rel="stylesheet" href="/static/css/style.css"/>
+			for _, css := range pageCSS {
+				<link rel="stylesheet" href={ templ.URL("/static/css/" + css) }/>
+			}
+			<script src="https://unpkg.com/htmx.org@1.9.10"></script>
+		</head>
+		<body>
+			@Header()
+			<main>
+				{ children... }
+			</main>
+			@Footer()
+			if pageJS != nil {
+				for _, js := range pageJS {
+					<script src={ templ.URL("/static/js/" + js) }></script>
+				}
+			}
+		</body>
+	</html>
+}
+
+templ Header() {
+	<header>
+		<div class="header-top">
+			<div class="container">
+				<div>📧 info@judoarchive.com | 📞 +7 (XXX) XXX-XX-XX</div>
+				<div>
+					<a href="/contribute">Добавить информацию</a>
+					<a href="/contribute">Обратная связь</a>
+				</div>
+			</div>
+		</div>
+		<div class="header-main">
+			<div class="container">
+				<div class="header-content">
+					<a href="/" class="logo">🥋 Архив Дзюдо</a>
+					<nav>
+						<ul>
+							<li><a href="/">Главная</a></li>
+							<li><a href="/search">Поиск</a></li>
+							<li><a href="/news">Новости</a></li>
+							<li><a href="/tournaments">Турниры</a></li>
+							<li><a href="/contribute">Добавить данные</a></li>
+							<li><a href="/about">О проекте</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</header>
+}
+
+templ Footer() {
+	<footer>
+		<div class="container">
+			<div class="footer-grid">
+				<div class="footer-section">
+					<h3>Навигация</h3>
+					<ul class="footer-links">
+						<li><a href="/search">Поиск</a></li>
+						<li><a href="/news">Новости</a></li>
+						<li><a href="/history">Славные моменты истории</a></li>
+						<li><a href="/hall-of-fame">Галерея Славы</a></li>
+					</ul>
+				</div>
+				<div class="footer-section">
+					<h3>Информация</h3>
+					<ul class="footer-links">
+						<li><a href="/ussr-competitions">Система соревнований СССР</a></li>
+						<li><a href="/dynasties">Династии</a></li>
+						<li><a href="/referees">Судьи</a></li>
+						<li><a href="/namesakes">Именники</a></li>
+					</ul>
+				</div>
+				<div class="footer-section">
+					<h3>Помощь</h3>
+					<ul class="footer-links">
+						<li><a href="/support">Помощь проекту</a></li>
+						<li><a href="/contribute">Добавить информацию</a></li>
+						<li><a href="/feedback">Обратная связь</a></li>
+						<li><a href="/contacts">Контакты</a></li>
+					</ul>
+				</div>
+				<div class="footer-section">
+					<h3>О проекте</h3>
+					<p style="color: rgba(255,255,255,0.8);">
+						Международный архив дзюдо - крупнейшая база данных по истории дзюдо.
+					</p>
+				</div>
+			</div>
+			<div class="footer-bottom">
+				<p>&copy; 2026 Архив Дзюдо. Все права защищены.</p>
+			</div>
+		</div>
+	</footer>
+}

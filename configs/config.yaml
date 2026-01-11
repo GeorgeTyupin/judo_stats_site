@@ -1,0 +1,8 @@
+env : "local"
+
+http_server:
+  address: "0.0.0.0:8000"
+  timeouts:
+    request: 4s
+    idle: 60s
+    shutdown: 10s
