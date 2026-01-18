@@ -1,13 +1,14 @@
 package handlers
 
 import (
+	"judo_stats_site/internal/models"
 	"judo_stats_site/templates/pages"
 	"net/http"
 )
 
 func Tournament(w http.ResponseWriter, r *http.Request) {
 	// Пример данных - позже это будет из БД
-	data := pages.TournamentData{
+	data := models.TournamentData{
 		Name:         "Чемпионат России по дзюдо 1999",
 		Type:         "Чемпионат России",
 		Date:         "15-18 апреля 1999",

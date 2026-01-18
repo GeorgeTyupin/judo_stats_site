@@ -47,6 +47,12 @@ header {
     align-items: center;
 }
 
+.header-top-contacts {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
 .header-top a {
     color: rgba(255,255,255,0.9);
     text-decoration: none;
@@ -250,6 +256,86 @@ footer {
 
 .hidden {
     display: none;
+}
+
+/* Icon and text alignment utilities */
+.flex-align-center {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.flex-align-center-gap-8 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.flex-align-center-gap-10 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Icon sizes */
+.icon-sm {
+    width: 14px;
+    height: 14px;
+}
+
+.icon-md {
+    width: 16px;
+    height: 16px;
+}
+
+.icon-lg {
+    width: 20px;
+    height: 20px;
+}
+
+.icon-xl {
+    width: 24px;
+    height: 24px;
+}
+
+.icon-2xl {
+    width: 28px;
+    height: 28px;
+}
+
+/* Footer description text */
+.footer-description {
+    color: rgba(255,255,255,0.8);
+}
+
+/* Component: MedalBadge */
+.medal-badge-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.medal-gold-icon {
+    color: #FFD700;
+}
+
+.medal-silver-icon {
+    color: #C0C0C0;
+}
+
+.medal-bronze-icon {
+    color: #CD7F32;
+}
+
+/* Component: ResultRow place badges */
+.place-icon {
+    width: 16px;
+    height: 16px;
+}
+
+/* Component: Cards icon size */
+.card-icon {
+    width: 16px;
+    height: 16px;
 }
 
 /* ============================================

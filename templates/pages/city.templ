@@ -1,0 +1,294 @@
+package pages
+
+import "judo_stats_site/templates/layouts"
+import "judo_stats_site/internal/models"
+import "fmt"
+
+templ City(data models.CityData) {
+	@layouts.BaseWithJS(data.Name, []string{"judoka.js"}, "judoka.css") {
+		<!-- Breadcrumbs -->
+		<div class="breadcrumbs">
+			<div class="container">
+				<a href="/">Главная</a>
+				<span>/</span>
+				<a href="/search">Поиск</a>
+				<span>/</span>
+				<span style="color: #0F172A; font-weight: 600;">{ data.Name }</span>
+			</div>
+		</div>
+
+		<!-- Profile Hero -->
+		<div class="container">
+			<div class="profile-hero">
+				<div class="profile-main">
+					<div class="profile-photo">
+						<div class="photo-wrapper">
+							<div style="width: 100%; height: 100%; background: linear-gradient(135deg, #0F172A 0%, #0D9488 100%); display: flex; align-items: center; justify-content: center; color: white;">
+								<i data-lucide="map-pin" style="width: 72px; height: 72px;"></i>
+							</div>
+						</div>
+					</div>
+
+					<div class="profile-info">
+						<h1 class="profile-name">{ data.Name }</h1>
+						<p class="profile-subtitle">{ data.Region }</p>
+
+						<div class="info-grid">
+							<div class="info-item">
+								<div class="info-label">Год основания</div>
+								<div class="info-value">{ data.Founded }</div>
+							</div>
+							<div class="info-item">
+								<div class="info-label">Население</div>
+								<div class="info-value">{ fmt.Sprintf("%d", data.Population) }</div>
+							</div>
+							<div class="info-item">
+								<div class="info-label">Спортивных обществ</div>
+								<div class="info-value">{ fmt.Sprintf("%d", data.SportClubs) }</div>
+							</div>
+							<div class="info-item">
+								<div class="info-label">Всего спортсменов</div>
+								<div class="info-value">{ fmt.Sprintf("%d", data.Athletes) }</div>
+							</div>
+							<div class="info-item">
+								<div class="info-label">Действующих</div>
+								<div class="info-value">{ fmt.Sprintf("%d", data.ActiveAthletes) }</div>
+							</div>
+							<div class="info-item">
+								<div class="info-label">Тренеров</div>
+								<div class="info-value">{ fmt.Sprintf("%d", data.Coaches) }</div>
+							</div>
+						</div>
+
+						<div class="achievements-quick">
+							<div class="medal-badge" style="display: flex; align-items: center; gap: 8px;">
+								<i data-lucide="award" style="width: 20px; height: 20px; color: #0F172A;"></i> { fmt.Sprintf("%d", data.GoldMedals) } золотых медалей
+							</div>
+							<div class="medal-badge silver" style="display: flex; align-items: center; gap: 8px;">
+								<i data-lucide="award" style="width: 20px; height: 20px; color: #0F172A;"></i> { fmt.Sprintf("%d", data.SilverMedals) } серебряных медалей
+							</div>
+							<div class="medal-badge bronze" style="display: flex; align-items: center; gap: 8px;">
+								<i data-lucide="award" style="width: 20px; height: 20px; color: #0F172A;"></i> { fmt.Sprintf("%d", data.BronzeMedals) } бронзовых медалей
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Tabs Section -->
+			<div class="tabs-section">
+				<div class="tabs">
+					<button class="tab active" onclick="openTab('overview')">Обзор</button>
+					<button class="tab" onclick="openTab('clubs')">Спортивные общества</button>
+					<button class="tab" onclick="openTab('athletes')">Спортсмены</button>
+					<button class="tab" onclick="openTab('statistics')">Статистика</button>
+				</div>
+
+				<!-- Overview Tab -->
+				<div id="overview" class="tab-content active">
+					<div class="career-overview">
+						<h3>О городе</h3>
+						<div class="bio-text">
+							<p style="margin-bottom: 15px;">
+								{ data.Description }
+							</p>
+						</div>
+						<div style="margin-top: 20px; padding: 15px; background: linear-gradient(135deg, rgba(147, 51, 234, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%); border-left: 4px solid #14B8A6; border-radius: 8px;">
+							<p style="margin: 0; font-size: 14px; color: #0F172A; display: flex; align-items: flex-start; gap: 8px;">
+								<i data-lucide="lightbulb" style="width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px;"></i>
+								<span><strong>Нашли неточность?</strong> Если вы обнаружили ошибку в информации, а также обладаете более ценной информацией, поделитесь ей с нами, пожалуйста.
+								<a href="/contribute" style="color: #0F172A; font-weight: 600; text-decoration: underline;">Отправить информацию →</a></span>
+							</p>
+						</div>
+					</div>
+
+					<div class="results-section">
+						<h3>Основные показатели</h3>
+						<div class="stats-grid">
+							<div class="stat-card">
+								<div class="number">{ fmt.Sprintf("%d", data.SportClubs) }</div>
+								<div class="label">Спортивных обществ</div>
+							</div>
+							<div class="stat-card">
+								<div class="number">{ fmt.Sprintf("%d", data.Athletes) }</div>
+								<div class="label">Всего спортсменов</div>
+							</div>
+							<div class="stat-card">
+								<div class="number">{ fmt.Sprintf("%d", data.Coaches) }</div>
+								<div class="label">Тренеров</div>
+							</div>
+							<div class="stat-card">
+								<div class="number">{ fmt.Sprintf("%d", data.TotalMedals) }</div>
+								<div class="label">Всего медалей</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Clubs Tab -->
+				<div id="clubs" class="tab-content">
+					<div class="results-section">
+						<h3>Спортивные общества</h3>
+						<table class="results-table">
+							<thead>
+								<tr>
+									<th>Название</th>
+									<th>Спортсменов</th>
+									<th>Золото</th>
+									<th>Серебро</th>
+									<th>Бронза</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><a href="/sportclub" class="tournament-link">ЦСКА</a></td>
+									<td>156</td>
+									<td>245</td>
+									<td>189</td>
+									<td>156</td>
+								</tr>
+								<tr>
+									<td><a href="/sportclub" class="tournament-link">Динамо</a></td>
+									<td>134</td>
+									<td>198</td>
+									<td>165</td>
+									<td>142</td>
+								</tr>
+								<tr>
+									<td><a href="/sportclub" class="tournament-link">Спартак</a></td>
+									<td>112</td>
+									<td>167</td>
+									<td>143</td>
+									<td>128</td>
+								</tr>
+								<tr>
+									<td><a href="/sportclub" class="tournament-link">Локомотив</a></td>
+									<td>98</td>
+									<td>145</td>
+									<td>121</td>
+									<td>105</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<!-- Athletes Tab -->
+				<div id="athletes" class="tab-content">
+					<div class="results-section">
+						<h3>Известные спортсмены</h3>
+						<table class="results-table">
+							<thead>
+								<tr>
+									<th>Имя</th>
+									<th>Спортивное общество</th>
+									<th>Золото</th>
+									<th>Серебро</th>
+									<th>Бронза</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><a href="/judoka" class="tournament-link">Федор Емельяненко</a></td>
+									<td>ЦСКА</td>
+									<td>5</td>
+									<td>3</td>
+									<td>2</td>
+								</tr>
+								<tr>
+									<td><a href="/judoka" class="tournament-link">Александр Михайлин</a></td>
+									<td>ЦСКА</td>
+									<td>12</td>
+									<td>8</td>
+									<td>4</td>
+								</tr>
+								<tr>
+									<td><a href="/judoka" class="tournament-link">Иван Нифонтов</a></td>
+									<td>Динамо</td>
+									<td>8</td>
+									<td>6</td>
+									<td>3</td>
+								</tr>
+								<tr>
+									<td><a href="/judoka" class="tournament-link">Петр Иванов</a></td>
+									<td>Спартак</td>
+									<td>6</td>
+									<td>4</td>
+									<td>5</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<!-- Statistics Tab -->
+				<div id="statistics" class="tab-content">
+					<div class="results-section">
+						<h3>Статистика медалей</h3>
+						<div class="stats-grid" style="margin-bottom: 40px;">
+							<div class="stat-card">
+								<div class="number">{ fmt.Sprintf("%d", data.GoldMedals) }</div>
+								<div class="label">Золотых медалей</div>
+							</div>
+							<div class="stat-card">
+								<div class="number">{ fmt.Sprintf("%d", data.SilverMedals) }</div>
+								<div class="label">Серебряных медалей</div>
+							</div>
+							<div class="stat-card">
+								<div class="number">{ fmt.Sprintf("%d", data.BronzeMedals) }</div>
+								<div class="label">Бронзовых медалей</div>
+							</div>
+							<div class="stat-card">
+								<div class="number">{ fmt.Sprintf("%d", data.TotalMedals) }</div>
+								<div class="label">Всего медалей</div>
+							</div>
+						</div>
+
+						<h3 style="margin-bottom: 20px;">Статистика по типам турниров</h3>
+						<table class="results-table">
+							<thead>
+								<tr>
+									<th>Тип турнира</th>
+									<th>Золото</th>
+									<th>Серебро</th>
+									<th>Бронза</th>
+									<th>Всего</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Чемпионаты России</td>
+									<td>425</td>
+									<td>356</td>
+									<td>298</td>
+									<td>1079</td>
+								</tr>
+								<tr>
+									<td>Кубки России</td>
+									<td>312</td>
+									<td>267</td>
+									<td>224</td>
+									<td>803</td>
+								</tr>
+								<tr>
+									<td>Региональные турниры</td>
+									<td>285</td>
+									<td>221</td>
+									<td>156</td>
+									<td>662</td>
+								</tr>
+								<tr>
+									<td>Международные турниры</td>
+									<td>228</td>
+									<td>136</td>
+									<td>78</td>
+									<td>442</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+}

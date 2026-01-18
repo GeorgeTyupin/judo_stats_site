@@ -1,25 +1,10 @@
 package pages
 
 import "judo_stats_site/templates/layouts"
+import "judo_stats_site/internal/models"
 import "fmt"
 
-type TournamentData struct {
-	Name         string
-	Type         string
-	Date         string
-	Location     string
-	City         string
-	Participants int
-	Categories   int
-	Organizer    string
-	Venue        string
-	AgeGroup     string
-	System       string
-	Regions      int
-	Matches      int
-}
-
-templ Tournament(data TournamentData) {
+templ Tournament(data models.TournamentData) {
 	@layouts.BaseWithJS(data.Name, []string{"tournament.js"}, "tournament.css") {
 		<!-- Breadcrumbs -->
 		<div class="breadcrumbs">
@@ -28,7 +13,7 @@ templ Tournament(data TournamentData) {
 				<span>/</span>
 				<a href="/tournaments">Турниры</a>
 				<span>/</span>
-				<span style="color: #0F172A; font-weight: 600;">{ data.Name }</span>
+				<span class="breadcrumb-active">{ data.Name }</span>
 			</div>
 		</div>
 
@@ -41,28 +26,28 @@ templ Tournament(data TournamentData) {
 				</div>
 				<div class="tournament-quick-info">
 					<div class="quick-info-item">
-						<div class="quick-info-icon">📅</div>
+						<div class="quick-info-icon"><i data-lucide="calendar" class="quick-info-icon-size"></i></div>
 						<div class="quick-info-text">
 							<div class="quick-info-label">Даты проведения</div>
 							<div class="quick-info-value">{ data.Date }</div>
 						</div>
 					</div>
 					<div class="quick-info-item">
-						<div class="quick-info-icon">📍</div>
+						<div class="quick-info-icon"><i data-lucide="map-pin" class="quick-info-icon-size"></i></div>
 						<div class="quick-info-text">
 							<div class="quick-info-label">Место</div>
 							<div class="quick-info-value">{ data.Location }</div>
 						</div>
 					</div>
 					<div class="quick-info-item">
-						<div class="quick-info-icon">👥</div>
+						<div class="quick-info-icon"><i data-lucide="users" class="quick-info-icon-size"></i></div>
 						<div class="quick-info-text">
 							<div class="quick-info-label">Участников</div>
 							<div class="quick-info-value">{ fmt.Sprintf("%d спортсмена", data.Participants) }</div>
 						</div>
 					</div>
 					<div class="quick-info-item">
-						<div class="quick-info-icon">⚖️</div>
+						<div class="quick-info-icon"><i data-lucide="scale" class="quick-info-icon-size"></i></div>
 						<div class="quick-info-text">
 							<div class="quick-info-label">Категорий</div>
 							<div class="quick-info-value">{ fmt.Sprintf("%d весовых", data.Categories) }</div>
@@ -127,7 +112,7 @@ templ Tournament(data TournamentData) {
 
 					<div class="contribution-notice">
 						<p>
-							<strong>💡 Нашли неточность?</strong> Если вы обнаружили ошибку в фамилии или имени, а также обладаете более ценной информацией, поделитесь ей с нами, пожалуйста.
+							<strong><i data-lucide="lightbulb" class="tournament-icon-bulb"></i> Нашли неточность?</strong> Если вы обнаружили ошибку в фамилии или имени, а также обладаете более ценной информацией, поделитесь ей с нами, пожалуйста.
 							<a href="/contribute">Отправить информацию →</a>
 						</p>
 					</div>
@@ -140,7 +125,7 @@ templ Tournament(data TournamentData) {
 			<div class="container">
 				<div class="years-navigation-card">
 					<div class="tournament-years-header">
-						<h2>📅 Чемпионат России по годам</h2>
+						<h2><i data-lucide="calendar" class="quick-info-icon-size"></i> Чемпионат России по годам</h2>
 						<div class="years-selector">
 							<select>
 								<option value="">Все годы</option>
@@ -187,45 +172,45 @@ templ Tournament(data TournamentData) {
 					<h2>Весовые категории</h2>
 					<div class="filter-buttons">
 						<button class="filter-btn active" data-filter="all">Все</button>
-						<button class="filter-btn" data-filter="men">👨 Мужчины</button>
-						<button class="filter-btn" data-filter="women">👩 Женщины</button>
+						<button class="filter-btn" data-filter="men">Мужчины</button>
+						<button class="filter-btn" data-filter="women">Женщины</button>
 					</div>
 				</div>
 
 				<div class="gender-sections" id="gender-sections">
 					<!-- Men's Categories -->
 					<div class="gender-section" data-gender="men">
-						<h3>👨 Мужчины</h3>
+						<h3>Мужчины</h3>
 						<div class="categories-grid">
 							<div class="category-card">
 								<div class="category-header">
 									<div class="category-name">-60 кг</div>
-									<div class="gender-badge">👨 М</div>
+									<div class="gender-badge">М</div>
 								</div>
 								<div class="category-results">
 									<div class="result-item">
-										<div class="result-place">🥇</div>
+										<div class="result-place"><i data-lucide="award" class="medal-icon-size-24 medal-gold-icon"></i></div>
 										<div class="result-athlete">
 											<a href="/judoka" class="result-athlete-name">Алексей Буданов</a>
 											<div class="result-athlete-info">Динамо Москва</div>
 										</div>
-										<div class="result-country">🇷🇺</div>
+										<div class="result-country"><i data-lucide="flag" class="flag-icon-size"></i></div>
 									</div>
 									<div class="result-item">
-										<div class="result-place">🥈</div>
+										<div class="result-place"><i data-lucide="award" class="medal-icon-size-24 medal-silver-icon"></i></div>
 										<div class="result-athlete">
 											<a href="/judoka" class="result-athlete-name">Олег Малышев</a>
 											<div class="result-athlete-info">ЦСКА СПб</div>
 										</div>
-										<div class="result-country">🇷🇺</div>
+										<div class="result-country"><i data-lucide="flag" class="flag-icon-size"></i></div>
 									</div>
 									<div class="result-item">
-										<div class="result-place">🥉</div>
+										<div class="result-place"><i data-lucide="award" class="medal-icon-size-24 medal-bronze-icon"></i></div>
 										<div class="result-athlete">
 											<a href="/judoka" class="result-athlete-name">Сергей Косоротов</a>
 											<div class="result-athlete-info">Спартак Волгоград</div>
 										</div>
-										<div class="result-country">🇷🇺</div>
+										<div class="result-country"><i data-lucide="flag" class="flag-icon-size"></i></div>
 									</div>
 								</div>
 							</div>
@@ -233,32 +218,32 @@ templ Tournament(data TournamentData) {
 							<div class="category-card">
 								<div class="category-header">
 									<div class="category-name">-66 кг</div>
-									<div class="gender-badge">👨 М</div>
+									<div class="gender-badge">М</div>
 								</div>
 								<div class="category-results">
 									<div class="result-item">
-										<div class="result-place">🥇</div>
+										<div class="result-place"><i data-lucide="award" class="medal-icon-size-24 medal-gold-icon"></i></div>
 										<div class="result-athlete">
 											<a href="/judoka" class="result-athlete-name">Арсен Галстян</a>
 											<div class="result-athlete-info">ЦСКА Москва</div>
 										</div>
-										<div class="result-country">🇷🇺</div>
+										<div class="result-country"><i data-lucide="flag" class="flag-icon-size"></i></div>
 									</div>
 									<div class="result-item">
-										<div class="result-place">🥈</div>
+										<div class="result-place"><i data-lucide="award" class="medal-icon-size-24 medal-silver-icon"></i></div>
 										<div class="result-athlete">
 											<a href="/judoka" class="result-athlete-name">Михаил Пулаев</a>
 											<div class="result-athlete-info">Динамо Москва</div>
 										</div>
-										<div class="result-country">🇷🇺</div>
+										<div class="result-country"><i data-lucide="flag" class="flag-icon-size"></i></div>
 									</div>
 									<div class="result-item">
-										<div class="result-place">🥉</div>
+										<div class="result-place"><i data-lucide="award" class="medal-icon-size-24 medal-bronze-icon"></i></div>
 										<div class="result-athlete">
 											<a href="/judoka" class="result-athlete-name">Давид Мойсеев</a>
 											<div class="result-athlete-info">Спартак СПб</div>
 										</div>
-										<div class="result-country">🇷🇺</div>
+										<div class="result-country"><i data-lucide="flag" class="flag-icon-size"></i></div>
 									</div>
 								</div>
 							</div>
@@ -266,32 +251,32 @@ templ Tournament(data TournamentData) {
 							<div class="category-card">
 								<div class="category-header">
 									<div class="category-name">+100 кг</div>
-									<div class="gender-badge">👨 М</div>
+									<div class="gender-badge">М</div>
 								</div>
 								<div class="category-results">
 									<div class="result-item">
-										<div class="result-place">🥇</div>
+										<div class="result-place"><i data-lucide="award" class="medal-icon-size-24 medal-gold-icon"></i></div>
 										<div class="result-athlete">
 											<a href="/judoka" class="result-athlete-name">Федор Емельяненко</a>
 											<div class="result-athlete-info">ЦСКА Москва</div>
 										</div>
-										<div class="result-country">🇷🇺</div>
+										<div class="result-country"><i data-lucide="flag" class="flag-icon-size"></i></div>
 									</div>
 									<div class="result-item">
-										<div class="result-place">🥈</div>
+										<div class="result-place"><i data-lucide="award" class="medal-icon-size-24 medal-silver-icon"></i></div>
 										<div class="result-athlete">
 											<a href="/judoka" class="result-athlete-name">Александр Поветкин</a>
 											<div class="result-athlete-info">Динамо Челябинск</div>
 										</div>
-										<div class="result-country">🇷🇺</div>
+										<div class="result-country"><i data-lucide="flag" class="flag-icon-size"></i></div>
 									</div>
 									<div class="result-item">
-										<div class="result-place">🥉</div>
+										<div class="result-place"><i data-lucide="award" class="medal-icon-size-24 medal-bronze-icon"></i></div>
 										<div class="result-athlete">
 											<a href="/judoka" class="result-athlete-name">Руслан Шарафеев</a>
 											<div class="result-athlete-info">Спартак Москва</div>
 										</div>
-										<div class="result-country">🇷🇺</div>
+										<div class="result-country"><i data-lucide="flag" class="flag-icon-size"></i></div>
 									</div>
 								</div>
 							</div>
@@ -300,37 +285,37 @@ templ Tournament(data TournamentData) {
 
 					<!-- Women's Categories -->
 					<div class="gender-section" data-gender="women">
-						<h3>👩 Женщины</h3>
+						<h3>Женщины</h3>
 						<div class="categories-grid">
 							<div class="category-card">
 								<div class="category-header">
 									<div class="category-name">-48 кг</div>
-									<div class="gender-badge">👩 Ж</div>
+									<div class="gender-badge">Ж</div>
 								</div>
 								<div class="category-results">
 									<div class="result-item">
-										<div class="result-place">🥇</div>
+										<div class="result-place"><i data-lucide="award" class="medal-icon-size-24 medal-gold-icon"></i></div>
 										<div class="result-athlete">
 											<a href="/judoka" class="result-athlete-name">Ольга Смирнова</a>
 											<div class="result-athlete-info">Динамо Москва</div>
 										</div>
-										<div class="result-country">🇷🇺</div>
+										<div class="result-country"><i data-lucide="flag" class="flag-icon-size"></i></div>
 									</div>
 									<div class="result-item">
-										<div class="result-place">🥈</div>
+										<div class="result-place"><i data-lucide="award" class="medal-icon-size-24 medal-silver-icon"></i></div>
 										<div class="result-athlete">
 											<a href="/judoka" class="result-athlete-name">Татьяна Москалёва</a>
 											<div class="result-athlete-info">ЦСКА СПб</div>
 										</div>
-										<div class="result-country">🇷🇺</div>
+										<div class="result-country"><i data-lucide="flag" class="flag-icon-size"></i></div>
 									</div>
 									<div class="result-item">
-										<div class="result-place">🥉</div>
+										<div class="result-place"><i data-lucide="award" class="medal-icon-size-24 medal-bronze-icon"></i></div>
 										<div class="result-athlete">
 											<a href="/judoka" class="result-athlete-name">Любовь Бруле</a>
 											<div class="result-athlete-info">Спартак Москва</div>
 										</div>
-										<div class="result-country">🇷🇺</div>
+										<div class="result-country"><i data-lucide="flag" class="flag-icon-size"></i></div>
 									</div>
 								</div>
 							</div>
@@ -338,32 +323,32 @@ templ Tournament(data TournamentData) {
 							<div class="category-card">
 								<div class="category-header">
 									<div class="category-name">-52 кг</div>
-									<div class="gender-badge">👩 Ж</div>
+									<div class="gender-badge">Ж</div>
 								</div>
 								<div class="category-results">
 									<div class="result-item">
-										<div class="result-place">🥇</div>
+										<div class="result-place"><i data-lucide="award" class="medal-icon-size-24 medal-gold-icon"></i></div>
 										<div class="result-athlete">
 											<a href="/judoka" class="result-athlete-name">Наталья Юшкова</a>
 											<div class="result-athlete-info">ЦСКА Москва</div>
 										</div>
-										<div class="result-country">🇷🇺</div>
+										<div class="result-country"><i data-lucide="flag" class="flag-icon-size"></i></div>
 									</div>
 									<div class="result-item">
-										<div class="result-place">🥈</div>
+										<div class="result-place"><i data-lucide="award" class="medal-icon-size-24 medal-silver-icon"></i></div>
 										<div class="result-athlete">
 											<a href="/judoka" class="result-athlete-name">Алина Думкина</a>
 											<div class="result-athlete-info">Динамо Москва</div>
 										</div>
-										<div class="result-country">🇷🇺</div>
+										<div class="result-country"><i data-lucide="flag" class="flag-icon-size"></i></div>
 									</div>
 									<div class="result-item">
-										<div class="result-place">🥉</div>
+										<div class="result-place"><i data-lucide="award" class="medal-icon-size-24 medal-bronze-icon"></i></div>
 										<div class="result-athlete">
 											<a href="/judoka" class="result-athlete-name">Евгения Подрезова</a>
 											<div class="result-athlete-info">Спартак СПб</div>
 										</div>
-										<div class="result-country">🇷🇺</div>
+										<div class="result-country"><i data-lucide="flag" class="flag-icon-size"></i></div>
 									</div>
 								</div>
 							</div>

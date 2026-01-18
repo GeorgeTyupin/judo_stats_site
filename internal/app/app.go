@@ -77,6 +77,8 @@ func registerHandlers() *chi.Mux {
 	r.Get("/", handlers.Index)
 	r.Get("/judoka", handlers.Judoka)
 	r.Get("/tournament", handlers.Tournament)
+	r.Get("/sportclub", handlers.SportClub)
+	r.Get("/city", handlers.City)
 	r.Get("/contribute", handlers.Contribute)
 
 	// TODO Реализовать API endpoints для форм

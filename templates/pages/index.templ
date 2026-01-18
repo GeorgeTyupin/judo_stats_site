@@ -18,14 +18,16 @@ templ Index() {
 				<div class="search-card">
 					<div class="search-header">
 						<h2>Поиск спортсменов</h2>
-						<button class="toggle-filters" onclick="toggleFilters()">
-							<span id="filterText">Показать фильтры</span> ⚙️
+						<button class="toggle-filters" onclick="toggleFilters()" class="flex-align-center-gap-8">
+							<span id="filterText">Показать фильтры</span> <i data-lucide="settings" class="icon-md"></i>
 						</button>
 					</div>
 
 					<div class="search-box">
 						<input type="text" placeholder="Введите имя спортсмена..." id="searchInput"/>
-						<button class="search-btn" onclick="searchJudoka()">🔍 Найти</button>
+						<button class="search-btn" onclick="searchJudoka()" class="flex-align-center-gap-8">
+							<i data-lucide="search" class="icon-md"></i> Найти
+						</button>
 					</div>
 
 					<div class="filters hidden" id="filtersSection">
@@ -104,35 +106,44 @@ templ Index() {
 				<h2 class="section-title">Статистика архива</h2>
 				<div class="stats-grid">
 					<div class="stat-card">
-						<div class="stat-icon">👥</div>
+						<div class="stat-icon">
+							<i data-lucide="users" class="stat-icon-size stat-icon-color"></i>
+						</div>
 						<div class="stat-number">15,847</div>
 						<div class="stat-label">Спортсменов</div>
 					</div>
 
 					<div class="stat-card">
-						<div class="stat-icon">🏆</div>
+						<div class="stat-icon">
+							<i data-lucide="trophy" class="stat-icon-size stat-icon-color"></i>
+						</div>
 						<div class="stat-number">3,426</div>
 						<div class="stat-label">Турниров</div>
 					</div>
 
 					<div class="stat-card">
-						<div class="stat-icon">🌍</div>
+						<div class="stat-icon">
+							<i data-lucide="globe" class="stat-icon-size stat-icon-color"></i>
+						</div>
 						<div class="stat-number">142</div>
 						<div class="stat-label">Страны</div>
 					</div>
 
 					<div class="stat-card">
-						<div class="stat-icon">📊</div>
+						<div class="stat-icon">
+							<i data-lucide="bar-chart" class="stat-icon-size stat-icon-color"></i>
+						</div>
 						<div class="stat-number">89,234</div>
 						<div class="stat-label">Результатов</div>
 					</div>
 				</div>
 
 				<!-- Contribution Notice -->
-				<div style="margin-top: 40px; padding: 20px; background: linear-gradient(135deg, rgba(147, 51, 234, 0.05) 0%, rgba(168, 85, 247, 0.05) 100%); border-left: 4px solid #14B8A6; border-radius: 12px; box-shadow: 0 4px 15px rgba(147, 51, 234, 0.1);">
-					<p style="margin: 0; font-size: 15px; color: #0F172A; line-height: 1.6;">
-						<strong style="color: #0F172A;">💡 Помогите развивать архив!</strong> Если вы обнаружили ошибку в фамилии или имени, а также обладаете более ценной информацией, поделитесь ей с нами, пожалуйста.
-						<a href="/contribute" style="color: #0F172A; font-weight: 600; text-decoration: underline;">Отправить информацию →</a>
+				<div class="index-contribution-notice">
+					<p >
+						<i data-lucide="lightbulb" class="icon-bulb"></i>
+						<span><strong >Помогите развивать архив!</strong> Если вы обнаружили ошибку в фамилии или имени, а также обладаете более ценной информацией, поделитесь ей с нами, пожалуйста.
+						<a href="/contribute" >Отправить информацию →</a></span>
 					</p>
 				</div>
 			</div>
@@ -144,37 +155,49 @@ templ Index() {
 				<h2 class="section-title">Возможности архива</h2>
 				<div class="features-grid">
 					<div class="feature-card">
-						<div class="feature-icon">🔍</div>
+						<div class="feature-icon">
+							<i data-lucide="search" class="feature-icon-size"></i>
+						</div>
 						<h3>Расширенный поиск</h3>
 						<p>Мощная система поиска с множеством фильтров для быстрого нахождения нужных спортсменов и турниров</p>
 					</div>
 
 					<div class="feature-card">
-						<div class="feature-icon">📈</div>
+						<div class="feature-icon">
+							<i data-lucide="trending-up" class="feature-icon-size"></i>
+						</div>
 						<h3>Детальная статистика</h3>
 						<p>Полная статистика выступлений, динамика результатов и сравнительный анализ спортсменов</p>
 					</div>
 
 					<div class="feature-card">
-						<div class="feature-icon">🏅</div>
+						<div class="feature-icon">
+							<i data-lucide="award" class="feature-icon-size"></i>
+						</div>
 						<h3>История турниров</h3>
 						<p>Архив всех значимых турниров с результатами, составами и подробной информацией</p>
 					</div>
 
 					<div class="feature-card">
-						<div class="feature-icon">👤</div>
+						<div class="feature-icon">
+							<i data-lucide="user-circle" class="feature-icon-size"></i>
+						</div>
 						<h3>Профили спортсменов</h3>
 						<p>Подробные профили с фотографиями, биографией, достижениями и карьерной статистикой</p>
 					</div>
 
 					<div class="feature-card">
-						<div class="feature-icon">🗺️</div>
+						<div class="feature-icon">
+							<i data-lucide="map-pin" class="feature-icon-size"></i>
+						</div>
 						<h3>География дзюдо</h3>
 						<p>Информация о школах дзюдо, тренерах и спортивных обществах по всему миру</p>
 					</div>
 
 					<div class="feature-card">
-						<div class="feature-icon">⚡</div>
+						<div class="feature-icon">
+							<i data-lucide="zap" class="feature-icon-size"></i>
+						</div>
 						<h3>Быстрое обновление</h3>
 						<p>Оперативное добавление результатов соревнований и актуализация данных</p>
 					</div>

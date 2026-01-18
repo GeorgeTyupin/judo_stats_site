@@ -24,7 +24,7 @@ templ SearchCard() {
 				class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-teal-600 transition-colors"
 				onclick="toggleFilters()"
 			>
-				<span id="filter-text">Показать фильтры</span> ⚙️
+				<span id="filter-text">Показать фильтры</span> <i data-lucide="settings" style="width: 16px; height: 16px;"></i>
 			</button>
 		</div>
 
@@ -41,12 +41,12 @@ templ SearchCard() {
 				hx-indicator="#search-spinner"
 			/>
 			<button
-				class="px-8 py-4 bg-teal-600 text-white font-semibold rounded-lg hover:bg-teal-700 transition-colors shadow-md"
+				class="px-8 py-4 bg-teal-600 text-white font-semibold rounded-lg hover:bg-teal-700 transition-colors shadow-md flex items-center gap-2"
 				hx-post="/api/search"
 				hx-include="#search-input"
 				hx-target="#search-results"
 			>
-				🔍 Найти
+				<i data-lucide="search" style="width: 16px; height: 16px;"></i> Найти
 			</button>
 		</div>
 

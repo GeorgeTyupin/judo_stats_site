@@ -9,7 +9,7 @@ templ Contribute() {
 			<div class="container">
 				<a href="/">Главная</a>
 				<span>/</span>
-				<span style="color: #0F172A; font-weight: 600;">Добавить информацию</span>
+				<span class="breadcrumb-active">Добавить информацию</span>
 			</div>
 		</div>
 
@@ -29,17 +29,17 @@ templ Contribute() {
 					<h2>Что вы хотите добавить?</h2>
 					<div class="type-cards">
 						<div class="type-card" onclick="selectType('tournament')">
-							<div class="type-icon">🏆</div>
+							<div class="type-icon"><i data-lucide="trophy" class="type-icon-size"></i></div>
 							<h3>Турнир</h3>
 							<p>Добавить информацию о турнире и результатах</p>
 						</div>
 						<div class="type-card" onclick="selectType('athlete')">
-							<div class="type-icon">👤</div>
+							<div class="type-icon"><i data-lucide="user" class="type-icon-size"></i></div>
 							<h3>Спортсмен</h3>
 							<p>Добавить профиль дзюдоиста или обновить данные</p>
 						</div>
 						<div class="type-card" onclick="selectType('error')">
-							<div class="type-icon">⚠️</div>
+							<div class="type-icon"><i data-lucide="alert-triangle" class="type-icon-size"></i></div>
 							<h3>Сообщить об ошибке</h3>
 							<p>Нашли неточность? Помогите нам исправить</p>
 						</div>
@@ -48,7 +48,7 @@ templ Contribute() {
 
 				<!-- Tournament Form -->
 				<div class="form-section" id="tournament-form">
-					<h2><span>🏆</span> Добавить информацию о турнире</h2>
+					<h2><span><i data-lucide="trophy" class="type-icon-size"></i></span> Добавить информацию о турнире</h2>
 					<form hx-post="/api/contribute/tournament" hx-target="#form-result">
 						<div class="form-grid">
 							<div class="form-group full-width">
@@ -83,7 +83,7 @@ templ Contribute() {
 						</div>
 
 						<div class="contact-info">
-							<h3>📧 Контактная информация (необязательно)</h3>
+							<h3><i data-lucide="mail" class="icon-mail"></i> Контактная информация (необязательно)</h3>
 							<p>Укажите ваши контакты, если мы можем связаться с вами для уточнения информации</p>
 						</div>
 
@@ -103,15 +103,15 @@ templ Contribute() {
 						</div>
 
 						<div class="form-actions">
-							<button type="submit" class="btn btn-primary"><span>✓</span> Отправить информацию</button>
-							<button type="button" class="btn btn-secondary" onclick="resetForm('tournament')"><span>↻</span> Очистить форму</button>
+							<button type="submit" class="btn btn-primary"><span><i data-lucide="check" class="icon-md"></i></span> Отправить информацию</button>
+							<button type="button" class="btn btn-secondary" onclick="resetForm('tournament')"><span><i data-lucide="rotate-ccw" class="icon-md"></i></span> Очистить форму</button>
 						</div>
 					</form>
 				</div>
 
 				<!-- Athlete Form -->
 				<div class="form-section" id="athlete-form">
-					<h2><span>👤</span> Добавить информацию о спортсмене</h2>
+					<h2><span><i data-lucide="user" class="type-icon-size"></i></span> Добавить информацию о спортсмене</h2>
 					<form hx-post="/api/contribute/athlete" hx-target="#form-result">
 						<div class="form-grid">
 							<div class="form-group">
@@ -155,7 +155,7 @@ templ Contribute() {
 						</div>
 
 						<div class="contact-info">
-							<h3>📧 Контактная информация (необязательно)</h3>
+							<h3><i data-lucide="mail" class="icon-mail"></i> Контактная информация (необязательно)</h3>
 							<p>Укажите ваши контакты, если мы можем связаться с вами для уточнения информации</p>
 						</div>
 
@@ -171,15 +171,15 @@ templ Contribute() {
 						</div>
 
 						<div class="form-actions">
-							<button type="submit" class="btn btn-primary"><span>✓</span> Отправить информацию</button>
-							<button type="button" class="btn btn-secondary" onclick="resetForm('athlete')"><span>↻</span> Очистить форму</button>
+							<button type="submit" class="btn btn-primary"><span><i data-lucide="check" class="icon-md"></i></span> Отправить информацию</button>
+							<button type="button" class="btn btn-secondary" onclick="resetForm('athlete')"><span><i data-lucide="rotate-ccw" class="icon-md"></i></span> Очистить форму</button>
 						</div>
 					</form>
 				</div>
 
 				<!-- Error Report Form -->
 				<div class="form-section" id="error-form">
-					<h2><span>⚠️</span> Сообщить об ошибке</h2>
+					<h2><span><i data-lucide="alert-triangle" class="type-icon-size"></i></span> Сообщить об ошибке</h2>
 					<form hx-post="/api/contribute/error" hx-target="#form-result">
 						<div class="form-grid">
 							<div class="form-group full-width">
@@ -204,7 +204,7 @@ templ Contribute() {
 						</div>
 
 						<div class="contact-info">
-							<h3>📧 Контактная информация (необязательно)</h3>
+							<h3><i data-lucide="mail" class="icon-mail"></i> Контактная информация (необязательно)</h3>
 							<p>Укажите ваши контакты, если мы можем связаться с вами для уточнения</p>
 						</div>
 
@@ -220,8 +220,8 @@ templ Contribute() {
 						</div>
 
 						<div class="form-actions">
-							<button type="submit" class="btn btn-primary"><span>✓</span> Отправить сообщение</button>
-							<button type="button" class="btn btn-secondary" onclick="resetForm('error')"><span>↻</span> Очистить форму</button>
+							<button type="submit" class="btn btn-primary"><span><i data-lucide="check" class="icon-md"></i></span> Отправить сообщение</button>
+							<button type="button" class="btn btn-secondary" onclick="resetForm('error')"><span><i data-lucide="rotate-ccw" class="icon-md"></i></span> Очистить форму</button>
 						</div>
 					</form>
 				</div>

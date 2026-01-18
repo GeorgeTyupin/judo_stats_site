@@ -634,3 +634,46 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* ============================================
+   ICON CLASSES FOR TOURNAMENT PAGE
+   ============================================ */
+
+.quick-info-icon-size {
+    width: 24px;
+    height: 24px;
+    color: #0D9488;
+}
+
+.tournament-icon-bulb {
+    width: 20px;
+    height: 20px;
+    color: #0D9488;
+}
+
+.calendar-icon-size {
+    width: 24px;
+    height: 24px;
+    color: #0D9488;
+}
+
+.medal-icon-size-24 {
+    width: 28px;
+    height: 28px;
+}
+
+.flag-icon-size {
+    width: 16px;
+    height: 16px;
+    color: #0F172A;
+}
+
+.user-icon-size {
+    width: 20px;
+    height: 20px;
+}
+
+.flag-icon-sm {
+    width: 14px;
+    height: 14px;
+}

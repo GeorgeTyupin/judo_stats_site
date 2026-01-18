@@ -4,7 +4,7 @@ templ WeightCategories() {
 	<div class="space-y-8">
 		<!-- Men's Categories -->
 		<div>
-			<h3 class="text-2xl font-bold text-gray-900 mb-6">👨 Мужчины</h3>
+			<h3 class="text-2xl font-bold text-gray-900 mb-6" class="flex-align-center-gap-10"><i data-lucide="user" class="icon-xl"></i> Мужчины</h3>
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 				@CategoryCard("men", "-60 кг", "Алексей Буданов", "Динамо Москва", "Олег Малышев", "ЦСКА СПб", "Сергей Косоротов", "Спартак Волгоград")
 				@CategoryCard("men", "-66 кг", "Арсен Галстян", "ЦСКА Москва", "Михаил Пулаев", "Динамо Москва", "Давид Мойсеев", "Спартак СПб")
@@ -18,7 +18,7 @@ templ WeightCategories() {
 
 		<!-- Women's Categories -->
 		<div>
-			<h3 class="text-2xl font-bold text-gray-900 mb-6">👩 Женщины</h3>
+			<h3 class="text-2xl font-bold text-gray-900 mb-6" class="flex-align-center-gap-10"><i data-lucide="user" class="icon-xl"></i> Женщины</h3>
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 				@CategoryCard("women", "-48 кг", "Ольга Смирнова", "Динамо Москва", "Татьяна Москалёва", "ЦСКА СПб", "Любовь Бруле", "Спартак Москва")
 				@CategoryCard("women", "-52 кг", "Наталья Юшкова", "ЦСКА Москва", "Алина Думкина", "Динамо Москва", "Евгения Подрезова", "Спартак СПб")
@@ -34,29 +34,39 @@ templ CategoryCard(gender, category, gold, goldClub, silver, silverClub, bronze,
 		<div class="bg-gradient-to-r from-teal-500 to-teal-600 p-4 flex justify-between items-center">
 			<div class="text-white font-bold text-lg">{ category }</div>
 			if gender == "men" {
-				<div class="bg-white/20 px-3 py-1 rounded-full text-white text-sm font-semibold">👨 М</div>
+				<div class="bg-white/20 px-3 py-1 rounded-full text-white text-sm font-semibold">М</div>
 			} else {
-				<div class="bg-white/20 px-3 py-1 rounded-full text-white text-sm font-semibold">👩 Ж</div>
+				<div class="bg-white/20 px-3 py-1 rounded-full text-white text-sm font-semibold">Ж</div>
 			}
 		</div>
 		<div class="p-4 space-y-3">
-			@MedalResult("🥇", gold, goldClub)
-			@MedalResult("🥈", silver, silverClub)
-			@MedalResult("🥉", bronze, bronzeClub)
+			@MedalResult("gold", gold, goldClub)
+			@MedalResult("silver", silver, silverClub)
+			@MedalResult("bronze", bronze, bronzeClub)
 		</div>
 	</div>
 }
 
-templ MedalResult(medal, athlete, club string) {
+templ MedalResult(medalType, athlete, club string) {
 	<div class="flex items-start gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
-		<div class="text-2xl flex-shrink-0">{ medal }</div>
+		<div class="flex-shrink-0">
+			if medalType == "gold" {
+				<i data-lucide="award" class="medal-icon-size-24 medal-gold-icon"></i>
+			} else if medalType == "silver" {
+				<i data-lucide="award" class="medal-icon-size-24 medal-silver-icon"></i>
+			} else if medalType == "bronze" {
+				<i data-lucide="award" class="medal-icon-size-24 medal-bronze-icon"></i>
+			}
+		</div>
 		<div class="flex-1 min-w-0">
 			<a href="/judoka" class="text-gray-900 font-semibold hover:text-teal-600 transition-colors block truncate">
 				{ athlete }
 			</a>
 			<div class="text-sm text-gray-600 truncate">{ club }</div>
 		</div>
-		<div class="text-lg flex-shrink-0">🇷🇺</div>
+		<div class="flex-shrink-0">
+			<i data-lucide="flag" class="flag-icon-size"></i>
+		</div>
 	</div>
 }
 
@@ -86,33 +96,35 @@ templ TournamentResultRow(place, athlete, club, region, coach string) {
 	<tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors">
 		<td class="px-6 py-4">
 			if place == "1" {
-				<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-yellow-100 text-yellow-900">
-					🥇 1 место
+				<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-yellow-100 text-yellow-900" >
+					<i data-lucide="award" class="place-icon medal-gold-icon"></i> 1 место
 				</span>
 			} else if place == "2" {
-				<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-gray-100 text-gray-900">
-					🥈 2 место
+				<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-gray-100 text-gray-900" >
+					<i data-lucide="award" class="place-icon medal-silver-icon"></i> 2 место
 				</span>
 			} else if place == "3" {
-				<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-orange-100 text-orange-900">
-					🥉 3 место
+				<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-orange-100 text-orange-900" >
+					<i data-lucide="award" class="place-icon medal-bronze-icon"></i> 3 место
 				</span>
 			} else {
-				<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-blue-100 text-blue-900">
-					{ place } место
+				<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-blue-100 text-blue-900" >
+					<i data-lucide="award" class="card-icon"></i> { place } место
 				</span>
 			}
 		</td>
 		<td class="px-6 py-4">
 			<div class="flex items-center gap-3">
-				<div class="w-10 h-10 bg-gradient-to-br from-gray-900 to-teal-700 rounded-full flex items-center justify-center text-white text-xl flex-shrink-0">
-					🥋
+				<div class="w-10 h-10 bg-gradient-to-br from-gray-900 to-teal-700 rounded-full flex items-center justify-center text-white flex-shrink-0">
+					<i data-lucide="user" class="user-icon-size"></i>
 				</div>
 				<div>
 					<a href="/judoka" class="text-gray-900 font-semibold hover:text-teal-600 transition-colors">
 						{ athlete }
 					</a>
-					<div class="text-sm text-gray-600">🇷🇺 Россия</div>
+					<div class="text-sm text-gray-600" class="flex-align-center">
+						<i data-lucide="flag" class="flag-icon-sm"></i> Россия
+					</div>
 				</div>
 			</div>
 		</td>

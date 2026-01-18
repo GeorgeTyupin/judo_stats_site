@@ -17,6 +17,7 @@ templ BaseWithJS(title string, pageJS []string, pageCSS ...string) {
 				<link rel="stylesheet" href={ templ.URL("/static/css/" + css) }/>
 			}
 			<script src="https://unpkg.com/htmx.org@1.9.10"></script>
+			<script src="https://unpkg.com/lucide@latest"></script>
 		</head>
 		<body>
 			@Header()
@@ -29,6 +30,9 @@ templ BaseWithJS(title string, pageJS []string, pageCSS ...string) {
 					<script src={ templ.URL("/static/js/" + js) }></script>
 				}
 			}
+			<script>
+				lucide.createIcons();
+			</script>
 		</body>
 	</html>
 }
@@ -37,7 +41,10 @@ templ Header() {
 	<header>
 		<div class="header-top">
 			<div class="container">
-				<div>📧 info@judoarchive.com | 📞 +7 (XXX) XXX-XX-XX</div>
+				<div class="header-top-contacts">
+					<span class="flex-align-center"><i data-lucide="mail" class="icon-sm"></i> info@judoarchive.com</span>
+					<span class="flex-align-center"><i data-lucide="phone" class="icon-sm"></i> +7 (XXX) XXX-XX-XX</span>
+				</div>
 				<div>
 					<a href="/contribute">Добавить информацию</a>
 					<a href="/contribute">Обратная связь</a>
@@ -47,7 +54,7 @@ templ Header() {
 		<div class="header-main">
 			<div class="container">
 				<div class="header-content">
-					<a href="/" class="logo">🥋 Архив Дзюдо</a>
+					<a href="/" class="logo flex-align-center-gap-10"><i data-lucide="medal" class="icon-2xl"></i> Архив Дзюдо</a>
 					<nav>
 						<ul>
 							<li><a href="/">Главная</a></li>
@@ -97,7 +104,7 @@ templ Footer() {
 				</div>
 				<div class="footer-section">
 					<h3>О проекте</h3>
-					<p style="color: rgba(255,255,255,0.8);">
+					<p class="footer-description">
 						Международный архив дзюдо - крупнейшая база данных по истории дзюдо.
 					</p>
 				</div>
