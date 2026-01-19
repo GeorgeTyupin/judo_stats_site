@@ -81,6 +81,10 @@ func registerHandlers() *chi.Mux {
 	r.Get("/city", handlers.City)
 	r.Get("/contribute", handlers.Contribute)
 
+	// HTMX endpoints для поиска
+	r.Get("/search/filters", handlers.SearchFiltersHandler)
+	r.Get("/search/results", handlers.SearchResultsHandler)
+
 	// TODO Реализовать API endpoints для форм
 	// r.Post("/api/contribute/tournament", handlers.ContributeTournament)
 	// r.Post("/api/contribute/athlete", handlers.ContributeAthlete)

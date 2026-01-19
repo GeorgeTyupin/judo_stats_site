@@ -1,0 +1,472 @@
+package components
+
+import "judo_stats_site/internal/models"
+
+// CategorySelector отображает выбор категории поиска
+templ CategorySelector(selectedCategory models.SearchCategory) {
+	<div class="flex gap-2 mb-6">
+		<button
+			hx-get="/search/filters?category=judoka"
+			hx-target="#search-filters"
+			hx-swap="innerHTML"
+			class={ "px-4 py-2 rounded-lg transition-colors",
+				templ.KV("bg-blue-600 text-white", selectedCategory == models.CategoryJudoka),
+				templ.KV("bg-gray-100 text-gray-700 hover:bg-gray-200", selectedCategory != models.CategoryJudoka) }
+		>
+			Спортсмены
+		</button>
+		<button
+			hx-get="/search/filters?category=tournament"
+			hx-target="#search-filters"
+			hx-swap="innerHTML"
+			class={ "px-4 py-2 rounded-lg transition-colors",
+				templ.KV("bg-blue-600 text-white", selectedCategory == models.CategoryTournament),
+				templ.KV("bg-gray-100 text-gray-700 hover:bg-gray-200", selectedCategory != models.CategoryTournament) }
+		>
+			Турниры
+		</button>
+		<button
+			hx-get="/search/filters?category=sportclub"
+			hx-target="#search-filters"
+			hx-swap="innerHTML"
+			class={ "px-4 py-2 rounded-lg transition-colors",
+				templ.KV("bg-blue-600 text-white", selectedCategory == models.CategorySportClub),
+				templ.KV("bg-gray-100 text-gray-700 hover:bg-gray-200", selectedCategory != models.CategorySportClub) }
+		>
+			Спортклубы
+		</button>
+		<button
+			hx-get="/search/filters?category=city"
+			hx-target="#search-filters"
+			hx-swap="innerHTML"
+			class={ "px-4 py-2 rounded-lg transition-colors",
+				templ.KV("bg-blue-600 text-white", selectedCategory == models.CategoryCity),
+				templ.KV("bg-gray-100 text-gray-700 hover:bg-gray-200", selectedCategory != models.CategoryCity) }
+		>
+			Города
+		</button>
+	</div>
+}
+
+// SearchBar отображает строку поиска
+templ SearchBar(query string) {
+	<div class="mb-6">
+		<input
+			type="text"
+			name="query"
+			value={ query }
+			placeholder="Введите поисковый запрос..."
+			class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+			hx-get="/search/results"
+			hx-trigger="keyup changed delay:500ms"
+			hx-target="#search-results"
+			hx-include="[name='category'], [name^='filter_']"
+		/>
+	</div>
+}
+
+// JudokaFiltersComponent отображает фильтры для поиска спортсменов
+templ JudokaFiltersComponent() {
+	<div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-6">
+		<h3 class="text-lg font-semibold mb-4 text-gray-900">Фильтры</h3>
+		<input type="hidden" name="category" value="judoka"/>
+
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+			<!-- Весовая категория -->
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-2">Весовая категория</label>
+				<select
+					name="filter_weight"
+					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+					hx-get="/search/results"
+					hx-trigger="change"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_']"
+				>
+					<option value="">Все</option>
+					<option value="-48">-48 кг</option>
+					<option value="-52">-52 кг</option>
+					<option value="-57">-57 кг</option>
+					<option value="-63">-63 кг</option>
+					<option value="-70">-70 кг</option>
+					<option value="-78">-78 кг</option>
+					<option value="+78">+78 кг</option>
+				</select>
+			</div>
+
+			<!-- Пол -->
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-2">Пол</label>
+				<select
+					name="filter_gender"
+					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+					hx-get="/search/results"
+					hx-trigger="change"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_']"
+				>
+					<option value="">Все</option>
+					<option value="male">Мужской</option>
+					<option value="female">Женский</option>
+				</select>
+			</div>
+
+			<!-- Возрастная группа -->
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-2">Возрастная группа</label>
+				<select
+					name="filter_age_group"
+					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+					hx-get="/search/results"
+					hx-trigger="change"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_']"
+				>
+					<option value="">Все</option>
+					<option value="adults">Взрослые</option>
+					<option value="juniors">Юниоры</option>
+					<option value="cadets">Кадеты</option>
+				</select>
+			</div>
+
+			<!-- Страна -->
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-2">Страна</label>
+				<input
+					type="text"
+					name="filter_country"
+					placeholder="Введите страну..."
+					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+					hx-get="/search/results"
+					hx-trigger="keyup changed delay:500ms"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_']"
+				/>
+			</div>
+
+			<!-- Спортклуб -->
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-2">Спортклуб</label>
+				<input
+					type="text"
+					name="filter_sportclub"
+					placeholder="Введите спортклуб..."
+					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+					hx-get="/search/results"
+					hx-trigger="keyup changed delay:500ms"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_']"
+				/>
+			</div>
+
+			<!-- Город -->
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-2">Город</label>
+				<input
+					type="text"
+					name="filter_city"
+					placeholder="Введите город..."
+					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+					hx-get="/search/results"
+					hx-trigger="keyup changed delay:500ms"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_']"
+				/>
+			</div>
+		</div>
+	</div>
+}
+
+// TournamentFiltersComponent отображает фильтры для поиска турниров
+templ TournamentFiltersComponent() {
+	<div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-6">
+		<h3 class="text-lg font-semibold mb-4 text-gray-900">Фильтры</h3>
+		<input type="hidden" name="category" value="tournament"/>
+
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+			<!-- Тип турнира -->
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-2">Тип турнира</label>
+				<select
+					name="filter_type"
+					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+					hx-get="/search/results"
+					hx-trigger="change"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_']"
+				>
+					<option value="">Все</option>
+					<option value="championship">Чемпионат</option>
+					<option value="cup">Кубок</option>
+					<option value="tournament">Первенство</option>
+				</select>
+			</div>
+
+			<!-- Возрастная группа -->
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-2">Возрастная группа</label>
+				<select
+					name="filter_age_group"
+					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+					hx-get="/search/results"
+					hx-trigger="change"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_']"
+				>
+					<option value="">Все</option>
+					<option value="adults">Взрослые</option>
+					<option value="juniors">Юниоры</option>
+					<option value="cadets">Кадеты</option>
+				</select>
+			</div>
+
+			<!-- Год -->
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-2">Год</label>
+				<select
+					name="filter_year"
+					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+					hx-get="/search/results"
+					hx-trigger="change"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_']"
+				>
+					<option value="">Все</option>
+					<option value="2024">2024</option>
+					<option value="2023">2023</option>
+					<option value="2022">2022</option>
+					<option value="2021">2021</option>
+					<option value="2020">2020</option>
+				</select>
+			</div>
+
+			<!-- Город -->
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-2">Город</label>
+				<input
+					type="text"
+					name="filter_city"
+					placeholder="Введите город..."
+					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+					hx-get="/search/results"
+					hx-trigger="keyup changed delay:500ms"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_']"
+				/>
+			</div>
+
+			<!-- Регион -->
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-2">Регион</label>
+				<input
+					type="text"
+					name="filter_region"
+					placeholder="Введите регион..."
+					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+					hx-get="/search/results"
+					hx-trigger="keyup changed delay:500ms"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_']"
+				/>
+			</div>
+
+			<!-- Дата от -->
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-2">Дата от</label>
+				<input
+					type="date"
+					name="filter_date_from"
+					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+					hx-get="/search/results"
+					hx-trigger="change"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_']"
+				/>
+			</div>
+
+			<!-- Дата до -->
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-2">Дата до</label>
+				<input
+					type="date"
+					name="filter_date_to"
+					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+					hx-get="/search/results"
+					hx-trigger="change"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_']"
+				/>
+			</div>
+		</div>
+	</div>
+}
+
+// SportClubFiltersComponent отображает фильтры для поиска спортклубов
+templ SportClubFiltersComponent() {
+	<div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-6">
+		<h3 class="text-lg font-semibold mb-4 text-gray-900">Фильтры</h3>
+		<input type="hidden" name="category" value="sportclub"/>
+
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+			<!-- Город -->
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-2">Город</label>
+				<input
+					type="text"
+					name="filter_city"
+					placeholder="Введите город..."
+					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+					hx-get="/search/results"
+					hx-trigger="keyup changed delay:500ms"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_']"
+				/>
+			</div>
+
+			<!-- Регион -->
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-2">Регион</label>
+				<input
+					type="text"
+					name="filter_region"
+					placeholder="Введите регион..."
+					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+					hx-get="/search/results"
+					hx-trigger="keyup changed delay:500ms"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_']"
+				/>
+			</div>
+
+			<!-- Год основания от -->
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-2">Год основания от</label>
+				<input
+					type="number"
+					name="filter_founded"
+					placeholder="2000"
+					min="1900"
+					max="2024"
+					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+					hx-get="/search/results"
+					hx-trigger="keyup changed delay:500ms"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_']"
+				/>
+			</div>
+
+			<!-- Наличие главного тренера -->
+			<div>
+				<label class="flex items-center space-x-2 cursor-pointer">
+					<input
+						type="checkbox"
+						name="filter_has_coach"
+						value="true"
+						class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+						hx-get="/search/results"
+						hx-trigger="change"
+						hx-target="#search-results"
+						hx-include="[name='query'], [name='category'], [name^='filter_']"
+					/>
+					<span class="text-sm font-medium text-gray-700">Есть главный тренер</span>
+				</label>
+			</div>
+		</div>
+	</div>
+}
+
+// CityFiltersComponent отображает фильтры для поиска городов
+templ CityFiltersComponent() {
+	<div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-6">
+		<h3 class="text-lg font-semibold mb-4 text-gray-900">Фильтры</h3>
+		<input type="hidden" name="category" value="city"/>
+
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+			<!-- Регион -->
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-2">Регион</label>
+				<input
+					type="text"
+					name="filter_region"
+					placeholder="Введите регион..."
+					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+					hx-get="/search/results"
+					hx-trigger="keyup changed delay:500ms"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_']"
+				/>
+			</div>
+
+			<!-- Минимальное население -->
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-2">Население от</label>
+				<input
+					type="number"
+					name="filter_min_population"
+					placeholder="100000"
+					min="0"
+					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+					hx-get="/search/results"
+					hx-trigger="keyup changed delay:500ms"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_']"
+				/>
+			</div>
+
+			<!-- Минимальное количество спортклубов -->
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-2">Спортклубов от</label>
+				<input
+					type="number"
+					name="filter_min_sportclubs"
+					placeholder="5"
+					min="0"
+					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+					hx-get="/search/results"
+					hx-trigger="keyup changed delay:500ms"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_']"
+				/>
+			</div>
+
+			<!-- Минимальное количество спортсменов -->
+			<div>
+				<label class="block text-sm font-medium text-gray-700 mb-2">Спортсменов от</label>
+				<input
+					type="number"
+					name="filter_min_athletes"
+					placeholder="100"
+					min="0"
+					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+					hx-get="/search/results"
+					hx-trigger="keyup changed delay:500ms"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_']"
+				/>
+			</div>
+		</div>
+	</div>
+}
+
+// SearchResults отображает контейнер для результатов поиска
+templ SearchResults() {
+	<div id="search-results" class="mt-6">
+		<div class="text-center text-gray-500 py-12">
+			<svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+			</svg>
+			<p class="mt-4 text-lg">Введите запрос для поиска</p>
+		</div>
+	</div>
+}
+
+// EmptySearchResults отображает пустые результаты поиска
+templ EmptySearchResults() {
+	<div class="text-center text-gray-500 py-12">
+		<svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+		</svg>
+		<p class="mt-4 text-lg">Ничего не найдено</p>
+		<p class="mt-2 text-sm text-gray-400">Попробуйте изменить параметры поиска</p>
+	</div>
+}
