@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: visioncortex VTracer 0.6.4 -->
+
+<svg
+   version="1.1"
+   width="683"
+   height="1024"
+   id="svg10"
+   sodipodi:docname="logo.svg"
+   inkscape:version="1.4.2 (ebf0e940, 2025-05-08)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs10">
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Cross-smooth"
+       id="filter22"
+       x="-0.085052631"
+       y="-0.085052631"
+       width="1.1701053"
+       height="1.1701053">
+      <feGaussianBlur
+         in="SourceGraphic"
+         stdDeviation="1.02"
+         result="blur1"
+         id="feGaussianBlur20" />
+      <feComposite
+         in="blur1"
+         in2="blur1"
+         operator="in"
+         result="composite1"
+         id="feComposite20" />
+      <feComposite
+         in="composite1"
+         in2="composite1"
+         k2="0.325836"
+         operator="arithmetic"
+         result="composite2"
+         id="feComposite21" />
+      <feColorMatrix
+         in="composite2"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 24.4393 0 "
+         result="colormatrix1"
+         id="feColorMatrix21" />
+      <feGaussianBlur
+         stdDeviation="1"
+         result="blur2"
+         id="feGaussianBlur21" />
+      <feColorMatrix
+         in="blur2"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 5 -1 "
+         result="colormatrix2"
+         id="feColorMatrix22" />
+      <feBlend
+         in="SourceGraphic"
+         in2="colormatrix2"
+         stdDeviation="17"
+         mode="normal"
+         result="blend"
+         id="feBlend22" />
+      <feComposite
+         in="blend"
+         in2="colormatrix2"
+         operator="in"
+         result="composite3"
+         id="feComposite22" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Cross-smooth"
+       id="filter25"
+       x="-0.085052631"
+       y="-0.085052631"
+       width="1.1701053"
+       height="1.1701053">
+      <feGaussianBlur
+         in="SourceGraphic"
+         stdDeviation="1.02"
+         result="blur1"
+         id="feGaussianBlur22" />
+      <feComposite
+         in="blur1"
+         in2="blur1"
+         operator="in"
+         result="composite1"
+         id="feComposite23" />
+      <feComposite
+         in="composite1"
+         in2="composite1"
+         k2="0.325836"
+         operator="arithmetic"
+         result="composite2"
+         id="feComposite24" />
+      <feColorMatrix
+         in="composite2"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 24.4393 0 "
+         result="colormatrix1"
+         id="feColorMatrix24" />
+      <feGaussianBlur
+         stdDeviation="1"
+         result="blur2"
+         id="feGaussianBlur24" />
+      <feColorMatrix
+         in="blur2"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 5 -1 "
+         result="colormatrix2"
+         id="feColorMatrix25" />
+      <feBlend
+         in="SourceGraphic"
+         in2="colormatrix2"
+         stdDeviation="17"
+         mode="normal"
+         result="blend"
+         id="feBlend25" />
+      <feComposite
+         in="blend"
+         in2="colormatrix2"
+         operator="in"
+         result="composite3"
+         id="feComposite25" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Cross-smooth"
+       id="filter28"
+       x="-0.019707317"
+       y="-0.032979592"
+       width="1.0394146"
+       height="1.0659592">
+      <feGaussianBlur
+         in="SourceGraphic"
+         stdDeviation="1.02"
+         result="blur1"
+         id="feGaussianBlur25" />
+      <feComposite
+         in="blur1"
+         in2="blur1"
+         operator="in"
+         result="composite1"
+         id="feComposite26" />
+      <feComposite
+         in="composite1"
+         in2="composite1"
+         k2="0.325836"
+         operator="arithmetic"
+         result="composite2"
+         id="feComposite27" />
+      <feColorMatrix
+         in="composite2"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 24.4393 0 "
+         result="colormatrix1"
+         id="feColorMatrix27" />
+      <feGaussianBlur
+         stdDeviation="1"
+         result="blur2"
+         id="feGaussianBlur27" />
+      <feColorMatrix
+         in="blur2"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 5 -1 "
+         result="colormatrix2"
+         id="feColorMatrix28" />
+      <feBlend
+         in="SourceGraphic"
+         in2="colormatrix2"
+         stdDeviation="17"
+         mode="normal"
+         result="blend"
+         id="feBlend28" />
+      <feComposite
+         in="blend"
+         in2="colormatrix2"
+         operator="in"
+         result="composite3"
+         id="feComposite28" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Cross-smooth"
+       id="filter31"
+       x="-0.016378378"
+       y="-0.0097939393"
+       width="1.0327568"
+       height="1.0195879">
+      <feGaussianBlur
+         in="SourceGraphic"
+         stdDeviation="1.02"
+         result="blur1"
+         id="feGaussianBlur28" />
+      <feComposite
+         in="blur1"
+         in2="blur1"
+         operator="in"
+         result="composite1"
+         id="feComposite29" />
+      <feComposite
+         in="composite1"
+         in2="composite1"
+         k2="0.325836"
+         operator="arithmetic"
+         result="composite2"
+         id="feComposite30" />
+      <feColorMatrix
+         in="composite2"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 24.4393 0 "
+         result="colormatrix1"
+         id="feColorMatrix30" />
+      <feGaussianBlur
+         stdDeviation="1"
+         result="blur2"
+         id="feGaussianBlur30" />
+      <feColorMatrix
+         in="blur2"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 5 -1 "
+         result="colormatrix2"
+         id="feColorMatrix31" />
+      <feBlend
+         in="SourceGraphic"
+         in2="colormatrix2"
+         stdDeviation="17"
+         mode="normal"
+         result="blend"
+         id="feBlend31" />
+      <feComposite
+         in="blend"
+         in2="colormatrix2"
+         operator="in"
+         result="composite3"
+         id="feComposite31" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="namedview10"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.78705969"
+     inkscape:cx="221.71127"
+     inkscape:cy="599.70039"
+     inkscape:window-width="1472"
+     inkscape:window-height="809"
+     inkscape:window-x="0"
+     inkscape:window-y="33"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg10" />
+  <path
+     d="M0,0 L3,0 L3,327 L-46,336 L-48,337 L-68,340 L-89,344 L-90,345 L-107,347 L-104,351 L-104,375 L-82,371 L-66,369 L-38,365 L-14,361 L2,360 L2,495 L-293,495 L-293,359 L-286,360 L-261,364 L-238,367 L-222,370 L-201,373 L-197,374 L-197,363 L-193,357 L-191,357 L-189,352 L-185,347 L-196,346 L-204,344 L-217,342 L-243,337 L-260,333 L-270,332 L-283,329 L-293,327 L-293,1 L-290,1 L-286,5 L-281,10 L-277,13 L-277,15 L-272,16 L-268,18 L-268,20 L-262,22 L-256,25 L-256,27 L-246,30 L-235,34 L-228,36 L-65,36 L-54,33 L-39,28 L-31,24 L-22,18 L-14,13 L-10,9 L-7,8 L-5,5 L-3,5 L-3,3 Z M-214,64 L-232,69 L-244,76 L-257,89 L-265,104 L-268,115 L-268,136 L-264,149 L-258,160 L-249,170 L-240,178 L-225,185 L-214,187 L-198,187 L-178,181 L-167,173 L-164,173 L-154,194 L-146,211 L-144,211 L-135,192 L-131,183 L-126,173 L-122,174 L-113,180 L-100,185 L-91,187 L-76,187 L-68,185 L-56,181 L-45,174 L-38,168 L-29,155 L-25,147 L-22,135 L-22,117 L-24,107 L-32,91 L-41,81 L-48,75 L-54,71 L-63,67 L-74,64 L-92,64 L-109,69 L-119,75 L-129,84 L-135,91 L-141,101 L-144,111 L-144,115 L-146,115 L-147,109 L-150,100 L-153,94 L-160,85 L-166,79 L-168,79 L-168,77 L-177,71 L-194,65 L-198,64 Z M-155,332 L-173,342 L-178,346 L-177,350 L-161,359 L-158,359 L-158,361 L-149,365 L-149,332 Z M-142,338 L-142,396 L-138,395 L-122,386 L-114,381 L-111,377 L-111,353 L-114,353 L-114,351 L-130,343 L-140,338 Z M-182,356 L-189,364 L-190,366 L-190,373 L-174,383 L-161,391 L-149,397 L-149,373 L-163,365 L-173,360 L-179,356 Z M-214,378 L-230,387 L-252,399 L-252,401 L-257,402 L-272,410 L-272,412 L-277,413 L-278,417 L-272,426 L-263,440 L-262,443 L-258,442 L-237,430 L-222,421 L-203,410 L-190,402 L-173,392 L-175,389 L-181,386 L-190,381 L-206,378 Z M-86,378 L-107,382 L-116,389 L-118,390 L-118,393 L-92,408 L-77,417 L-55,430 L-52,430 L-52,432 L-38,440 L-33,443 L-30,443 L-23,432 L-14,418 L-13,414 L-22,409 L-36,402 L-52,393 L-56,392 L-56,390 L-72,382 L-78,378 Z "
+     fill="#163959"
+     transform="translate(486,267)"
+     id="path2"
+     style="filter:url(#filter31)" />
+  <path
+     d="M0,0 L16,0 L32,5 L40,9 L46,13 L46,15 L50,17 L57,24 L63,33 L66,40 L68,47 L68,51 L70,51 L71,45 L74,35 L82,23 L92,13 L101,7 L117,1 L122,0 L140,0 L151,3 L163,9 L172,16 L180,24 L185,32 L190,43 L192,53 L192,71 L189,83 L182,96 L176,104 L165,113 L153,119 L144,122 L138,123 L123,123 L108,119 L94,112 L91,109 L88,109 L82,121 L79,128 L70,147 L68,147 L59,128 L50,109 L46,110 L36,117 L16,123 L0,123 L-14,120 L-29,112 L-42,99 L-50,85 L-54,72 L-54,51 L-51,40 L-42,24 L-30,12 L-18,5 Z M2,33 L-8,37 L-17,45 L-21,53 L-21,69 L-16,79 L-6,88 L0,90 L15,90 L25,85 L32,77 L36,69 L36,56 L34,50 L29,42 L21,36 L13,33 Z M124,33 L117,36 L109,42 L105,47 L102,53 L102,69 L106,78 L110,83 L115,85 L115,87 L123,90 L137,90 L146,86 L152,82 L158,72 L159,69 L159,55 L155,45 L148,38 L140,34 L136,33 Z "
+     fill="#FBFCFC"
+     id="path3"
+     transform="translate(272,331)"
+     style="filter:url(#filter28)" />
+  <path
+     d="M0,0 L12,0 L22,4 L30,11 L34,18 L35,22 L35,36 L30,46 L25,51 L19,55 L13,57 L-1,57 L-9,54 L-9,52 L-14,50 L-20,42 L-22,36 L-22,20 L-17,11 L-9,4 L-4,1 Z "
+     fill="#ACACAC"
+     transform="translate(396,364)"
+     id="path6"
+     style="filter:url(#filter25)" />
+  <path
+     d="M0,0 L11,0 L21,4 L29,11 L33,18 L34,23 L34,36 L29,46 L20,54 L13,57 L-2,57 L-9,54 L-18,46 L-23,36 L-23,20 L-18,11 L-10,4 Z "
+     fill="#ACACAC"
+     transform="translate(274,364)"
+     id="path7"
+     style="filter:url(#filter22)" />
+</svg>
