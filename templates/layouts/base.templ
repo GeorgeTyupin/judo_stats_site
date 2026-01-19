@@ -11,6 +11,9 @@ templ BaseWithJS(title string, pageJS []string, pageCSS ...string) {
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 			<title>{ title } - Архив Дзюдо</title>
+			<link rel="icon" type="image/svg+xml" href="/static/img/logo/favicon.svg"/>
+			<link rel="apple-touch-icon" sizes="180x180" href="/static/img/logo/favicon.svg"/>
+			<meta name="theme-color" content="#0D9488"/>
 			<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 			<link rel="stylesheet" href="/static/css/style.css"/>
 			for _, css := range pageCSS {
@@ -54,7 +57,12 @@ templ Header() {
 		<div class="header-main">
 			<div class="container">
 				<div class="header-content">
-					<a href="/" class="logo flex-align-center-gap-10"><i data-lucide="medal" class="icon-2xl"></i> Архив Дзюдо</a>
+					<a href="/" class="logo flex-align-center-gap-10">
+						<div class="logo-image-wrapper">
+							<img src="/static/img/logo/logo-light.svg" alt="Логотип Архив Дзюдо" class="logo-image"/>
+						</div>
+						<span class="logo-text">Архив Дзюдо</span>
+					</a>
 					<nav>
 						<ul>
 							<li><a href="/">Главная</a></li>
@@ -74,6 +82,12 @@ templ Header() {
 templ Footer() {
 	<footer>
 		<div class="container">
+			<div class="footer-top">
+				<a href="/" class="footer-logo flex-align-center-gap-10">
+					<img src="/static/img/logo/logo-light.svg" alt="Логотип Архив Дзюдо" class="footer-logo-image"/>
+					<span class="footer-logo-text">Архив Дзюдо</span>
+				</a>
+			</div>
 			<div class="footer-grid">
 				<div class="footer-section">
 					<h3>Навигация</h3>

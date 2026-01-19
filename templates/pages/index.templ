@@ -17,85 +17,83 @@ templ Index() {
 			<div class="container">
 				<div class="search-card">
 					<div class="search-header">
-						<h2>Поиск спортсменов</h2>
+						<h2>Поиск</h2>
 						<button class="toggle-filters" onclick="toggleFilters()" class="flex-align-center-gap-8">
-							<span id="filterText">Показать фильтры</span> <i data-lucide="settings" class="icon-md"></i>
+							<span id="filterText">Скрыть фильтры</span> <i data-lucide="settings" class="icon-md"></i>
 						</button>
 					</div>
 
+					<!-- Строка поиска -->
 					<div class="search-box">
-						<input type="text" placeholder="Введите имя спортсмена..." id="searchInput"/>
-						<button class="search-btn" onclick="searchJudoka()" class="flex-align-center-gap-8">
-							<i data-lucide="search" class="icon-md"></i> Найти
-						</button>
+						<input
+							type="text"
+							name="query"
+							id="searchInput"
+							placeholder="Поиск спортсменов, турниров, обществ, городов..."
+							hx-get="/search/results"
+							hx-trigger="keyup changed delay:500ms"
+							hx-target="#search-results"
+							hx-include="[name='category'], [name^='filter_']"
+						/>
 					</div>
 
-					<div class="filters hidden" id="filtersSection">
-						<div class="filter-group">
-							<label>Страна</label>
-							<select>
-								<option value="">Все страны</option>
-								<option value="russia">Россия</option>
-								<option value="japan">Япония</option>
-								<option value="france">Франция</option>
-								<option value="brazil">Бразилия</option>
-								<option value="germany">Германия</option>
-							</select>
+					<!-- Контейнер для фильтров и категорий -->
+					<div id="filters-wrapper">
+						<!-- Категория для фильтрации -->
+						<div class="category-section">
+							<label class="category-label">Выберите категорию для настройки фильтров</label>
+							<div class="category-tabs">
+								<button
+									hx-get="/search/filters?category=judoka"
+									hx-target="#search-filters"
+									hx-swap="innerHTML"
+									onclick="setActiveCategory(this)"
+									class="category-tab active"
+									data-category="judoka"
+								>
+									Спортсмены
+								</button>
+								<button
+									hx-get="/search/filters?category=tournament"
+									hx-target="#search-filters"
+									hx-swap="innerHTML"
+									onclick="setActiveCategory(this)"
+									class="category-tab"
+									data-category="tournament"
+								>
+									Турниры
+								</button>
+								<button
+									hx-get="/search/filters?category=sportclub"
+									hx-target="#search-filters"
+									hx-swap="innerHTML"
+									onclick="setActiveCategory(this)"
+									class="category-tab"
+									data-category="sportclub"
+								>
+									Спортивные общества
+								</button>
+								<button
+									hx-get="/search/filters?category=city"
+									hx-target="#search-filters"
+									hx-swap="innerHTML"
+									onclick="setActiveCategory(this)"
+									class="category-tab"
+									data-category="city"
+								>
+									Города
+								</button>
+							</div>
 						</div>
 
-						<div class="filter-group">
-							<label>Весовая категория</label>
-							<select>
-								<option value="">Все категории</option>
-								<option value="-60">-60 кг</option>
-								<option value="-66">-66 кг</option>
-								<option value="-73">-73 кг</option>
-								<option value="-81">-81 кг</option>
-								<option value="-90">-90 кг</option>
-								<option value="-100">-100 кг</option>
-								<option value="+100">+100 кг</option>
-							</select>
-						</div>
-
-						<div class="filter-group">
-							<label>Год рождения (от)</label>
-							<input type="number" placeholder="1990" min="1950" max="2010"/>
-						</div>
-
-						<div class="filter-group">
-							<label>Год рождения (до)</label>
-							<input type="number" placeholder="2005" min="1950" max="2010"/>
-						</div>
-
-						<div class="filter-group">
-							<label>Спортивное общество</label>
-							<select>
-								<option value="">Все общества</option>
-								<option value="dynamo">Динамо</option>
-								<option value="cska">ЦСКА</option>
-								<option value="spartak">Спартак</option>
-							</select>
-						</div>
-
-						<div class="filter-group">
-							<label>Город</label>
-							<input type="text" placeholder="Москва"/>
-						</div>
-
-						<div class="filter-group">
-							<label>Пол</label>
-							<select>
-								<option value="">Все</option>
-								<option value="male">Мужчины</option>
-								<option value="female">Женщины</option>
-							</select>
-						</div>
-
-						<div class="filter-group">
-							<label>Тренер</label>
-							<input type="text" placeholder="Имя тренера"/>
+						<!-- Контейнер для фильтров (динамически загружается через HTMX) -->
+						<div id="search-filters">
+							@IndexJudokaFilters()
 						</div>
 					</div>
+
+					<!-- Контейнер для результатов поиска -->
+					<div id="search-results" class="search-results-container"></div>
 				</div>
 			</div>
 		</section>
@@ -205,4 +203,318 @@ templ Index() {
 			</div>
 		</section>
 	}
+}
+
+// IndexJudokaFilters отображает фильтры для спортсменов на главной странице
+templ IndexJudokaFilters() {
+	<div class="filters">
+		<input type="hidden" name="category" value="judoka"/>
+
+		<div class="filter-group">
+			<label>Весовая категория</label>
+			<select
+				name="filter_weight"
+				hx-get="/search/results"
+				hx-trigger="change"
+				hx-target="#search-results"
+				hx-include="[name='query'], [name='category'], [name^='filter_']"
+			>
+				<option value="">Все</option>
+				<option value="-48">-48 кг</option>
+				<option value="-52">-52 кг</option>
+				<option value="-57">-57 кг</option>
+				<option value="-63">-63 кг</option>
+				<option value="-70">-70 кг</option>
+				<option value="-78">-78 кг</option>
+				<option value="+78">+78 кг</option>
+			</select>
+		</div>
+
+		<div class="filter-group">
+			<label>Пол</label>
+			<select
+				name="filter_gender"
+				hx-get="/search/results"
+				hx-trigger="change"
+				hx-target="#search-results"
+				hx-include="[name='query'], [name='category'], [name^='filter_']"
+			>
+				<option value="">Все</option>
+				<option value="male">Мужской</option>
+				<option value="female">Женский</option>
+			</select>
+		</div>
+
+		<div class="filter-group">
+			<label>Возрастная группа</label>
+			<select
+				name="filter_age_group"
+				hx-get="/search/results"
+				hx-trigger="change"
+				hx-target="#search-results"
+				hx-include="[name='query'], [name='category'], [name^='filter_']"
+			>
+				<option value="">Все</option>
+				<option value="adults">Взрослые</option>
+				<option value="juniors">Юниоры</option>
+				<option value="cadets">Кадеты</option>
+			</select>
+		</div>
+
+		<div class="filter-group">
+			<label>Страна</label>
+			<input
+				type="text"
+				name="filter_country"
+				placeholder="Введите страну..."
+				hx-get="/search/results"
+				hx-trigger="keyup changed delay:500ms"
+				hx-target="#search-results"
+				hx-include="[name='query'], [name='category'], [name^='filter_']"
+			/>
+		</div>
+
+		<div class="filter-group">
+			<label>Спортивное общество</label>
+			<input
+				type="text"
+				name="filter_sportclub"
+				placeholder="Введите спортивное общество..."
+				hx-get="/search/results"
+				hx-trigger="keyup changed delay:500ms"
+				hx-target="#search-results"
+				hx-include="[name='query'], [name='category'], [name^='filter_']"
+			/>
+		</div>
+
+		<div class="filter-group">
+			<label>Город</label>
+			<input
+				type="text"
+				name="filter_city"
+				placeholder="Введите город..."
+				hx-get="/search/results"
+				hx-trigger="keyup changed delay:500ms"
+				hx-target="#search-results"
+				hx-include="[name='query'], [name='category'], [name^='filter_']"
+			/>
+		</div>
+	</div>
+}
+
+// IndexTournamentFilters отображает фильтры для турниров на главной странице
+templ IndexTournamentFilters() {
+	<div class="filters">
+		<input type="hidden" name="category" value="tournament"/>
+
+		<div class="filter-group">
+			<label>Тип турнира</label>
+			<select
+				name="filter_type"
+				hx-get="/search/results"
+				hx-trigger="change"
+				hx-target="#search-results"
+				hx-include="[name='query'], [name='category'], [name^='filter_']"
+			>
+				<option value="">Все</option>
+				<option value="championship">Чемпионат</option>
+				<option value="cup">Кубок</option>
+				<option value="tournament">Первенство</option>
+			</select>
+		</div>
+
+		<div class="filter-group">
+			<label>Возрастная группа</label>
+			<select
+				name="filter_age_group"
+				hx-get="/search/results"
+				hx-trigger="change"
+				hx-target="#search-results"
+				hx-include="[name='query'], [name='category'], [name^='filter_']"
+			>
+				<option value="">Все</option>
+				<option value="adults">Взрослые</option>
+				<option value="juniors">Юниоры</option>
+				<option value="cadets">Кадеты</option>
+			</select>
+		</div>
+
+		<div class="filter-group">
+			<label>Год</label>
+			<select
+				name="filter_year"
+				hx-get="/search/results"
+				hx-trigger="change"
+				hx-target="#search-results"
+				hx-include="[name='query'], [name='category'], [name^='filter_']"
+			>
+				<option value="">Все</option>
+				<option value="2024">2024</option>
+				<option value="2023">2023</option>
+				<option value="2022">2022</option>
+				<option value="2021">2021</option>
+				<option value="2020">2020</option>
+			</select>
+		</div>
+
+		<div class="filter-group">
+			<label>Город</label>
+			<input
+				type="text"
+				name="filter_city"
+				placeholder="Введите город..."
+				hx-get="/search/results"
+				hx-trigger="keyup changed delay:500ms"
+				hx-target="#search-results"
+				hx-include="[name='query'], [name='category'], [name^='filter_']"
+			/>
+		</div>
+
+		<div class="filter-group">
+			<label>Регион</label>
+			<input
+				type="text"
+				name="filter_region"
+				placeholder="Введите регион..."
+				hx-get="/search/results"
+				hx-trigger="keyup changed delay:500ms"
+				hx-target="#search-results"
+				hx-include="[name='query'], [name='category'], [name^='filter_']"
+			/>
+		</div>
+
+		<div class="filter-group">
+			<label>Дата от</label>
+			<input
+				type="date"
+				name="filter_date_from"
+				hx-get="/search/results"
+				hx-trigger="change"
+				hx-target="#search-results"
+				hx-include="[name='query'], [name='category'], [name^='filter_']"
+			/>
+		</div>
+
+		<div class="filter-group">
+			<label>Дата до</label>
+			<input
+				type="date"
+				name="filter_date_to"
+				hx-get="/search/results"
+				hx-trigger="change"
+				hx-target="#search-results"
+				hx-include="[name='query'], [name='category'], [name^='filter_']"
+			/>
+		</div>
+	</div>
+}
+
+// IndexSportClubFilters отображает фильтры для спортклубов на главной странице
+templ IndexSportClubFilters() {
+	<div class="filters">
+		<input type="hidden" name="category" value="sportclub"/>
+
+		<div class="filter-group">
+			<label>Город</label>
+			<input
+				type="text"
+				name="filter_city"
+				placeholder="Введите город..."
+				hx-get="/search/results"
+				hx-trigger="keyup changed delay:500ms"
+				hx-target="#search-results"
+				hx-include="[name='query'], [name='category'], [name^='filter_']"
+			/>
+		</div>
+
+		<div class="filter-group">
+			<label>Регион</label>
+			<input
+				type="text"
+				name="filter_region"
+				placeholder="Введите регион..."
+				hx-get="/search/results"
+				hx-trigger="keyup changed delay:500ms"
+				hx-target="#search-results"
+				hx-include="[name='query'], [name='category'], [name^='filter_']"
+			/>
+		</div>
+
+		<div class="filter-group">
+			<label>Год основания от</label>
+			<input
+				type="number"
+				name="filter_founded"
+				placeholder="2000"
+				min="1900"
+				max="2024"
+				hx-get="/search/results"
+				hx-trigger="keyup changed delay:500ms"
+				hx-target="#search-results"
+				hx-include="[name='query'], [name='category'], [name^='filter_']"
+			/>
+		</div>
+	</div>
+}
+
+// IndexCityFilters отображает фильтры для городов на главной странице
+templ IndexCityFilters() {
+	<div class="filters">
+		<input type="hidden" name="category" value="city"/>
+
+		<div class="filter-group">
+			<label>Регион</label>
+			<input
+				type="text"
+				name="filter_region"
+				placeholder="Введите регион..."
+				hx-get="/search/results"
+				hx-trigger="keyup changed delay:500ms"
+				hx-target="#search-results"
+				hx-include="[name='query'], [name='category'], [name^='filter_']"
+			/>
+		</div>
+
+		<div class="filter-group">
+			<label>Население от</label>
+			<input
+				type="number"
+				name="filter_min_population"
+				placeholder="100000"
+				min="0"
+				hx-get="/search/results"
+				hx-trigger="keyup changed delay:500ms"
+				hx-target="#search-results"
+				hx-include="[name='query'], [name='category'], [name^='filter_']"
+			/>
+		</div>
+
+		<div class="filter-group">
+			<label>Спортивных обществ от</label>
+			<input
+				type="number"
+				name="filter_min_sportclubs"
+				placeholder="5"
+				min="0"
+				hx-get="/search/results"
+				hx-trigger="keyup changed delay:500ms"
+				hx-target="#search-results"
+				hx-include="[name='query'], [name='category'], [name^='filter_']"
+			/>
+		</div>
+
+		<div class="filter-group">
+			<label>Спортсменов от</label>
+			<input
+				type="number"
+				name="filter_min_athletes"
+				placeholder="100"
+				min="0"
+				hx-get="/search/results"
+				hx-trigger="keyup changed delay:500ms"
+				hx-target="#search-results"
+				hx-include="[name='query'], [name='category'], [name^='filter_']"
+			/>
+		</div>
+	</div>
 }
