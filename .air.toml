@@ -4,7 +4,7 @@ tmp_dir = "tmp"
 [build]
   bin = "./tmp/main"
   cmd = "go build -o ./tmp/main ./cmd"
-  include_ext = ["go", "templ", "css"]
+  include_ext = ["go", "templ", "css", "js"]
   exclude_dir = ["tmp", "vendor", "node_modules"]
   exclude_regex = ["_templ.go"]
   pre_cmd = ["templ generate"]

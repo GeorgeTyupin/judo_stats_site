@@ -1,8 +1,16 @@
 env : "local"
 
 http_server:
-  address: "0.0.0.0:8000"
+  address: "0.0.0.0:80"
   timeouts:
     request: 4s
     idle: 60s
     shutdown: 10s
+
+tls:
+  enabled: false
+  domain: "judostat.ru"
+  cache_dir: "./certs-cache"
+  use_staging: false
+  http_port: ":80"
+  https_port: ":443"

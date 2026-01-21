@@ -16,6 +16,7 @@ const (
 type Config struct {
 	Env        string     `yaml:"env" env:"ENV" env-default:"local"`
 	HTTPServer HTTPServer `yaml:"http_server"`
+	TLS        TLS        `yaml:"tls"`
 }
 
 type HTTPServer struct {
@@ -27,6 +28,15 @@ type HTTPTimeouts struct {
 	Request  time.Duration `yaml:"request" env-default:"4s"`
 	Idle     time.Duration `yaml:"idle" env-default:"60s"`
 	Shutdown time.Duration `yaml:"shutdown" env-default:"15s"`
+}
+
+type TLS struct {
+	Enabled    bool   `yaml:"enabled" env:"TLS_ENABLED" env-default:"false"`
+	Domain     string `yaml:"domain" env:"TLS_DOMAIN"`
+	CacheDir   string `yaml:"cache_dir" env:"TLS_CACHE_DIR" env-default:"./certs-cache"`
+	UseStaging bool   `yaml:"use_staging" env:"TLS_USE_STAGING" env-default:"false"`
+	HTTPPort   string `yaml:"http_port" env:"TLS_HTTP_PORT" env-default:":80"`
+	HTTPSPort  string `yaml:"https_port" env:"TLS_HTTPS_PORT" env-default:":443"`
 }
 
 func MustLoad(log *slog.Logger) *Config {

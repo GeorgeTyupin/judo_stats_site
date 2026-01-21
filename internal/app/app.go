@@ -9,31 +9,58 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi"
+	"golang.org/x/crypto/acme/autocert"
 )
 
 type ServerApp struct {
-	AppName string
-	logger  *slog.Logger
-	server  *http.Server
-	cfg     *config.Config
+	AppName      string
+	logger       *slog.Logger
+	server       *http.Server
+	httpRedirect *http.Server
+	cfg          *config.Config
+	autocertMgr  *autocert.Manager
 }
 
-func NewApp(log *slog.Logger, cfg *config.Config) *ServerApp {
+func NewApp(logger *slog.Logger, cfg *config.Config) *ServerApp {
 	appName := "HTTPServer"
-	log = log.With(slog.String("app", appName))
+	logger = logger.With(slog.String("app", appName))
 
 	handler := registerHandlers()
 
-	server := &http.Server{
-		Addr:    cfg.HTTPServer.Address,
-		Handler: handler,
-	}
-
 	app := &ServerApp{
 		AppName: appName,
-		logger:  log,
-		server:  server,
+		logger:  logger,
 		cfg:     cfg,
+	}
+
+	if cfg.TLS.Enabled {
+		app.autocertMgr = NewAutocertManager(logger, &cfg.TLS)
+		tlsConfig := NewTLSConfig(app.autocertMgr)
+
+		app.server = &http.Server{
+			Addr:        cfg.TLS.HTTPSPort,
+			Handler:     handler,
+			TLSConfig:   tlsConfig,
+			ReadTimeout: cfg.HTTPServer.Timeouts.Request,
+			IdleTimeout: cfg.HTTPServer.Timeouts.Idle,
+		}
+
+		app.httpRedirect = &http.Server{
+			Addr:    cfg.TLS.HTTPPort,
+			Handler: app.autocertMgr.HTTPHandler(createHTTPSRedirectHandler()),
+		}
+
+		logger.Info("HTTPS режим активирован", slog.String("domain", cfg.TLS.Domain))
+	} else {
+
+		app.server = &http.Server{
+			Addr:        cfg.HTTPServer.Address,
+			Handler:     handler,
+			ReadTimeout: cfg.HTTPServer.Timeouts.Request,
+			IdleTimeout: cfg.HTTPServer.Timeouts.Idle,
+		}
+
+		logger.Info("HTTP режим (локальная разработка)")
 	}
 
 	return app
@@ -42,8 +69,28 @@ func NewApp(log *slog.Logger, cfg *config.Config) *ServerApp {
 func (app *ServerApp) Run() error {
 	const op = "app.Run"
 	logger := app.logger.With(slog.String("op", op))
-	logger.Info("Запуск сервера...", slog.String("address", app.server.Addr))
 
+	if app.cfg.TLS.Enabled {
+		go func() {
+			logger.Info("Запуск HTTP сервера для ACME и редиректов",
+				slog.String("address", app.httpRedirect.Addr),
+			)
+			if err := app.httpRedirect.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+				logger.Error("HTTP сервер остановлен с ошибкой", slog.String("error", err.Error()))
+			}
+		}()
+
+		logger.Info("Запуск HTTPS сервера с автоматическими сертификатами",
+			slog.String("address", app.server.Addr),
+			slog.String("domain", app.cfg.TLS.Domain),
+		)
+
+		return app.server.ListenAndServeTLS("", "")
+	}
+
+	logger.Info("Запуск HTTP сервера (локальная разработка)",
+		slog.String("address", app.server.Addr),
+	)
 	return app.server.ListenAndServe()
 }
 
@@ -62,6 +109,15 @@ func (app *ServerApp) Shutdown() {
 		if err := app.server.Close(); err != nil {
 			closeErr := fmt.Sprintf("Ошибка критическая остановки сервера: %v", err)
 			logger.Error(closeErr, slog.String("error", err.Error()))
+		}
+	}
+
+	if app.httpRedirect != nil {
+		if err := app.httpRedirect.Shutdown(ctx); err != nil {
+			logger.Warn("HTTP сервер не успел завершиться", slog.String("error", err.Error()))
+			if err := app.httpRedirect.Close(); err != nil {
+				logger.Error("Критическая ошибка остановки HTTP сервера", slog.String("error", err.Error()))
+			}
 		}
 	}
 }
@@ -91,4 +147,14 @@ func registerHandlers() *chi.Mux {
 	// r.Post("/api/contribute/error", handlers.ContributeError)
 
 	return r
+}
+
+func createHTTPSRedirectHandler() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		target := "https://" + r.Host + r.URL.Path
+		if r.URL.RawQuery != "" {
+			target += "?" + r.URL.RawQuery
+		}
+		http.Redirect(w, r, target, http.StatusMovedPermanently)
+	})
 }

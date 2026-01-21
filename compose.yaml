@@ -1,28 +1,25 @@
-# Docker Compose configuration for Judo Archive
-# Development: uses Air for live reload
-# Production: use target: final
+# Docker Compose Development Configuration
+# Local HTTPS testing with autocert
+# For production with real DNS, use: docker compose -f compose.prod.yaml up
 
 services:
   server:
     build:
       context: .
-      target: development  # Change to 'final' for production
+      target: development
     ports:
-      - 8000:8000
+      - "80:80"      # HTTP (ACME challenge + redirect to HTTPS)
+      - "443:443"    # HTTPS
     volumes:
-      # Mount source code for live reload
-      - .:/app
-      # Cache Go modules to avoid re-downloading
-      - go-modules:/go/pkg/mod
-      # Exclude tmp directory (air builds here)
-      - /app/tmp
-    environment:
-      - GO_ENV=development
+      - .:/app                        # Mount source code for live reload
+      - go-modules:/go/pkg/mod        # Cache Go modules
+      - /app/tmp                      # Exclude Air build directory
+      - certs-cache:/app/certs-cache  # Persistent certificates
     restart: unless-stopped
 
-# Persistent volumes
 volumes:
-  go-modules:  # Cache Go modules across container rebuilds
+  go-modules:    # Cache Go modules across container rebuilds
+  certs-cache:   # TLS certificates cache
 
 # Uncomment below to add PostgreSQL database
 #   db:

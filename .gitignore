@@ -53,3 +53,7 @@ tmp/
 # Static build artifacts
 /static/css/output.css
 /static/dist/
+
+# TLS certificates (Let's Encrypt autocert cache)
+certs-cache/*
+!certs-cache/.gitkeep
