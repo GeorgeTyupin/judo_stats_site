@@ -57,3 +57,6 @@ tmp/
 # TLS certificates (Let's Encrypt autocert cache)
 certs-cache/*
 !certs-cache/.gitkeep
+
+# Docker Compose override (серверные настройки)
+docker-compose.override.yaml

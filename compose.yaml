@@ -1,6 +1,6 @@
 # Docker Compose Development Configuration
-# Local HTTPS testing with autocert
-# For production with real DNS, use: docker compose -f compose.prod.yaml up
+# Local development: access via http://localhost
+# Server works on port 8000 inside container (same as production)
 
 services:
   server:
@@ -8,18 +8,15 @@ services:
       context: .
       target: development
     ports:
-      - "80:80"      # HTTP (ACME challenge + redirect to HTTPS)
-      - "443:443"    # HTTPS
+      - "80:8000"    # Local access via port 80 → container port 8000
     volumes:
       - .:/app                        # Mount source code for live reload
       - go-modules:/go/pkg/mod        # Cache Go modules
       - /app/tmp                      # Exclude Air build directory
-      - certs-cache:/app/certs-cache  # Persistent certificates
     restart: unless-stopped
 
 volumes:
   go-modules:    # Cache Go modules across container rebuilds
-  certs-cache:   # TLS certificates cache
 
 # Uncomment below to add PostgreSQL database
 #   db:
