@@ -4,7 +4,7 @@ import "judo_stats_site/templates/layouts"
 import "judo_stats_site/internal/models"
 import "fmt"
 
-templ SportClub(data models.SportClubData) {
+templ SportClub(data models.SportClub) {
 	@layouts.BaseWithJS(data.Name, []string{"judoka.js"}, "judoka.css") {
 		<!-- Breadcrumbs -->
 		<div class="breadcrumbs">
@@ -37,10 +37,6 @@ templ SportClub(data models.SportClubData) {
 							<div class="info-item">
 								<div class="info-label">Дата основания</div>
 								<div class="info-value">{ data.Founded }</div>
-							</div>
-							<div class="info-item">
-								<div class="info-label">Город</div>
-								<div class="info-value">{ data.City }</div>
 							</div>
 							<div class="info-item">
 								<div class="info-label">Регион</div>

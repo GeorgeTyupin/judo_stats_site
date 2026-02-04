@@ -7,21 +7,14 @@ import (
 )
 
 func Tournament(w http.ResponseWriter, r *http.Request) {
-	// Пример данных - позже это будет из БД
-	data := models.TournamentData{
-		Name:         "Чемпионат России по дзюдо 1999",
-		Type:         "Чемпионат России",
-		Date:         "15-18 апреля 1999",
-		Location:     "Москва, Россия",
-		City:         "Москва",
-		Participants: 245,
-		Categories:   14,
-		Organizer:    "Федерация дзюдо России",
-		Venue:        "СК «Олимпийский»",
-		AgeGroup:     "Взрослые (18+)",
-		System:       "Олимпийская система с утешительными поединками",
-		Regions:      54,
-		Matches:      487,
+	data := models.Tournament{
+		Name:   "Чемпионат России по дзюдо 1999",
+		Type:   "Чемпионат России",
+		Date:   "15-18 апреля 1999",
+		Place:  "СК «Олимпийский»",
+		Year:   1999,
+		Month:  4,
+		Gender: "Men",
 	}
 
 	component := pages.Tournament(data)

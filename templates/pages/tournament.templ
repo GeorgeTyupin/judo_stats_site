@@ -2,9 +2,8 @@ package pages
 
 import "judo_stats_site/templates/layouts"
 import "judo_stats_site/internal/models"
-import "fmt"
 
-templ Tournament(data models.TournamentData) {
+templ Tournament(data models.Tournament) {
 	@layouts.BaseWithJS(data.Name, []string{"tournament.js"}, "tournament.css") {
 		<!-- Breadcrumbs -->
 		<div class="breadcrumbs">
@@ -36,21 +35,21 @@ templ Tournament(data models.TournamentData) {
 						<div class="quick-info-icon"><i data-lucide="map-pin" class="quick-info-icon-size"></i></div>
 						<div class="quick-info-text">
 							<div class="quick-info-label">Место</div>
-							<div class="quick-info-value">{ data.Location }</div>
+							<div class="quick-info-value">{ data.Place }</div>
+						</div>
+					</div>
+					<div class="quick-info-item">
+						<div class="quick-info-icon"><i data-lucide="activity" class="quick-info-icon-size"></i></div>
+						<div class="quick-info-text">
+							<div class="quick-info-label">Тип</div>
+							<div class="quick-info-value">{ data.Type }</div>
 						</div>
 					</div>
 					<div class="quick-info-item">
 						<div class="quick-info-icon"><i data-lucide="users" class="quick-info-icon-size"></i></div>
 						<div class="quick-info-text">
-							<div class="quick-info-label">Участников</div>
-							<div class="quick-info-value">{ fmt.Sprintf("%d спортсмена", data.Participants) }</div>
-						</div>
-					</div>
-					<div class="quick-info-item">
-						<div class="quick-info-icon"><i data-lucide="scale" class="quick-info-icon-size"></i></div>
-						<div class="quick-info-text">
-							<div class="quick-info-label">Категорий</div>
-							<div class="quick-info-value">{ fmt.Sprintf("%d весовых", data.Categories) }</div>
+							<div class="quick-info-label">Пол</div>
+							<div class="quick-info-value">{ data.Gender }</div>
 						</div>
 					</div>
 				</div>
@@ -66,47 +65,20 @@ templ Tournament(data models.TournamentData) {
 					</div>
 					<div class="info-grid">
 						<div class="info-item">
-							<div class="info-item-label">Организатор</div>
-							<div class="info-item-value">{ data.Organizer }</div>
-						</div>
-						<div class="info-item">
 							<div class="info-item-label">Место проведения</div>
-							<div class="info-item-value">{ data.Venue }</div>
+							<div class="info-item-value">{ data.Place }</div>
 						</div>
 						<div class="info-item">
 							<div class="info-item-label">Тип турнира</div>
 							<div class="info-item-value">{ data.Type }</div>
 						</div>
 						<div class="info-item">
+							<div class="info-item-label">Дата</div>
+							<div class="info-item-value">{ data.Date }</div>
+						</div>
+						<div class="info-item">
 							<div class="info-item-label">Пол</div>
-							<div class="info-item-value">Мужчины и женщины</div>
-						</div>
-						<div class="info-item">
-							<div class="info-item-label">Возрастная группа</div>
-							<div class="info-item-value">{ data.AgeGroup }</div>
-						</div>
-						<div class="info-item">
-							<div class="info-item-label">Система</div>
-							<div class="info-item-value">{ data.System }</div>
-						</div>
-					</div>
-
-					<div class="stats-grid">
-						<div class="stat-card">
-							<div class="stat-number">{ fmt.Sprintf("%d", data.Participants) }</div>
-							<div class="stat-label">Участников</div>
-						</div>
-						<div class="stat-card">
-							<div class="stat-number">{ fmt.Sprintf("%d", data.Regions) }</div>
-							<div class="stat-label">Регионов</div>
-						</div>
-						<div class="stat-card">
-							<div class="stat-number">{ fmt.Sprintf("%d", data.Matches) }</div>
-							<div class="stat-label">Боев проведено</div>
-						</div>
-						<div class="stat-card">
-							<div class="stat-number">{ fmt.Sprintf("%d", data.Categories) }</div>
-							<div class="stat-label">Весовых категорий</div>
+							<div class="info-item-value">{ data.Gender }</div>
 						</div>
 					</div>
 

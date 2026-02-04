@@ -1,11 +1,12 @@
 package models
 
-// CityData представляет данные города
 type CityData struct {
-	Name           string
-	Region         string
-	Population     int
-	Founded        string
+	ID             int64  `db:"id"`
+	Name           string `db:"name"`
+	Region         string `db:"region"`
+	Population     int    `db:"population"`
+	Founded        string `db:"founded"`
+	Description    string `db:"description"`
 	SportClubs     int
 	Athletes       int
 	ActiveAthletes int
@@ -14,5 +15,4 @@ type CityData struct {
 	SilverMedals   int
 	BronzeMedals   int
 	TotalMedals    int
-	Description    string
 }

@@ -7,12 +7,10 @@ import (
 )
 
 func SportClub(w http.ResponseWriter, r *http.Request) {
-	// Пример данных - позже это будет из БД
-	data := models.SportClubData{
+	data := models.SportClub{
 		Name:           "ЦСКА",
 		FullName:       "Центральный спортивный клуб армии",
 		Founded:        "29 апреля 1923",
-		City:           "Москва",
 		Region:         "Московская область",
 		HeadCoach:      "Иванов И.И.",
 		Athletes:       156,

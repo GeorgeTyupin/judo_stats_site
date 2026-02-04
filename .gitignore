@@ -60,3 +60,6 @@ certs-cache/*
 
 # Docker Compose override (серверные настройки)
 docker-compose.override.yaml
+
+Data.json
+*.env

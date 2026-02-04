@@ -7,14 +7,12 @@ import (
 )
 
 func Judoka(w http.ResponseWriter, r *http.Request) {
-	// Пример данных - позже это будет из БД
-	data := models.JudokaData{
+	data := models.Judoka{
 		Name:           "Федор Емельяненко",
 		Country:        "Россия",
 		CountryFlag:    "🇷🇺",
 		WeightCategory: "+100 кг",
 		BirthDate:      "28 сентября 1976",
-		Age:            47,
 		BirthPlace:     "Рубежное, Луганская обл.",
 		SportClub:      "ЦСКА",
 		Coach:          "Бородин В.А.",

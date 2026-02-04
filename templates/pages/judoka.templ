@@ -4,7 +4,7 @@ import "judo_stats_site/templates/layouts"
 import "judo_stats_site/internal/models"
 import "fmt"
 
-templ Judoka(data models.JudokaData) {
+templ Judoka(data models.Judoka) {
 	@layouts.BaseWithJS(data.Name, []string{"judoka.js"}, "judoka.css") {
 		<!-- Breadcrumbs -->
 		<div class="breadcrumbs">
@@ -38,10 +38,6 @@ templ Judoka(data models.JudokaData) {
 							<div class="info-item">
 								<div class="info-label">Дата рождения</div>
 								<div class="info-value">{ data.BirthDate }</div>
-							</div>
-							<div class="info-item">
-								<div class="info-label">Возраст</div>
-								<div class="info-value">{ fmt.Sprintf("%d лет", data.Age) }</div>
 							</div>
 							<div class="info-item">
 								<div class="info-label">Место рождения</div>
