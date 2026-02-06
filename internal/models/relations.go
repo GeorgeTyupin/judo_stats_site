@@ -25,3 +25,15 @@ type SportClubCityRelation struct {
 	SportClubID int64 `db:"sport_club_id"`
 	CityID      int64 `db:"city_id"`
 }
+
+type JudokaCountryRelation struct {
+	ID        int64 `db:"id"`
+	JudokaID  int64 `db:"judoka_id"`
+	CountryID int64 `db:"country_id"`
+}
+
+type JudokaRepublicRelation struct {
+	ID         int64 `db:"id"`
+	JudokaID   int64 `db:"judoka_id"`
+	RepublicID int64 `db:"republic_id"`
+}

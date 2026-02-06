@@ -27,12 +27,15 @@ templ Judoka(data models.Judoka) {
 								<i data-lucide="user" class="profile-user-icon"></i>
 							</div>
 						</div>
-						<div class="flag-badge">{ data.CountryFlag }</div>
 					</div>
 
 					<div class="profile-info">
 						<h1 class="profile-name">{ data.Name }</h1>
-						<p class="profile-subtitle">{ data.Country } • Весовая категория { data.WeightCategory }</p>
+						if len(data.WeightCategories) > 0 {
+							<p class="profile-subtitle">{ data.Country } • Весовая категория { data.WeightCategories[0] }</p>
+						} else {
+							<p class="profile-subtitle">{ data.Country }</p>
+						}
 
 						<div class="info-grid">
 							<div class="info-item">
@@ -43,18 +46,19 @@ templ Judoka(data models.Judoka) {
 								<div class="info-label">Место рождения</div>
 								<div class="info-value">{ data.BirthPlace }</div>
 							</div>
-							<div class="info-item">
-								<div class="info-label">Спортивное общество</div>
-								<div class="info-value">{ data.SportClub }</div>
-							</div>
-							<div class="info-item">
-								<div class="info-label">Тренер</div>
-								<div class="info-value">{ data.Coach }</div>
-							</div>
-							<div class="info-item">
-								<div class="info-label">Весовая категория</div>
-								<div class="info-value">{ data.WeightCategory }</div>
-							</div>
+							if len(data.WeightCategories) > 0 {
+								<div class="info-item">
+									<div class="info-label">Весовые категории</div>
+									<div class="info-value">
+										for i, category := range data.WeightCategories {
+											if i > 0 {
+												<span>, </span>
+											}
+											{ category }
+										}
+									</div>
+								</div>
+							}
 						</div>
 
 						<div class="achievements-quick">

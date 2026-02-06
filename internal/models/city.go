@@ -1,12 +1,15 @@
 package models
 
 type CityData struct {
-	ID             int64  `db:"id"`
-	Name           string `db:"name"`
-	Region         string `db:"region"`
-	Population     int    `db:"population"`
-	Founded        string `db:"founded"`
-	Description    string `db:"description"`
+	ID          int64   `db:"id"`
+	Name        string  `db:"name"`
+	Description string  `db:"description"`
+	RepublicID  *int64  `db:"republic_id"`
+
+	// Computed fields (not stored in DB)
+	Region         string
+	Population     int
+	Founded        string
 	SportClubs     int
 	Athletes       int
 	ActiveAthletes int
