@@ -9,11 +9,13 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/v5/middleware"
 	"golang.org/x/crypto/acme/autocert"
 )
 
+const layerName = "HTTPServer"
+
 type ServerApp struct {
-	AppName      string
 	logger       *slog.Logger
 	server       *http.Server
 	httpRedirect *http.Server
@@ -22,15 +24,14 @@ type ServerApp struct {
 }
 
 func NewApp(logger *slog.Logger, cfg *config.Config) *ServerApp {
-	appName := "HTTPServer"
-	logger = logger.With(slog.String("app", appName))
+
+	logger = logger.With(slog.String("layer", layerName))
 
 	handler := registerHandlers()
 
 	app := &ServerApp{
-		AppName: appName,
-		logger:  logger,
-		cfg:     cfg,
+		logger: logger,
+		cfg:    cfg,
 	}
 
 	if cfg.TLS.Enabled {
@@ -124,6 +125,7 @@ func (app *ServerApp) Shutdown() {
 
 func registerHandlers() *chi.Mux {
 	r := chi.NewRouter()
+	r.Use(middleware.Logger)
 
 	// Статические файлы
 	fileServer := http.FileServer(http.Dir("static"))

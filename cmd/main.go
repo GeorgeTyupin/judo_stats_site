@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log/slog"
 	"os"
 	"os/signal"
@@ -8,11 +9,22 @@ import (
 
 	"judo_stats_site/internal/app"
 	"judo_stats_site/internal/config"
+	"judo_stats_site/internal/repository"
 )
 
 func main() {
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
 	cfg := config.MustLoad(logger)
+
+	repoCtx, repoCtxCancelFunc := context.WithTimeout(context.Background(), cfg.Database.DBIdle)
+	defer repoCtxCancelFunc()
+
+	pgRepo, err := repository.NewDBRepository(repoCtx, &cfg.Database, logger)
+	if err != nil {
+		logger.Error("Ошибка подключения к базе данных", slog.String("error", err.Error()))
+		os.Exit(1)
+	}
+	defer pgRepo.Close()
 
 	application := app.NewApp(logger, cfg)
 

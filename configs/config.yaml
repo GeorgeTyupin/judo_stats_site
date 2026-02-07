@@ -14,3 +14,12 @@ tls:
   use_staging: false
   http_port: ":80"
   https_port: ":443"
+
+database:
+  sslmode: "disable"
+  max_conns: 25
+  min_conns: 5
+  db_idle: 10s
+  max_conn_life_time: 1h
+  max_conn_idle_time: 30m
+  timeout: 5s

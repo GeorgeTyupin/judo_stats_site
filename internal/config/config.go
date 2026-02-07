@@ -7,21 +7,24 @@ import (
 	"time"
 
 	"github.com/ilyakaznacheev/cleanenv"
+	"github.com/joho/godotenv"
 )
 
 const (
 	configPath = "configs/config.yaml"
+	envPath    = "configs/database.env"
 )
 
 type Config struct {
-	Env        string     `yaml:"env" env:"ENV" env-default:"local"`
 	HTTPServer HTTPServer `yaml:"http_server"`
 	TLS        TLS        `yaml:"tls"`
+	Database   Database   `yaml:"database"`
+	Env        string     `yaml:"env" env:"ENV" env-default:"local"`
 }
 
 type HTTPServer struct {
-	Address  string       `yaml:"address" env-default:"0.0.0.0:5000"`
 	Timeouts HTTPTimeouts `yaml:"timeouts"`
+	Address  string       `yaml:"address" env-default:"0.0.0.0:5000"`
 }
 
 type HTTPTimeouts struct {
@@ -31,12 +34,34 @@ type HTTPTimeouts struct {
 }
 
 type TLS struct {
-	Enabled    bool   `yaml:"enabled" env:"TLS_ENABLED" env-default:"false"`
-	Domain     string `yaml:"domain" env:"TLS_DOMAIN"`
-	CacheDir   string `yaml:"cache_dir" env:"TLS_CACHE_DIR" env-default:"./certs-cache"`
-	UseStaging bool   `yaml:"use_staging" env:"TLS_USE_STAGING" env-default:"false"`
-	HTTPPort   string `yaml:"http_port" env:"TLS_HTTP_PORT" env-default:":80"`
-	HTTPSPort  string `yaml:"https_port" env:"TLS_HTTPS_PORT" env-default:":443"`
+	HTTPSPort  string `yaml:"https_port" env-default:":443"`
+	Domain     string `yaml:"domain"`
+	CacheDir   string `yaml:"cache_dir" env-default:"./certs-cache"`
+	HTTPPort   string `yaml:"http_port" env-default:":80"`
+	UseStaging bool   `yaml:"use_staging" env-default:"false"`
+	Enabled    bool   `yaml:"enabled" env-default:"false"`
+}
+
+type Database struct {
+	Host            string        `env:"DB_HOST"`
+	Name            string        `env:"DB_NAME"`
+	User            string        `env:"DB_USER"`
+	Password        string        `env:"DB_PASSWORD"`
+	SSLMode         string        `yaml:"sslmode"`
+	DBIdle          time.Duration `yaml:"db_idle"`
+	MaxConnLifetime time.Duration `yaml:"max_conn_life_time"`
+	MaxConnIdleTime time.Duration `yaml:"max_conn_idle_time"`
+	Timeout         time.Duration `yaml:"timeout"`
+	MaxConns        int32         `yaml:"max_conns"`
+	MinConns        int32         `yaml:"min_conns"`
+	Port            int8          `env:"DB_PORT"`
+}
+
+func (d *Database) GetConnString() string {
+	return fmt.Sprintf(
+		"postgres://%s:%s@%s:%d/%s?sslmode=%s",
+		d.User, d.Password, d.Host, d.Port, d.Name, d.SSLMode,
+	)
 }
 
 func MustLoad(log *slog.Logger) *Config {
@@ -62,8 +87,16 @@ func MustLoad(log *slog.Logger) *Config {
 func LoadConf(file *os.File) (*Config, error) {
 	var conf Config
 
+	if err := godotenv.Load(envPath); err != nil {
+		return nil, fmt.Errorf("не удалось загрузить env. Возникла ошибка %w", err)
+	}
+
 	if err := cleanenv.ParseYAML(file, &conf); err != nil {
 		return nil, fmt.Errorf("не удалось прочитать конфиг. Возникла ошибка %w", err)
+	}
+
+	if err := cleanenv.ReadEnv(&conf); err != nil {
+		return nil, fmt.Errorf("не удалось прочитать env. Возникла ошибка %w", err)
 	}
 
 	return &conf, nil
