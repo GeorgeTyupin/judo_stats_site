@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"judo_stats_site/internal/models"
+	"judo_stats_site/internal/domain/dto"
 	"judo_stats_site/templates/components"
 	"judo_stats_site/templates/pages"
 	"net/http"
@@ -11,14 +11,14 @@ import (
 func SearchFiltersHandler(w http.ResponseWriter, r *http.Request) {
 	category := r.URL.Query().Get("category")
 
-	switch models.SearchCategory(category) {
-	case models.CategoryJudoka:
+	switch dto.SearchCategory(category) {
+	case dto.CategoryJudoka:
 		pages.IndexJudokaFilters().Render(r.Context(), w)
-	case models.CategoryTournament:
+	case dto.CategoryTournament:
 		pages.IndexTournamentFilters().Render(r.Context(), w)
-	case models.CategorySportClub:
+	case dto.CategorySportClub:
 		pages.IndexSportClubFilters().Render(r.Context(), w)
-	case models.CategoryCity:
+	case dto.CategoryCity:
 		pages.IndexCityFilters().Render(r.Context(), w)
 	default:
 		pages.IndexJudokaFilters().Render(r.Context(), w)
@@ -27,7 +27,13 @@ func SearchFiltersHandler(w http.ResponseWriter, r *http.Request) {
 
 // SearchResultsHandler возвращает результаты поиска
 func SearchResultsHandler(w http.ResponseWriter, r *http.Request) {
-	// Пока просто возвращаем пустые результаты
-	// TODO: Реализовать логику поиска на бэкенде
+	// TODO сделать обработку поиска и форм с фильтрами
+	// query := r.URL.Query().Get("query")
+	// category := dto.SearchCategory(r.URL.Query().Get("category"))
+
+	// if category == "" {
+
+	// }
+
 	components.EmptySearchResults().Render(r.Context(), w)
 }

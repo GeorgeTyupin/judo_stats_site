@@ -1,17 +1,17 @@
 package components
 
-import "judo_stats_site/internal/models"
+import "judo_stats_site/internal/domain/dto"
 
 // CategorySelector отображает выбор категории поиска
-templ CategorySelector(selectedCategory models.SearchCategory) {
+templ CategorySelector(selectedCategory dto.SearchCategory) {
 	<div class="flex gap-2 mb-6">
 		<button
 			hx-get="/search/filters?category=judoka"
 			hx-target="#search-filters"
 			hx-swap="innerHTML"
 			class={ "px-4 py-2 rounded-lg transition-colors",
-				templ.KV("bg-blue-600 text-white", selectedCategory == models.CategoryJudoka),
-				templ.KV("bg-gray-100 text-gray-700 hover:bg-gray-200", selectedCategory != models.CategoryJudoka) }
+				templ.KV("bg-blue-600 text-white", selectedCategory == dto.CategoryJudoka),
+				templ.KV("bg-gray-100 text-gray-700 hover:bg-gray-200", selectedCategory != dto.CategoryJudoka) }
 		>
 			Спортсмены
 		</button>
@@ -20,8 +20,8 @@ templ CategorySelector(selectedCategory models.SearchCategory) {
 			hx-target="#search-filters"
 			hx-swap="innerHTML"
 			class={ "px-4 py-2 rounded-lg transition-colors",
-				templ.KV("bg-blue-600 text-white", selectedCategory == models.CategoryTournament),
-				templ.KV("bg-gray-100 text-gray-700 hover:bg-gray-200", selectedCategory != models.CategoryTournament) }
+				templ.KV("bg-blue-600 text-white", selectedCategory == dto.CategoryTournament),
+				templ.KV("bg-gray-100 text-gray-700 hover:bg-gray-200", selectedCategory != dto.CategoryTournament) }
 		>
 			Турниры
 		</button>
@@ -30,8 +30,8 @@ templ CategorySelector(selectedCategory models.SearchCategory) {
 			hx-target="#search-filters"
 			hx-swap="innerHTML"
 			class={ "px-4 py-2 rounded-lg transition-colors",
-				templ.KV("bg-blue-600 text-white", selectedCategory == models.CategorySportClub),
-				templ.KV("bg-gray-100 text-gray-700 hover:bg-gray-200", selectedCategory != models.CategorySportClub) }
+				templ.KV("bg-blue-600 text-white", selectedCategory == dto.CategorySportClub),
+				templ.KV("bg-gray-100 text-gray-700 hover:bg-gray-200", selectedCategory != dto.CategorySportClub) }
 		>
 			Спортклубы
 		</button>
@@ -40,8 +40,8 @@ templ CategorySelector(selectedCategory models.SearchCategory) {
 			hx-target="#search-filters"
 			hx-swap="innerHTML"
 			class={ "px-4 py-2 rounded-lg transition-colors",
-				templ.KV("bg-blue-600 text-white", selectedCategory == models.CategoryCity),
-				templ.KV("bg-gray-100 text-gray-700 hover:bg-gray-200", selectedCategory != models.CategoryCity) }
+				templ.KV("bg-blue-600 text-white", selectedCategory == dto.CategoryCity),
+				templ.KV("bg-gray-100 text-gray-700 hover:bg-gray-200", selectedCategory != dto.CategoryCity) }
 		>
 			Города
 		</button>
@@ -462,11 +462,8 @@ templ SearchResults() {
 
 // EmptySearchResults отображает пустые результаты поиска
 templ EmptySearchResults() {
-	<div class="text-center text-gray-500 py-12">
-		<svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-		</svg>
-		<p class="mt-4 text-lg">Ничего не найдено</p>
-		<p class="mt-2 text-sm text-gray-400">Попробуйте изменить параметры поиска</p>
+	<div class="text-center text-gray-500 py-8">
+		<p class="text-sm font-medium text-gray-600">Ничего не найдено</p>
+		<p class="mt-1 text-xs text-gray-400">Попробуйте изменить параметры поиска</p>
 	</div>
 }

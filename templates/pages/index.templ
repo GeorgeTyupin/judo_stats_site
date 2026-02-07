@@ -35,6 +35,14 @@ templ Index() {
 							hx-target="#search-results"
 							hx-include="[name='category'], [name^='filter_']"
 						/>
+						<button
+							class="search-btn"
+							hx-get="/search/results"
+							hx-target="#search-results"
+							hx-include="[name='query'], [name='category'], [name^='filter_']"
+						>
+							Найти
+						</button>
 					</div>
 
 					<!-- Контейнер для фильтров и категорий -->

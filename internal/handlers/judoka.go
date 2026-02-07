@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"judo_stats_site/internal/models"
+	"judo_stats_site/internal/domain/models"
 	"judo_stats_site/templates/pages"
 	"net/http"
 )
