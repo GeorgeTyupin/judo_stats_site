@@ -13,7 +13,11 @@ import (
 	"golang.org/x/crypto/acme/autocert"
 )
 
-const layerName = "HTTPServer"
+const component = "HTTPServer"
+
+type Repository interface {
+	Close()
+}
 
 type ServerApp struct {
 	logger       *slog.Logger
@@ -21,17 +25,18 @@ type ServerApp struct {
 	httpRedirect *http.Server
 	cfg          *config.Config
 	autocertMgr  *autocert.Manager
+	db           Repository
 }
 
-func NewApp(logger *slog.Logger, cfg *config.Config) *ServerApp {
-
-	logger = logger.With(slog.String("layer", layerName))
+func NewApp(logger *slog.Logger, cfg *config.Config, repo Repository) *ServerApp {
+	logger = logger.With(slog.String("place", component))
 
 	handler := registerHandlers()
 
 	app := &ServerApp{
 		logger: logger,
 		cfg:    cfg,
+		db:     repo,
 	}
 
 	if cfg.TLS.Enabled {

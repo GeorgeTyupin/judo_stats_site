@@ -26,7 +26,7 @@ func main() {
 	}
 	defer pgRepo.Close()
 
-	application := app.NewApp(logger, cfg)
+	application := app.NewApp(logger, cfg, pgRepo)
 
 	signalCh := make(chan os.Signal, 2)
 	signal.Notify(signalCh, os.Interrupt, syscall.SIGTERM)

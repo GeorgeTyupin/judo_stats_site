@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"log/slog"
+	"net/url"
 	"os"
 	"time"
 
@@ -54,13 +55,18 @@ type Database struct {
 	Timeout         time.Duration `yaml:"timeout"`
 	MaxConns        int32         `yaml:"max_conns"`
 	MinConns        int32         `yaml:"min_conns"`
-	Port            int8          `env:"DB_PORT"`
+	Port            int32         `env:"DB_PORT"`
 }
 
 func (d *Database) GetConnString() string {
 	return fmt.Sprintf(
 		"postgres://%s:%s@%s:%d/%s?sslmode=%s",
-		d.User, d.Password, d.Host, d.Port, d.Name, d.SSLMode,
+		url.QueryEscape(d.User),
+		url.QueryEscape(d.Password),
+		d.Host,
+		d.Port,
+		d.Name,
+		d.SSLMode,
 	)
 }
 

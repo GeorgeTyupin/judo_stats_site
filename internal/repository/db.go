@@ -10,7 +10,7 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-const layerName = "Repository"
+const component = "Repository"
 
 type DBRepository struct {
 	timeout time.Duration
@@ -19,6 +19,8 @@ type DBRepository struct {
 }
 
 func NewDBRepository(ctx context.Context, dbConf *config.Database, logger *slog.Logger) (*DBRepository, error) {
+	logger = logger.With(slog.String("component", component))
+
 	poolConf, err := pgxpool.ParseConfig(dbConf.GetConnString())
 	if err != nil {
 		return nil, fmt.Errorf("не удалось создать конфиг для pgxpool. Возникла ошибка %w", err)
@@ -38,8 +40,6 @@ func NewDBRepository(ctx context.Context, dbConf *config.Database, logger *slog.
 		dbPool.Close()
 		return nil, fmt.Errorf("ping database: %w", err)
 	}
-
-	logger = logger.With(slog.String("layer", layerName))
 
 	return &DBRepository{
 		timeout: dbConf.Timeout,

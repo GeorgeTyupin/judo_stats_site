@@ -4,8 +4,29 @@ import (
 	"judo_stats_site/internal/domain/dto"
 	"judo_stats_site/templates/components"
 	"judo_stats_site/templates/pages"
+	"log/slog"
 	"net/http"
 )
+
+const component = "SearchHandler"
+
+type SearchRepository interface {
+	// TODO Сделать методы, когда они будут реализованы в репозиторном слое
+}
+
+type SearchHandler struct {
+	db     SearchRepository
+	logger *slog.Logger
+}
+
+func NewSearchHandler(repo SearchRepository, logger *slog.Logger) *SearchHandler {
+	logger = logger.With(slog.String("component", component))
+
+	return &SearchHandler{
+		db:     repo,
+		logger: logger,
+	}
+}
 
 // SearchFiltersHandler возвращает фильтры для выбранной категории
 func SearchFiltersHandler(w http.ResponseWriter, r *http.Request) {
