@@ -12,7 +12,8 @@ Web-приложение для архива дзюдо с профилями с
 **Frontend:**
 - Templ - типизированные HTML шаблоны, компилируются в Go код
 - HTMX - динамические обновления без написания JavaScript
-- Tailwind CSS - utility-first CSS framework
+- Vanilla CSS - стили в отдельных файлах (static/css/)
+- Vanilla JS - скрипты в отдельных файлах (static/js/)
 
 **Архитектура:**
 - Server-Side Rendering - Go генерирует HTML через Templ
@@ -23,22 +24,20 @@ Web-приложение для архива дзюдо с профилями с
 
 ```
 judo-archive/
-├── cmd/
-│   └── server/
-│       └── main.go              # Точка входа приложения
+├── cmd/main.go                     # Точка входа приложения
 ├── internal/
-│   ├── app/                     # Конфигурация приложения
-│   ├── handlers/                # HTTP handlers
-│   ├── models/                  # Go структуры данных
-│   ├── services/                # Бизнес логика
-│   └── repository/              # Работа с БД
+│   ├── app/                        # Конфигурация приложения
+│   ├── handlers/                   # HTTP handlers
+│   ├── models/                     # Go структуры данных
+│   ├── services/                   # Бизнес логика
+│   └── repository/                 # Работа с БД
 ├── templates/
-│   ├── layouts/                 # Базовые layouts
-│   ├── pages/                   # Страницы (index, judoka, tournament)
-│   └── components/              # Переиспользуемые компоненты
-├── static/
-│   └── css/                     # CSS стили
-└── configs/                     # Конфигурационные файлы
+│   ├── layouts/                    # Базовые layouts
+│   ├── pages/                      # Страницы
+│   └── components/                 # Переиспользуемые компоненты
+└── static/
+    ├── css/                        # CSS файлы (style.css - общий, остальные - для страниц)
+    └── js/                         # JavaScript файлы
 ```
 
 ## Как это работает
@@ -63,12 +62,8 @@ go install github.com/a-h/templ/cmd/templ@latest
 # Компилировать Templ шаблоны
 templ generate
 
-# Собрать Tailwind CSS
-npm install
-npm run build:css
-
 # Запустить сервер
-go run cmd/server/main.go
+go run cmd/main.go
 ```
 
 ### Docker
@@ -83,24 +78,17 @@ docker compose up --build
 ## Основные команды
 
 ```bash
-# Компиляция Templ шаблонов
+# Компиляция Templ шаблонов (НЕ НУЖНО при использовании air)
 templ generate
 
-# Watch режим для Templ
-templ generate --watch
+# Запуск сервера без hot reload
+go run cmd/main.go
 
-# Сборка Tailwind CSS
-npm run build:css
-
-# Watch режим для Tailwind
-npm run watch:css
-
-# Запуск сервера
-go run cmd/server/main.go
-
-# Hot reload (требуется air)
+# Hot reload (автоматически генерирует Templ файлы при изменениях)
 air
 ```
+
+**Важно:** При разработке всегда используй `air` для hot reload. Air автоматически запускает `templ generate` при изменении `.templ` файлов.
 
 ## Преимущества подхода
 
@@ -123,4 +111,4 @@ air
 - [Templ Documentation](https://templ.guide/)
 - [HTMX Documentation](https://htmx.org/)
 - [Chi Router](https://github.com/go-chi/chi)
-- [Tailwind CSS](https://tailwindcss.com/)
+- [PostgreSQL](https://www.postgresql.org/)
