@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"judo_stats_site/internal/config"
 	"judo_stats_site/internal/handlers"
+	"judo_stats_site/internal/repository"
 	"log/slog"
 	"net/http"
 
@@ -15,23 +16,19 @@ import (
 
 const component = "HTTPServer"
 
-type Repository interface {
-	Close()
-}
-
 type ServerApp struct {
 	logger       *slog.Logger
 	server       *http.Server
 	httpRedirect *http.Server
 	cfg          *config.Config
 	autocertMgr  *autocert.Manager
-	db           Repository
+	db           *repository.DBRepository
 }
 
-func NewApp(logger *slog.Logger, cfg *config.Config, repo Repository) *ServerApp {
+func NewApp(logger *slog.Logger, cfg *config.Config, repo *repository.DBRepository) *ServerApp {
 	logger = logger.With(slog.String("place", component))
 
-	handler := registerHandlers()
+	handler := registerHandlers(repo, logger)
 
 	app := &ServerApp{
 		logger: logger,
@@ -128,7 +125,7 @@ func (app *ServerApp) Shutdown() {
 	}
 }
 
-func registerHandlers() *chi.Mux {
+func registerHandlers(repo *repository.DBRepository, logger *slog.Logger) *chi.Mux {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 
@@ -145,8 +142,10 @@ func registerHandlers() *chi.Mux {
 	r.Get("/contribute", handlers.Contribute)
 
 	// HTMX endpoints для поиска
-	r.Get("/search/filters", handlers.SearchFiltersHandler)
-	r.Get("/search/results", handlers.SearchResultsHandler)
+	searchHandler := handlers.NewSearchHandler(repo, logger)
+
+	r.Get("/search/filters", searchHandler.SearchFiltersHandler)
+	r.Get("/search/results", searchHandler.SearchResultsHandler)
 
 	// TODO Реализовать API endpoints для форм
 	// r.Post("/api/contribute/tournament", handlers.ContributeTournament)

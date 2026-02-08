@@ -460,10 +460,21 @@ templ SearchResults() {
 	</div>
 }
 
-// EmptySearchResults отображает пустые результаты поиска
+// EmptySearchResults отображает улучшенное сообщение о пустых результатах поиска
 templ EmptySearchResults() {
-	<div class="text-center text-gray-500 py-8">
-		<p class="text-sm font-medium text-gray-600">Ничего не найдено</p>
-		<p class="mt-1 text-xs text-gray-400">Попробуйте изменить параметры поиска</p>
+	<div class="empty-search-results">
+		<div class="empty-search-icon">
+			<i data-lucide="search-x" class="empty-icon"></i>
+		</div>
+		<h3 class="empty-search-title">Ничего не найдено</h3>
+		<p class="empty-search-text">Попробуйте изменить параметры поиска или использовать другие ключевые слова</p>
+		<div class="empty-search-suggestions">
+			<p class="suggestions-title">Советы для поиска:</p>
+			<ul class="suggestions-list">
+				<li>Проверьте правильность написания</li>
+				<li>Используйте более общие термины</li>
+				<li>Попробуйте другую категорию поиска</li>
+			</ul>
+		</div>
 	</div>
 }

@@ -29,7 +29,7 @@ templ Index() {
 							type="text"
 							name="query"
 							id="searchInput"
-							placeholder="Поиск спортсменов, турниров, обществ, городов..."
+							placeholder="Введите запрос для поиска..."
 							hx-get="/search/results"
 							hx-trigger="keyup changed delay:500ms"
 							hx-target="#search-results"
@@ -47,16 +47,26 @@ templ Index() {
 
 					<!-- Контейнер для фильтров и категорий -->
 					<div id="filters-wrapper">
-						<!-- Категория для фильтрации -->
+						<!-- Категории поиска -->
 						<div class="category-section">
-							<label class="category-label">Выберите категорию для настройки фильтров</label>
+							<label class="category-label">Категория поиска</label>
 							<div class="category-tabs">
+								<button
+									hx-get="/search/filters?category=all"
+									hx-target="#search-filters"
+									hx-swap="innerHTML"
+									onclick="setActiveCategory(this)"
+									class="category-tab active"
+									data-category="all"
+								>
+									Общий поиск
+								</button>
 								<button
 									hx-get="/search/filters?category=judoka"
 									hx-target="#search-filters"
 									hx-swap="innerHTML"
 									onclick="setActiveCategory(this)"
-									class="category-tab active"
+									class="category-tab"
 									data-category="judoka"
 								>
 									Спортсмены
@@ -96,7 +106,7 @@ templ Index() {
 
 						<!-- Контейнер для фильтров (динамически загружается через HTMX) -->
 						<div id="search-filters">
-							@IndexJudokaFilters()
+							@IndexAllFilters()
 						</div>
 					</div>
 
@@ -211,6 +221,16 @@ templ Index() {
 			</div>
 		</section>
 	}
+}
+
+// IndexAllFilters отображает минимальные фильтры для общего поиска
+templ IndexAllFilters() {
+	<div class="filters">
+		<input type="hidden" name="category" value="all"/>
+		<div class="all-search-hint">
+			<p>Введите запрос для поиска по всем категориям: спортсменам, турнирам, спортивным обществам и городам</p>
+		</div>
+	</div>
 }
 
 // IndexJudokaFilters отображает фильтры для спортсменов на главной странице

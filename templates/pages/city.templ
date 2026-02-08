@@ -4,7 +4,7 @@ import "judo_stats_site/templates/layouts"
 import "judo_stats_site/internal/domain/models"
 import "fmt"
 
-templ City(data models.CityData) {
+templ City(data models.City) {
 	@layouts.BaseWithJS(data.Name, []string{"judoka.js"}, "judoka.css") {
 		<!-- Breadcrumbs -->
 		<div class="breadcrumbs">

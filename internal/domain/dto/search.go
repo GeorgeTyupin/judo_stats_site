@@ -4,17 +4,12 @@ package dto
 type SearchCategory string
 
 const (
+	CategoryAll        SearchCategory = "all" // Общий поиск по всем категориям
 	CategoryJudoka     SearchCategory = "judoka"
 	CategoryTournament SearchCategory = "tournament"
 	CategorySportClub  SearchCategory = "sportclub"
 	CategoryCity       SearchCategory = "city"
 )
-
-// SearchData представляет данные для страницы поиска
-type SearchData struct {
-	SelectedCategory SearchCategory
-	Query            string
-}
 
 // JudokaFilters представляет фильтры для поиска спортсменов
 type JudokaFilters struct {

@@ -8,7 +8,7 @@ import (
 
 func City(w http.ResponseWriter, r *http.Request) {
 	// Пример данных - позже это будет из БД
-	data := models.CityData{
+	data := models.City{
 		Name:           "Москва",
 		Region:         "Московская область",
 		Population:     12655050,

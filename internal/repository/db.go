@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"judo_stats_site/internal/config"
+	"judo_stats_site/internal/domain/dto"
+	"judo_stats_site/internal/domain/models"
 	"log/slog"
 	"time"
 
@@ -54,4 +56,34 @@ func (r *DBRepository) Close() {
 
 	r.db.Close()
 	logger.Info("Пул подключений к БД закрыт")
+}
+
+func (r *DBRepository) GeneralSearch(query string) []any {
+	// TODO Реализовать метод для общего поиска
+
+	return nil
+}
+
+func (r *DBRepository) JudokaSearch(query string, filter dto.JudokaFilters) []models.Judoka {
+	// TODO Реализовать метод для поиска спортсмена
+
+	return nil
+}
+
+func (r *DBRepository) TournamentSearch(query string, filter dto.TournamentFilters) []models.Tournament {
+	// TODO Реализовать метод для поиска турнира
+
+	return nil
+}
+
+func (r *DBRepository) SportClubSearch(query string, filter dto.SportClubFilters) []models.SportClub {
+	// TODO Реализовать метод для поиска СО
+
+	return nil
+}
+
+func (r *DBRepository) CitySearch(query string, filter dto.CityFilters) []models.City {
+	// TODO Реализовать метод для поиска города
+
+	return nil
 }

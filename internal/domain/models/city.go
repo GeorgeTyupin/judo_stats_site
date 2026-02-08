@@ -1,10 +1,10 @@
 package models
 
-type CityData struct {
-	ID          int64   `db:"id"`
-	Name        string  `db:"name"`
-	Description string  `db:"description"`
-	RepublicID  *int64  `db:"republic_id"`
+type City struct {
+	ID          int64  `db:"id"`
+	Name        string `db:"name"`
+	Description string `db:"description"`
+	RepublicID  *int64 `db:"republic_id"`
 
 	// Computed fields (not stored in DB)
 	Region         string
