@@ -1,6 +1,10 @@
 package components
 
-import "judo_stats_site/internal/domain/dto"
+import (
+	"fmt"
+	"judo_stats_site/internal/domain/dto"
+	"judo_stats_site/internal/domain/models"
+)
 
 // CategorySelector отображает выбор категории поиска
 templ CategorySelector(selectedCategory dto.SearchCategory) {
@@ -476,5 +480,202 @@ templ EmptySearchResults() {
 				<li>Попробуйте другую категорию поиска</li>
 			</ul>
 		</div>
+	</div>
+}
+
+// JudokaSearchResults отображает список результатов поиска дзюдоистов
+templ JudokaSearchResults(judokas []models.Judoka) {
+	<div class="search-results-list">
+		<div class="results-header">
+			Найдено: <span class="results-count">{ fmt.Sprintf("%d", len(judokas)) }</span>
+		</div>
+		for i, judoka := range judokas {
+			<a
+				href={ templ.SafeURL(fmt.Sprintf("/judoka/%d", judoka.ID)) }
+				class="result-card"
+				style={ fmt.Sprintf("animation-delay: %dms;", i*50) }
+			>
+				<div class="result-content">
+					<h3 class="result-title">{ judoka.Name }</h3>
+					<div class="result-meta-grid">
+						if judoka.Country != "" {
+							<div class="meta-item-full">
+								<i data-lucide="flag" class="meta-icon"></i>
+								<span class="meta-text">
+									<span class="meta-label">Страна:</span>
+									<span class="meta-value">{ judoka.Country }</span>
+								</span>
+							</div>
+						}
+						if judoka.BirthPlace != "" {
+							<div class="meta-item-full">
+								<i data-lucide="map-pin" class="meta-icon"></i>
+								<span class="meta-text">
+									<span class="meta-label">Место рождения:</span>
+									<span class="meta-value">{ judoka.BirthPlace }</span>
+								</span>
+							</div>
+						}
+						if len(judoka.WeightCategories) > 0 {
+							<div class="meta-item-full">
+								<i data-lucide="ruler" class="meta-icon"></i>
+								<span class="meta-text">
+									<span class="meta-label">Весовые категории:</span>
+									<span class="meta-value">{ judoka.WeightCategories[0] }</span>
+								</span>
+							</div>
+						}
+						if judoka.BirthDate != "" {
+							<div class="meta-item-full">
+								<i data-lucide="calendar" class="meta-icon"></i>
+								<span class="meta-text">
+									<span class="meta-label">Дата рождения:</span>
+									<span class="meta-value">{ judoka.BirthDate }</span>
+								</span>
+							</div>
+						}
+					</div>
+				</div>
+			</a>
+		}
+	</div>
+}
+
+// TournamentSearchResults отображает список результатов поиска турниров
+templ TournamentSearchResults(tournaments []models.Tournament) {
+	<div class="search-results-list">
+		<div class="results-header">
+			Найдено: <span class="results-count">{ fmt.Sprintf("%d", len(tournaments)) }</span>
+		</div>
+		for i, tournament := range tournaments {
+			<a
+				href={ templ.SafeURL(fmt.Sprintf("/tournament/%d", tournament.ID)) }
+				class="result-card"
+				style={ fmt.Sprintf("animation-delay: %dms;", i*50) }
+			>
+				<div class="result-content">
+					<h3 class="result-title">{ tournament.Name }</h3>
+					<div class="result-meta-grid">
+						if tournament.Type != "" {
+							<div class="meta-item-full">
+								<i data-lucide="trophy" class="meta-icon"></i>
+								<span class="meta-text">
+									<span class="meta-label">Тип турнира:</span>
+									<span class="meta-value">{ tournament.Type }</span>
+								</span>
+							</div>
+						}
+						if tournament.Place != "" {
+							<div class="meta-item-full">
+								<i data-lucide="map-pin" class="meta-icon"></i>
+								<span class="meta-text">
+									<span class="meta-label">Место проведения:</span>
+									<span class="meta-value">{ tournament.Place }</span>
+								</span>
+							</div>
+						}
+						if tournament.Date != "" {
+							<div class="meta-item-full">
+								<i data-lucide="calendar" class="meta-icon"></i>
+								<span class="meta-text">
+									<span class="meta-label">Дата:</span>
+									<span class="meta-value">{ tournament.Date }</span>
+								</span>
+							</div>
+						}
+						if tournament.Gender != "" {
+							<div class="meta-item-full">
+								<i data-lucide="users" class="meta-icon"></i>
+								<span class="meta-text">
+									<span class="meta-label">Пол:</span>
+									<span class="meta-value">{ tournament.Gender }</span>
+								</span>
+							</div>
+						}
+					</div>
+				</div>
+			</a>
+		}
+	</div>
+}
+
+// SportClubSearchResults отображает список результатов поиска спортклубов
+templ SportClubSearchResults(clubs []models.SportClub) {
+	<div class="search-results-list">
+		<div class="results-header">
+			Найдено: <span class="results-count">{ fmt.Sprintf("%d", len(clubs)) }</span>
+		</div>
+		for i, club := range clubs {
+			<a
+				href={ templ.SafeURL(fmt.Sprintf("/sportclub/%d", club.ID)) }
+				class="result-card"
+				style={ fmt.Sprintf("animation-delay: %dms;", i*50) }
+			>
+				<div class="result-content">
+					<h3 class="result-title">{ club.Name }</h3>
+					<div class="result-meta-grid">
+						if club.FullName != "" {
+							<div class="meta-item-full">
+								<i data-lucide="building" class="meta-icon"></i>
+								<span class="meta-text">
+									<span class="meta-label">Полное название:</span>
+									<span class="meta-value">{ club.FullName }</span>
+								</span>
+							</div>
+						}
+						if club.Region != "" {
+							<div class="meta-item-full">
+								<i data-lucide="map" class="meta-icon"></i>
+								<span class="meta-text">
+									<span class="meta-label">Регион:</span>
+									<span class="meta-value">{ club.Region }</span>
+								</span>
+							</div>
+						}
+						if club.Founded != "" {
+							<div class="meta-item-full">
+								<i data-lucide="calendar" class="meta-icon"></i>
+								<span class="meta-text">
+									<span class="meta-label">Год основания:</span>
+									<span class="meta-value">{ club.Founded }</span>
+								</span>
+							</div>
+						}
+						if club.HeadCoach != "" {
+							<div class="meta-item-full">
+								<i data-lucide="user" class="meta-icon"></i>
+								<span class="meta-text">
+									<span class="meta-label">Главный тренер:</span>
+									<span class="meta-value">{ club.HeadCoach }</span>
+								</span>
+							</div>
+						}
+					</div>
+				</div>
+			</a>
+		}
+	</div>
+}
+
+// CitySearchResults отображает список результатов поиска городов
+templ CitySearchResults(cities []models.City) {
+	<div class="search-results-list">
+		<div class="results-header">
+			Найдено: <span class="results-count">{ fmt.Sprintf("%d", len(cities)) }</span>
+		</div>
+		for i, city := range cities {
+			<a
+				href={ templ.SafeURL(fmt.Sprintf("/city/%d", city.ID)) }
+				class="result-card"
+				style={ fmt.Sprintf("animation-delay: %dms;", i*50) }
+			>
+				<div class="result-content">
+					<h3 class="result-title">{ city.Name }</h3>
+					if city.Description != "" {
+						<div class="result-description">{ city.Description }</div>
+					}
+				</div>
+			</a>
+		}
 	</div>
 }

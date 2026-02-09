@@ -65,40 +65,71 @@ func (h *SearchHandler) SearchResultsHandler(w http.ResponseWriter, r *http.Requ
 
 	switch dto.SearchCategory(category) {
 	case dto.CategoryAll:
-		_ = h.repo.GeneralSearch(query)
+		results := h.repo.GeneralSearch(query)
 
-		//TODO Сделать рендеринг результата
+		if len(results) == 0 {
+			components.EmptySearchResults().Render(r.Context(), w)
+			return
+		}
+
+		// TODO: Реализовать рендеринг смешанных результатов для CategoryAll
+		components.EmptySearchResults().Render(r.Context(), w)
+
 	case dto.CategoryJudoka:
 		filters := parseJudokaFilters(r)
+		judokas := h.repo.JudokaSearch(query, filters)
 
-		_ = h.repo.JudokaSearch(query, filters)
+		if len(judokas) == 0 {
+			components.EmptySearchResults().Render(r.Context(), w)
+			return
+		}
 
-		//TODO Сделать рендеринг результата
+		components.JudokaSearchResults(judokas).Render(r.Context(), w)
+
 	case dto.CategoryTournament:
 		filters := parseTournamentFilters(r)
+		tournaments := h.repo.TournamentSearch(query, filters)
 
-		_ = h.repo.TournamentSearch(query, filters)
+		if len(tournaments) == 0 {
+			components.EmptySearchResults().Render(r.Context(), w)
+			return
+		}
 
-		//TODO Сделать рендеринг результата
+		components.TournamentSearchResults(tournaments).Render(r.Context(), w)
+
 	case dto.CategorySportClub:
 		filters := parseSportClubFilters(r)
+		clubs := h.repo.SportClubSearch(query, filters)
 
-		_ = h.repo.SportClubSearch(query, filters)
+		if len(clubs) == 0 {
+			components.EmptySearchResults().Render(r.Context(), w)
+			return
+		}
 
-		//TODO Сделать рендеринг результата
+		components.SportClubSearchResults(clubs).Render(r.Context(), w)
+
 	case dto.CategoryCity:
 		filters := parseCityFilters(r)
+		cities := h.repo.CitySearch(query, filters)
 
-		_ = h.repo.CitySearch(query, filters)
+		if len(cities) == 0 {
+			components.EmptySearchResults().Render(r.Context(), w)
+			return
+		}
 
-		//TODO Сделать рендеринг результата
+		components.CitySearchResults(cities).Render(r.Context(), w)
+
 	default:
-		_ = h.repo.GeneralSearch(query)
+		results := h.repo.GeneralSearch(query)
 
-		//TODO Сделать рендеринг результата
+		if len(results) == 0 {
+			components.EmptySearchResults().Render(r.Context(), w)
+			return
+		}
+
+		// TODO: Реализовать рендеринг смешанных результатов для default
+		components.EmptySearchResults().Render(r.Context(), w)
 	}
-
-	components.EmptySearchResults().Render(r.Context(), w)
 }
 
 func parseJudokaFilters(r *http.Request) dto.JudokaFilters {

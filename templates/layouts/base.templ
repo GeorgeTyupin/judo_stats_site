@@ -34,7 +34,13 @@ templ BaseWithJS(title string, pageJS []string, pageCSS ...string) {
 				}
 			}
 			<script>
+				// Инициализация иконок при загрузке страницы
 				lucide.createIcons();
+
+				// Реинициализация иконок после загрузки HTMX контента
+				document.body.addEventListener('htmx:afterSwap', function(evt) {
+					lucide.createIcons();
+				});
 			</script>
 		</body>
 	</html>
