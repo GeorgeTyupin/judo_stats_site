@@ -1,15 +1,23 @@
 # syntax=docker/dockerfile:1
 
 ################################################################################
-# Development stage with Air for live reload
+# Development stage
 ARG GO_VERSION=1.25.5
 FROM golang:${GO_VERSION} AS development
 
 WORKDIR /app
 
-# Install Air for live reload and Templ for template compilation
-RUN go install github.com/air-verse/air@latest && \
-    go install github.com/a-h/templ/cmd/templ@latest
+# Install Templ for template compilation
+RUN go install github.com/a-h/templ/cmd/templ@latest
+
+# Create entrypoint script directly in the image
+RUN echo '#!/bin/sh\n\
+set -e\n\
+echo "🔨 Generating Templ templates..."\n\
+templ generate\n\
+echo "🚀 Starting server..."\n\
+exec go run ./cmd' > /usr/local/bin/docker-entrypoint.sh && \
+    chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Copy go mod files
 COPY go.mod go.sum ./
@@ -21,8 +29,8 @@ COPY . .
 # Expose port
 EXPOSE 8000
 
-# Run air for live reload
-CMD ["air"]
+# Run entrypoint script
+CMD ["docker-entrypoint.sh"]
 
 ################################################################################
 # Build stage for production

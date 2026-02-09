@@ -50,7 +50,47 @@ judo-archive/
 
 ## Установка и запуск
 
-### Локальная разработка
+### Docker (рекомендуемый способ)
+
+Проект использует Docker для разработки.
+
+#### Через Docker Desktop:
+1. Открой проект в Docker Desktop
+2. Запусти контейнеры через GUI
+3. Приложение будет доступно на **http://localhost**
+4. После изменений кода: правый клик на контейнер `server` → Restart
+
+#### Через терминал:
+
+```bash
+# Первый запуск (собрать образы и запустить)
+docker compose up -d --build
+
+# Обычный запуск
+docker compose up -d
+
+# Посмотреть логи
+docker compose logs -f server
+
+# ВАЖНО: Перезапустить после каждого изменения кода
+docker compose restart server
+
+# Остановить
+docker compose down
+```
+
+Приложение будет доступно на **http://localhost**
+
+#### Workflow разработки
+
+1. Редактируешь код
+2. Перезапускаешь контейнер `server` (через GUI или `docker compose restart server`)
+3. Templ шаблоны генерируются автоматически при запуске
+4. Проверяешь изменения в браузере
+
+**Перезапуск занимает ~2-3 секунды**
+
+### Локальная разработка (без Docker)
 
 ```bash
 # Установить зависимости
@@ -59,36 +99,14 @@ go mod download
 # Установить Templ CLI
 go install github.com/a-h/templ/cmd/templ@latest
 
-# Компилировать Templ шаблоны
+# Сгенерировать templ шаблоны
 templ generate
 
 # Запустить сервер
-go run cmd/main.go
+go run cmd/server/main.go
 ```
 
-### Docker
-
-```bash
-# Собрать и запустить через Docker Compose
-docker compose up --build
-
-# Приложение будет доступно на http://localhost:8080
-```
-
-## Основные команды
-
-```bash
-# Компиляция Templ шаблонов (НЕ НУЖНО при использовании air)
-templ generate
-
-# Запуск сервера без hot reload
-go run cmd/main.go
-
-# Hot reload (автоматически генерирует Templ файлы при изменениях)
-air
-```
-
-**Важно:** При разработке всегда используй `air` для hot reload. Air автоматически запускает `templ generate` при изменении `.templ` файлов.
+После каждого изменения `.templ` файлов запускай `templ generate`
 
 ## Преимущества подхода
 
