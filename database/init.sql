@@ -5,7 +5,7 @@
 -- Dumped from database version 16.11
 -- Dumped by pg_dump version 17.4
 
--- Started on 2026-02-11 17:14:49
+-- Started on 2026-02-11 17:21:05
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -380,7 +380,6 @@ CREATE TABLE public.tournaments (
     year smallint,
     month smallint,
     gender character varying(10),
-    city_last character varying(255),
     created_at timestamp without time zone DEFAULT now(),
     updated_at timestamp without time zone DEFAULT now(),
     country_id integer
@@ -942,7 +941,7 @@ ALTER TABLE ONLY public.tournaments
     ADD CONSTRAINT tournaments_country_id_fkey FOREIGN KEY (country_id) REFERENCES public.country(id) ON DELETE SET NULL;
 
 
--- Completed on 2026-02-11 17:14:49
+-- Completed on 2026-02-11 17:21:06
 
 --
 -- PostgreSQL database dump complete
