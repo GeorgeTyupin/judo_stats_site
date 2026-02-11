@@ -1,11 +1,11 @@
 package models
 
 type TournamentResult struct {
+	WeightCategory string `db:"weight_category"`
+	Rank           int    `db:"rank"`
 	ID             int32  `db:"id"`
 	TournamentID   int32  `db:"tournament_id"`
 	JudokaID       int32  `db:"judoka_id"`
-	WeightCategory string `db:"weight_category"`
-	Rank           int    `db:"rank"`
 }
 
 type JudokaCityRelation struct {
@@ -27,13 +27,13 @@ type SportClubCityRelation struct {
 }
 
 type JudokaCountryRelation struct {
-	ID        int32 `db:"id"`
 	JudokaID  int64 `db:"judoka_id"`
 	CountryID int64 `db:"country_id"`
+	ID        int32 `db:"id"`
 }
 
 type JudokaRepublicRelation struct {
-	ID         int32 `db:"id"`
 	JudokaID   int64 `db:"judoka_id"`
 	RepublicID int64 `db:"republic_id"`
+	ID         int32 `db:"id"`
 }
