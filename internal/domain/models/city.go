@@ -7,7 +7,7 @@ type City struct {
 	RepublicID  *int64 `db:"republic_id"`
 
 	// Computed fields (not stored in DB)
-	Region         string
+	Republic       string
 	Population     int
 	Founded        string
 	SportClubs     int

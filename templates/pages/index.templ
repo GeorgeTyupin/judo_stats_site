@@ -345,25 +345,24 @@ templ IndexTournamentFilters() {
 				hx-include="[name='query'], [name='category'], [name^='filter_']"
 			>
 				<option value="">Все</option>
-				<option value="championship">Чемпионат</option>
-				<option value="cup">Кубок</option>
-				<option value="tournament">Первенство</option>
+				<option value="National Championships">Чемпионат</option>
+				<option value="National Open WC Championships">Открытый чемпионат</option>
+				<option value="National Tournament">Первенство</option>
 			</select>
 		</div>
 
 		<div class="filter-group">
-			<label>Возрастная группа</label>
+			<label>Пол</label>
 			<select
-				name="filter_age_group"
+				name="filter_gender"
 				hx-get="/search/results"
 				hx-trigger="change"
 				hx-target="#search-results"
 				hx-include="[name='query'], [name='category'], [name^='filter_']"
 			>
 				<option value="">Все</option>
-				<option value="adults">Взрослые</option>
-				<option value="juniors">Юниоры</option>
-				<option value="cadets">Кадеты</option>
+				<option value="Men">Мужчины</option>
+				<option value="Women">Женщины</option>
 			</select>
 		</div>
 
@@ -377,11 +376,27 @@ templ IndexTournamentFilters() {
 				hx-include="[name='query'], [name='category'], [name^='filter_']"
 			>
 				<option value="">Все</option>
-				<option value="2024">2024</option>
-				<option value="2023">2023</option>
-				<option value="2022">2022</option>
-				<option value="2021">2021</option>
-				<option value="2020">2020</option>
+				<option value="1992">1992</option>
+				<option value="1991">1991</option>
+				<option value="1990">1990</option>
+				<option value="1989">1989</option>
+				<option value="1988">1988</option>
+				<option value="1987">1987</option>
+				<option value="1986">1986</option>
+				<option value="1985">1985</option>
+				<option value="1984">1984</option>
+				<option value="1983">1983</option>
+				<option value="1982">1982</option>
+				<option value="1981">1981</option>
+				<option value="1980">1980</option>
+				<option value="1979">1979</option>
+				<option value="1978">1978</option>
+				<option value="1976">1976</option>
+				<option value="1974">1974</option>
+				<option value="1973">1973</option>
+				<option value="1972">1972</option>
+				<option value="1971">1971</option>
+				<option value="1970">1970</option>
 			</select>
 		</div>
 
@@ -399,11 +414,11 @@ templ IndexTournamentFilters() {
 		</div>
 
 		<div class="filter-group">
-			<label>Регион</label>
+			<label>Страна</label>
 			<input
 				type="text"
-				name="filter_region"
-				placeholder="Введите регион..."
+				name="filter_country"
+				placeholder="Введите страну..."
 				hx-get="/search/results"
 				hx-trigger="keyup changed delay:500ms"
 				hx-target="#search-results"
@@ -412,24 +427,13 @@ templ IndexTournamentFilters() {
 		</div>
 
 		<div class="filter-group">
-			<label>Дата от</label>
+			<label>Республика</label>
 			<input
-				type="date"
-				name="filter_date_from"
+				type="text"
+				name="filter_republic"
+				placeholder="Введите республику..."
 				hx-get="/search/results"
-				hx-trigger="change"
-				hx-target="#search-results"
-				hx-include="[name='query'], [name='category'], [name^='filter_']"
-			/>
-		</div>
-
-		<div class="filter-group">
-			<label>Дата до</label>
-			<input
-				type="date"
-				name="filter_date_to"
-				hx-get="/search/results"
-				hx-trigger="change"
+				hx-trigger="keyup changed delay:500ms"
 				hx-target="#search-results"
 				hx-include="[name='query'], [name='category'], [name^='filter_']"
 			/>
@@ -491,11 +495,11 @@ templ IndexCityFilters() {
 		<input type="hidden" name="category" value="city"/>
 
 		<div class="filter-group">
-			<label>Регион</label>
+			<label>Республика</label>
 			<input
 				type="text"
-				name="filter_region"
-				placeholder="Введите регион..."
+				name="filter_republic"
+				placeholder="Введите республику..."
 				hx-get="/search/results"
 				hx-trigger="keyup changed delay:500ms"
 				hx-target="#search-results"

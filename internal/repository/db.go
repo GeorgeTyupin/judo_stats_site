@@ -9,6 +9,7 @@ import (
 	"log/slog"
 	"time"
 
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -58,13 +59,13 @@ func (r *DBRepository) Close() {
 	logger.Info("Пул подключений к БД закрыт")
 }
 
-func (r *DBRepository) GeneralSearch(query string) []any {
+func (r *DBRepository) GeneralSearch(ctx context.Context, query string) ([]any, error) {
 	// TODO Реализовать метод для общего поиска
 
-	return nil
+	return nil, nil
 }
 
-func (r *DBRepository) JudokaSearch(query string, filter dto.JudokaFilters) []models.Judoka {
+func (r *DBRepository) JudokaSearch(ctx context.Context, query string, filter dto.JudokaFilters) ([]models.Judoka, error) {
 	// TODO: Реализовать настоящий поиск в БД
 	// Временные моковые данные для тестирования
 
@@ -131,23 +132,52 @@ func (r *DBRepository) JudokaSearch(query string, filter dto.JudokaFilters) []mo
 		},
 	}
 
-	return mockJudokas
+	return mockJudokas, nil
 }
 
-func (r *DBRepository) TournamentSearch(query string, filter dto.TournamentFilters) []models.Tournament {
-	// TODO Реализовать метод для поиска турнира
+func (r *DBRepository) TournamentSearch(ctx context.Context, query string, filter dto.TournamentFilters) ([]models.Tournament, error) {
+	sqlQuery := `
+		SELECT tournaments.* FROM tournaments
+		LEFT JOIN cities ON tournaments.city_id = cities.id
+		LEFT JOIN countries ON tournaments.country_id = countries.id
+		LEFT JOIN ussr_republics ON tournaments.republic_id = ussr_republics.id
+		WHERE tournaments.name LIKE '%' || $1 || '%'
+		AND ($2 = '' OR tournaments.type = $2)
+		AND ($3 = '' OR tournaments.gender = $3)
+		AND ($4 = 0 OR tournaments.year = $4)
+		AND ($5 = '' OR cities.name = $5)
+		AND ($6 = '' OR countries.name = $6)
+		AND ($7 = '' OR ussr_republics.name = $7);`
 
-	return nil
+	rows, err := r.db.Query(ctx, sqlQuery,
+		query,
+		filter.Type,
+		filter.Gender,
+		filter.Year,
+		filter.City,
+		filter.Country,
+		filter.Republic,
+	)
+	if err != nil {
+		return nil, fmt.Errorf("ошибка выполнения запроса в бд: %w", err)
+	}
+
+	tournaments, err := pgx.CollectRows(rows, pgx.RowToStructByName[models.Tournament])
+	if err != nil {
+		return nil, fmt.Errorf("ошибка преобразования rows к models.Tournament: %w", err)
+	}
+
+	return tournaments, nil
 }
 
-func (r *DBRepository) SportClubSearch(query string, filter dto.SportClubFilters) []models.SportClub {
+func (r *DBRepository) SportClubSearch(ctx context.Context, query string, filter dto.SportClubFilters) ([]models.SportClub, error) {
 	// TODO Реализовать метод для поиска СО
 
-	return nil
+	return nil, nil
 }
 
-func (r *DBRepository) CitySearch(query string, filter dto.CityFilters) []models.City {
+func (r *DBRepository) CitySearch(ctx context.Context, query string, filter dto.CityFilters) ([]models.City, error) {
 	// TODO Реализовать метод для поиска города
 
-	return nil
+	return nil, nil
 }

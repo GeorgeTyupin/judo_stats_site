@@ -2,7 +2,7 @@
 
 ################################################################################
 # Development stage
-ARG GO_VERSION=1.25.5
+ARG GO_VERSION=1.26
 FROM golang:${GO_VERSION} AS development
 
 WORKDIR /app

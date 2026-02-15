@@ -1,6 +1,9 @@
 package handlers
 
 import (
+	"context"
+	"strconv"
+
 	"judo_stats_site/internal/domain/dto"
 	"judo_stats_site/internal/domain/models"
 	"judo_stats_site/templates/components"
@@ -13,11 +16,11 @@ const component = "SearchHandler"
 
 type SearchRepository interface {
 	// TODO Сделать методы, когда они будут реализованы в репозиторном слое
-	GeneralSearch(query string) []any
-	JudokaSearch(query string, filter dto.JudokaFilters) []models.Judoka
-	TournamentSearch(query string, filter dto.TournamentFilters) []models.Tournament
-	SportClubSearch(query string, filter dto.SportClubFilters) []models.SportClub
-	CitySearch(query string, filter dto.CityFilters) []models.City
+	GeneralSearch(ctx context.Context, query string) ([]any, error)
+	JudokaSearch(ctx context.Context, query string, filter dto.JudokaFilters) ([]models.Judoka, error)
+	TournamentSearch(ctx context.Context, query string, filter dto.TournamentFilters) ([]models.Tournament, error)
+	SportClubSearch(ctx context.Context, query string, filter dto.SportClubFilters) ([]models.SportClub, error)
+	CitySearch(ctx context.Context, query string, filter dto.CityFilters) ([]models.City, error)
 }
 
 type SearchHandler struct {
@@ -58,6 +61,7 @@ func (h *SearchHandler) SearchFiltersHandler(w http.ResponseWriter, r *http.Requ
 func (h *SearchHandler) SearchResultsHandler(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query().Get("query")
 	category := dto.SearchCategory(r.URL.Query().Get("category"))
+	ctx := r.Context()
 
 	if category == "" {
 		category = dto.CategoryAll
@@ -65,7 +69,7 @@ func (h *SearchHandler) SearchResultsHandler(w http.ResponseWriter, r *http.Requ
 
 	switch dto.SearchCategory(category) {
 	case dto.CategoryAll:
-		results := h.repo.GeneralSearch(query)
+		results, _ := h.repo.GeneralSearch(ctx, query)
 
 		if len(results) == 0 {
 			components.EmptySearchResults().Render(r.Context(), w)
@@ -77,7 +81,7 @@ func (h *SearchHandler) SearchResultsHandler(w http.ResponseWriter, r *http.Requ
 
 	case dto.CategoryJudoka:
 		filters := parseJudokaFilters(r)
-		judokas := h.repo.JudokaSearch(query, filters)
+		judokas, _ := h.repo.JudokaSearch(ctx, query, filters)
 
 		if len(judokas) == 0 {
 			components.EmptySearchResults().Render(r.Context(), w)
@@ -88,7 +92,10 @@ func (h *SearchHandler) SearchResultsHandler(w http.ResponseWriter, r *http.Requ
 
 	case dto.CategoryTournament:
 		filters := parseTournamentFilters(r)
-		tournaments := h.repo.TournamentSearch(query, filters)
+		tournaments, err := h.repo.TournamentSearch(ctx, query, filters)
+		if err != nil {
+			h.logger.Error("Ошибка получения турниров", slog.String("error", err.Error()))
+		}
 
 		if len(tournaments) == 0 {
 			components.EmptySearchResults().Render(r.Context(), w)
@@ -99,7 +106,7 @@ func (h *SearchHandler) SearchResultsHandler(w http.ResponseWriter, r *http.Requ
 
 	case dto.CategorySportClub:
 		filters := parseSportClubFilters(r)
-		clubs := h.repo.SportClubSearch(query, filters)
+		clubs, _ := h.repo.SportClubSearch(ctx, query, filters)
 
 		if len(clubs) == 0 {
 			components.EmptySearchResults().Render(r.Context(), w)
@@ -110,7 +117,7 @@ func (h *SearchHandler) SearchResultsHandler(w http.ResponseWriter, r *http.Requ
 
 	case dto.CategoryCity:
 		filters := parseCityFilters(r)
-		cities := h.repo.CitySearch(query, filters)
+		cities, _ := h.repo.CitySearch(ctx, query, filters)
 
 		if len(cities) == 0 {
 			components.EmptySearchResults().Render(r.Context(), w)
@@ -120,7 +127,7 @@ func (h *SearchHandler) SearchResultsHandler(w http.ResponseWriter, r *http.Requ
 		components.CitySearchResults(cities).Render(r.Context(), w)
 
 	default:
-		results := h.repo.GeneralSearch(query)
+		results, _ := h.repo.GeneralSearch(ctx, query)
 
 		if len(results) == 0 {
 			components.EmptySearchResults().Render(r.Context(), w)
@@ -144,15 +151,22 @@ func parseJudokaFilters(r *http.Request) dto.JudokaFilters {
 }
 
 func parseTournamentFilters(r *http.Request) dto.TournamentFilters {
-	return dto.TournamentFilters{
+	filters := dto.TournamentFilters{
 		Type:     r.URL.Query().Get("filter_type"),
-		AgeGroup: r.URL.Query().Get("filter_age_group"),
-		Year:     r.URL.Query().Get("filter_year"),
+		Gender:   r.URL.Query().Get("filter_gender"),
 		City:     r.URL.Query().Get("filter_city"),
-		Region:   r.URL.Query().Get("filter_region"),
-		DateFrom: r.URL.Query().Get("filter_date_from"),
-		DateTo:   r.URL.Query().Get("filter_date_to"),
+		Country:  r.URL.Query().Get("filter_country"),
+		Republic: r.URL.Query().Get("filter_republic"),
 	}
+
+	year, err := strconv.Atoi(r.URL.Query().Get("filter_year"))
+	if err != nil {
+		filters.Year = 0
+	} else {
+		filters.Year = int16(year)
+	}
+
+	return filters
 }
 
 func parseSportClubFilters(r *http.Request) dto.SportClubFilters {
@@ -165,6 +179,6 @@ func parseSportClubFilters(r *http.Request) dto.SportClubFilters {
 }
 func parseCityFilters(r *http.Request) dto.CityFilters {
 	return dto.CityFilters{
-		Region: r.URL.Query().Get("filter_region"),
+		Republic: r.URL.Query().Get("filter_republic"),
 	}
 }

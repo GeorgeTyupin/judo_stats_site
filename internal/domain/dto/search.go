@@ -23,13 +23,12 @@ type JudokaFilters struct {
 
 // TournamentFilters представляет фильтры для поиска турниров
 type TournamentFilters struct {
-	Type     string // Первенство, Чемпионат, Кубок
-	AgeGroup string // Взрослые, Юниоры, Кадеты
-	Year     string // 2024, 2023, 2022...
+	Type     string // National Championships, National Open WC Championships, National Tournament
+	Gender   string // Men, Women
+	Year     int16  // 1970-1992
 	City     string // Город проведения
-	Region   string // Регион
-	DateFrom string // Дата от
-	DateTo   string // Дата до
+	Country  string // Страна проведения (countries.name)
+	Republic string // Республика СССР (ussr_republic.name)
 }
 
 // SportClubFilters представляет фильтры для поиска спортклубов
@@ -42,7 +41,7 @@ type SportClubFilters struct {
 
 // CityFilters представляет фильтры для поиска городов
 type CityFilters struct {
-	Region        string // Регион
+	Republic      string // Республика СССР (ussr_republic.name)
 	MinPopulation int    // Минимальное население
 	MinSportClubs int    // Минимальное количество спортклубов
 	MinAthletes   int    // Минимальное количество спортсменов
