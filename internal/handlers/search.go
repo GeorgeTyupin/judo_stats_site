@@ -72,23 +72,23 @@ func (h *SearchHandler) SearchResultsHandler(w http.ResponseWriter, r *http.Requ
 		results, _ := h.repo.GeneralSearch(ctx, query)
 
 		if len(results) == 0 {
-			components.EmptySearchResults().Render(r.Context(), w)
+			components.EmptySearchResults().Render(ctx, w)
 			return
 		}
 
 		// TODO: Реализовать рендеринг смешанных результатов для CategoryAll
-		components.EmptySearchResults().Render(r.Context(), w)
+		components.EmptySearchResults().Render(ctx, w)
 
 	case dto.CategoryJudoka:
 		filters := parseJudokaFilters(r)
 		judokas, _ := h.repo.JudokaSearch(ctx, query, filters)
 
 		if len(judokas) == 0 {
-			components.EmptySearchResults().Render(r.Context(), w)
+			components.EmptySearchResults().Render(ctx, w)
 			return
 		}
 
-		components.JudokaSearchResults(judokas).Render(r.Context(), w)
+		components.JudokaSearchResults(judokas).Render(ctx, w)
 
 	case dto.CategoryTournament:
 		filters := parseTournamentFilters(r)
@@ -98,44 +98,44 @@ func (h *SearchHandler) SearchResultsHandler(w http.ResponseWriter, r *http.Requ
 		}
 
 		if len(tournaments) == 0 {
-			components.EmptySearchResults().Render(r.Context(), w)
+			components.EmptySearchResults().Render(ctx, w)
 			return
 		}
 
-		components.TournamentSearchResults(tournaments).Render(r.Context(), w)
+		components.TournamentSearchResults(tournaments).Render(ctx, w)
 
 	case dto.CategorySportClub:
 		filters := parseSportClubFilters(r)
 		clubs, _ := h.repo.SportClubSearch(ctx, query, filters)
 
 		if len(clubs) == 0 {
-			components.EmptySearchResults().Render(r.Context(), w)
+			components.EmptySearchResults().Render(ctx, w)
 			return
 		}
 
-		components.SportClubSearchResults(clubs).Render(r.Context(), w)
+		components.SportClubSearchResults(clubs).Render(ctx, w)
 
 	case dto.CategoryCity:
 		filters := parseCityFilters(r)
 		cities, _ := h.repo.CitySearch(ctx, query, filters)
 
 		if len(cities) == 0 {
-			components.EmptySearchResults().Render(r.Context(), w)
+			components.EmptySearchResults().Render(ctx, w)
 			return
 		}
 
-		components.CitySearchResults(cities).Render(r.Context(), w)
+		components.CitySearchResults(cities).Render(ctx, w)
 
 	default:
 		results, _ := h.repo.GeneralSearch(ctx, query)
 
 		if len(results) == 0 {
-			components.EmptySearchResults().Render(r.Context(), w)
+			components.EmptySearchResults().Render(ctx, w)
 			return
 		}
 
 		// TODO: Реализовать рендеринг смешанных результатов для default
-		components.EmptySearchResults().Render(r.Context(), w)
+		components.EmptySearchResults().Render(ctx, w)
 	}
 }
 
