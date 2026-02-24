@@ -1,4 +1,4 @@
-package models
+package entity
 
 type SportClub struct {
 	Name           string `db:"name"`

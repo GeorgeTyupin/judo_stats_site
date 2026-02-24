@@ -4,8 +4,7 @@ import (
 	"context"
 	"strconv"
 
-	"judo_stats_site/internal/domain/dto"
-	"judo_stats_site/internal/domain/models"
+	"judo_stats_site/internal/handlers/dto"
 	"judo_stats_site/templates/components"
 	"judo_stats_site/templates/pages"
 	"log/slog"
@@ -14,26 +13,25 @@ import (
 
 const component = "SearchHandler"
 
-type SearchRepository interface {
-	// TODO Сделать методы, когда они будут реализованы в репозиторном слое
+type SearchService interface {
 	GeneralSearch(ctx context.Context, query string) ([]any, error)
-	JudokaSearch(ctx context.Context, query string, filter dto.JudokaFilters) ([]models.Judoka, error)
-	TournamentSearch(ctx context.Context, query string, filter dto.TournamentFilters) ([]models.Tournament, error)
-	SportClubSearch(ctx context.Context, query string, filter dto.SportClubFilters) ([]models.SportClub, error)
-	CitySearch(ctx context.Context, query string, filter dto.CityFilters) ([]models.City, error)
+	JudokaSearch(ctx context.Context, query string, filter dto.JudokaFilters) ([]dto.JudokaResponse, error)
+	TournamentSearch(ctx context.Context, query string, filter dto.TournamentFilters) ([]dto.TournamentResponse, error)
+	SportClubSearch(ctx context.Context, query string, filter dto.SportClubFilters) ([]dto.SportClubResponse, error)
+	CitySearch(ctx context.Context, query string, filter dto.CityFilters) ([]dto.CityResponse, error)
 }
 
 type SearchHandler struct {
-	repo   SearchRepository
-	logger *slog.Logger
+	service SearchService
+	logger  *slog.Logger
 }
 
-func NewSearchHandler(repository SearchRepository, logger *slog.Logger) *SearchHandler {
+func NewSearchHandler(service SearchService, logger *slog.Logger) *SearchHandler {
 	logger = logger.With(slog.String("component", component))
 
 	return &SearchHandler{
-		repo:   repository,
-		logger: logger,
+		service: service,
+		logger:  logger,
 	}
 }
 
@@ -69,7 +67,12 @@ func (h *SearchHandler) SearchResultsHandler(w http.ResponseWriter, r *http.Requ
 
 	switch dto.SearchCategory(category) {
 	case dto.CategoryAll:
-		results, _ := h.repo.GeneralSearch(ctx, query)
+		results, err := h.service.GeneralSearch(ctx, query)
+		if err != nil {
+			h.logger.Error("Ошибка получения результатов поиска", slog.String("error", err.Error()))
+			http.Error(w, "Внутренняя ошибка сервера", http.StatusInternalServerError)
+			return
+		}
 
 		if len(results) == 0 {
 			components.EmptySearchResults().Render(ctx, w)
@@ -81,7 +84,12 @@ func (h *SearchHandler) SearchResultsHandler(w http.ResponseWriter, r *http.Requ
 
 	case dto.CategoryJudoka:
 		filters := parseJudokaFilters(r)
-		judokas, _ := h.repo.JudokaSearch(ctx, query, filters)
+		judokas, err := h.service.JudokaSearch(ctx, query, filters)
+		if err != nil {
+			h.logger.Error("Ошибка получения дзюдоистов", slog.String("error", err.Error()))
+			http.Error(w, "Внутренняя ошибка сервера", http.StatusInternalServerError)
+			return
+		}
 
 		if len(judokas) == 0 {
 			components.EmptySearchResults().Render(ctx, w)
@@ -92,9 +100,11 @@ func (h *SearchHandler) SearchResultsHandler(w http.ResponseWriter, r *http.Requ
 
 	case dto.CategoryTournament:
 		filters := parseTournamentFilters(r)
-		tournaments, err := h.repo.TournamentSearch(ctx, query, filters)
+		tournaments, err := h.service.TournamentSearch(ctx, query, filters)
 		if err != nil {
 			h.logger.Error("Ошибка получения турниров", slog.String("error", err.Error()))
+			http.Error(w, "Внутренняя ошибка сервера", http.StatusInternalServerError)
+			return
 		}
 
 		if len(tournaments) == 0 {
@@ -106,7 +116,12 @@ func (h *SearchHandler) SearchResultsHandler(w http.ResponseWriter, r *http.Requ
 
 	case dto.CategorySportClub:
 		filters := parseSportClubFilters(r)
-		clubs, _ := h.repo.SportClubSearch(ctx, query, filters)
+		clubs, err := h.service.SportClubSearch(ctx, query, filters)
+		if err != nil {
+			h.logger.Error("Ошибка получения клубов", slog.String("error", err.Error()))
+			http.Error(w, "Внутренняя ошибка сервера", http.StatusInternalServerError)
+			return
+		}
 
 		if len(clubs) == 0 {
 			components.EmptySearchResults().Render(ctx, w)
@@ -117,7 +132,12 @@ func (h *SearchHandler) SearchResultsHandler(w http.ResponseWriter, r *http.Requ
 
 	case dto.CategoryCity:
 		filters := parseCityFilters(r)
-		cities, _ := h.repo.CitySearch(ctx, query, filters)
+		cities, err := h.service.CitySearch(ctx, query, filters)
+		if err != nil {
+			h.logger.Error("Ошибка получения городов", slog.String("error", err.Error()))
+			http.Error(w, "Внутренняя ошибка сервера", http.StatusInternalServerError)
+			return
+		}
 
 		if len(cities) == 0 {
 			components.EmptySearchResults().Render(ctx, w)
@@ -127,7 +147,12 @@ func (h *SearchHandler) SearchResultsHandler(w http.ResponseWriter, r *http.Requ
 		components.CitySearchResults(cities).Render(ctx, w)
 
 	default:
-		results, _ := h.repo.GeneralSearch(ctx, query)
+		results, err := h.service.GeneralSearch(ctx, query)
+		if err != nil {
+			h.logger.Error("Ошибка получения результатов поиска", slog.String("error", err.Error()))
+			http.Error(w, "Внутренняя ошибка сервера", http.StatusInternalServerError)
+			return
+		}
 
 		if len(results) == 0 {
 			components.EmptySearchResults().Render(ctx, w)

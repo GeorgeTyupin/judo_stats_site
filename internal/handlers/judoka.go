@@ -1,13 +1,13 @@
 package handlers
 
 import (
-	"judo_stats_site/internal/domain/models"
+	"judo_stats_site/internal/repository/entity"
 	"judo_stats_site/templates/pages"
 	"net/http"
 )
 
 func Judoka(w http.ResponseWriter, r *http.Request) {
-	data := models.Judoka{
+	data := entity.Judoka{
 		Name:             "Федор Емельяненко",
 		Country:          "Россия",
 		WeightCategories: []string{"+100 кг"},

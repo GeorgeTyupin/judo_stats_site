@@ -1,6 +1,6 @@
-package models
+package entity
 
-type Country struct {
+type USSRRepublic struct {
 	ID          int32  `db:"id"`
 	Name        string `db:"name"`
 	Description string `db:"description"`

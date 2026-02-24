@@ -1,13 +1,13 @@
 package handlers
 
 import (
-	"judo_stats_site/internal/domain/models"
+	"judo_stats_site/internal/repository/entity"
 	"judo_stats_site/templates/pages"
 	"net/http"
 )
 
 func SportClub(w http.ResponseWriter, r *http.Request) {
-	data := models.SportClub{
+	data := entity.SportClub{
 		Name:           "ЦСКА",
 		FullName:       "Центральный спортивный клуб армии",
 		Founded:        "29 апреля 1923",

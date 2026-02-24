@@ -1,10 +1,10 @@
 package pages
 
 import "judo_stats_site/templates/layouts"
-import "judo_stats_site/internal/domain/models"
+import "judo_stats_site/internal/repository/entity"
 import "fmt"
 
-templ Judoka(data models.Judoka) {
+templ Judoka(data entity.Judoka) {
 	@layouts.BaseWithJS(data.Name, []string{"judoka.js"}, "judoka.css") {
 		<!-- Breadcrumbs -->
 		<div class="breadcrumbs">

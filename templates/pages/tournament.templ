@@ -1,9 +1,9 @@
 package pages
 
 import "judo_stats_site/templates/layouts"
-import "judo_stats_site/internal/domain/models"
+import "judo_stats_site/internal/repository/entity"
 
-templ Tournament(data models.Tournament) {
+templ Tournament(data entity.Tournament) {
 	@layouts.BaseWithJS(data.Name, []string{"tournament.js"}, "tournament.css") {
 		<!-- Breadcrumbs -->
 		<div class="breadcrumbs">

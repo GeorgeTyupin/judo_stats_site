@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	"judo_stats_site/internal/config"
-	"judo_stats_site/internal/domain/dto"
-	"judo_stats_site/internal/domain/models"
+	"judo_stats_site/internal/handlers/dto"
+	"judo_stats_site/internal/repository/entity"
 	"log/slog"
 	"time"
 
@@ -65,11 +65,11 @@ func (r *DBRepository) GeneralSearch(ctx context.Context, query string) ([]any, 
 	return nil, nil
 }
 
-func (r *DBRepository) JudokaSearch(ctx context.Context, query string, filter dto.JudokaFilters) ([]models.Judoka, error) {
+func (r *DBRepository) JudokaSearch(ctx context.Context, query string, filter dto.JudokaFilters) ([]entity.Judoka, error) {
 	// TODO: Реализовать настоящий поиск в БД
 	// Временные моковые данные для тестирования
 
-	mockJudokas := []models.Judoka{
+	mockJudokas := []entity.Judoka{
 		{
 			ID:               1,
 			Name:             "Teddy RINER",
@@ -135,7 +135,7 @@ func (r *DBRepository) JudokaSearch(ctx context.Context, query string, filter dt
 	return mockJudokas, nil
 }
 
-func (r *DBRepository) TournamentSearch(ctx context.Context, query string, filter dto.TournamentFilters) ([]models.Tournament, error) {
+func (r *DBRepository) TournamentSearch(ctx context.Context, query string, filter dto.TournamentFilters) ([]entity.Tournament, error) {
 	sqlQuery := `
 		SELECT tournaments.* FROM tournaments
 		LEFT JOIN cities ON tournaments.city_id = cities.id
@@ -162,21 +162,21 @@ func (r *DBRepository) TournamentSearch(ctx context.Context, query string, filte
 		return nil, fmt.Errorf("ошибка выполнения запроса в бд: %w", err)
 	}
 
-	tournaments, err := pgx.CollectRows(rows, pgx.RowToStructByName[models.Tournament])
+	tournaments, err := pgx.CollectRows(rows, pgx.RowToStructByName[entity.Tournament])
 	if err != nil {
-		return nil, fmt.Errorf("ошибка преобразования rows к models.Tournament: %w", err)
+		return nil, fmt.Errorf("ошибка преобразования rows к entity.Tournament: %w", err)
 	}
 
 	return tournaments, nil
 }
 
-func (r *DBRepository) SportClubSearch(ctx context.Context, query string, filter dto.SportClubFilters) ([]models.SportClub, error) {
+func (r *DBRepository) SportClubSearch(ctx context.Context, query string, filter dto.SportClubFilters) ([]entity.SportClub, error) {
 	// TODO Реализовать метод для поиска СО
 
 	return nil, nil
 }
 
-func (r *DBRepository) CitySearch(ctx context.Context, query string, filter dto.CityFilters) ([]models.City, error) {
+func (r *DBRepository) CitySearch(ctx context.Context, query string, filter dto.CityFilters) ([]entity.City, error) {
 	// TODO Реализовать метод для поиска города
 
 	return nil, nil

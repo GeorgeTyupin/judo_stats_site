@@ -1,14 +1,14 @@
 package handlers
 
 import (
-	"judo_stats_site/internal/domain/models"
+	"judo_stats_site/internal/repository/entity"
 	"judo_stats_site/templates/pages"
 	"net/http"
 )
 
 func City(w http.ResponseWriter, r *http.Request) {
 	// Пример данных - позже это будет из БД
-	data := models.City{
+	data := entity.City{
 		Name:           "Москва",
 		Population:     12655050,
 		Founded:        "1147 год",

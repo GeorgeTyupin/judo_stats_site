@@ -2,8 +2,7 @@ package components
 
 import (
 	"fmt"
-	"judo_stats_site/internal/domain/dto"
-	"judo_stats_site/internal/domain/models"
+	"judo_stats_site/internal/handlers/dto"
 )
 
 // CategorySelector отображает выбор категории поиска
@@ -486,7 +485,7 @@ templ EmptySearchResults() {
 }
 
 // JudokaSearchResults отображает список результатов поиска дзюдоистов
-templ JudokaSearchResults(judokas []models.Judoka) {
+templ JudokaSearchResults(judokas []dto.JudokaResponse) {
 	<div class="search-results-list">
 		<div class="results-header">
 			Найдено: <span class="results-count">{ fmt.Sprintf("%d", len(judokas)) }</span>
@@ -544,7 +543,7 @@ templ JudokaSearchResults(judokas []models.Judoka) {
 }
 
 // TournamentSearchResults отображает список результатов поиска турниров
-templ TournamentSearchResults(tournaments []models.Tournament) {
+templ TournamentSearchResults(tournaments []dto.TournamentResponse) {
 	<div class="search-results-list">
 		<div class="results-header">
 			Найдено: <span class="results-count">{ fmt.Sprintf("%d", len(tournaments)) }</span>
@@ -602,7 +601,7 @@ templ TournamentSearchResults(tournaments []models.Tournament) {
 }
 
 // SportClubSearchResults отображает список результатов поиска спортклубов
-templ SportClubSearchResults(clubs []models.SportClub) {
+templ SportClubSearchResults(clubs []dto.SportClubResponse) {
 	<div class="search-results-list">
 		<div class="results-header">
 			Найдено: <span class="results-count">{ fmt.Sprintf("%d", len(clubs)) }</span>
@@ -660,7 +659,7 @@ templ SportClubSearchResults(clubs []models.SportClub) {
 }
 
 // CitySearchResults отображает список результатов поиска городов
-templ CitySearchResults(cities []models.City) {
+templ CitySearchResults(cities []dto.CityResponse) {
 	<div class="search-results-list">
 		<div class="results-header">
 			Найдено: <span class="results-count">{ fmt.Sprintf("%d", len(cities)) }</span>

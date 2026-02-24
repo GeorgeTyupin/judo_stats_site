@@ -46,3 +46,36 @@ type CityFilters struct {
 	MinSportClubs int    // Минимальное количество спортклубов
 	MinAthletes   int    // Минимальное количество спортсменов
 }
+
+type JudokaResponse struct {
+	ID               int64    `json:"id"`
+	Name             string   `json:"name"`
+	Country          string   `json:"country,omitempty"`
+	BirthPlace       string   `json:"birth_place,omitempty"`
+	WeightCategories []string `json:"weight_categories,omitempty"`
+	BirthDate        string   `json:"birth_date,omitempty"`
+}
+
+type TournamentResponse struct {
+	ID     int64  `json:"id"`
+	Name   string `json:"name"`
+	Type   string `json:"type,omitempty"`
+	Place  string `json:"place,omitempty"`
+	Date   string `json:"date,omitempty"`
+	Gender string `json:"gender,omitempty"`
+}
+
+type SportClubResponse struct {
+	ID        int64  `json:"id"`
+	Name      string `json:"name"`
+	FullName  string `json:"full_name,omitempty"`
+	Region    string `json:"region,omitempty"`
+	Founded   string `json:"founded,omitempty"`
+	HeadCoach string `json:"head_coach,omitempty"`
+}
+
+type CityResponse struct {
+	ID          int64  `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description,omitempty"`
+}

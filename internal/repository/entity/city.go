@@ -1,4 +1,4 @@
-package models
+package entity
 
 type City struct {
 	ID          int32  `db:"id"`
