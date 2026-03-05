@@ -1,10 +1,10 @@
 package pages
 
 import "judo_stats_site/templates/layouts"
-import "judo_stats_site/internal/repository/entity"
-import "fmt"
+import "judo_stats_site/internal/repository/record"
 
-templ Judoka(data entity.Judoka) {
+
+templ Judoka(data record.Judoka) {
 	@layouts.BaseWithJS(data.Name, []string{"judoka.js"}, "judoka.css") {
 		<!-- Breadcrumbs -->
 		<div class="breadcrumbs">
@@ -63,13 +63,13 @@ templ Judoka(data entity.Judoka) {
 
 						<div class="achievements-quick">
 							<div class="medal-badge" class="flex-align-center-gap-8">
-								<i data-lucide="award" class="achievement-medal-icon"></i> { fmt.Sprintf("%d", data.GoldMedals) } золотых медалей
+								<i data-lucide="award" class="achievement-medal-icon"></i> 5 золотых медалей
 							</div>
 							<div class="medal-badge silver" class="flex-align-center-gap-8">
-								<i data-lucide="award" class="achievement-medal-icon"></i> { fmt.Sprintf("%d", data.SilverMedals) } серебряных медалей
+								<i data-lucide="award" class="achievement-medal-icon"></i> 3 серебряных медалей
 							</div>
 							<div class="medal-badge bronze" class="flex-align-center-gap-8">
-								<i data-lucide="award" class="achievement-medal-icon"></i> { fmt.Sprintf("%d", data.BronzeMedals) } бронзовых медалей
+								<i data-lucide="award" class="achievement-medal-icon"></i> 2 бронзовых медалей
 							</div>
 						</div>
 					</div>

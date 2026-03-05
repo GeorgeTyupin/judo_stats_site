@@ -1,4 +1,4 @@
-package entity
+package record
 
 type TournamentResult struct {
 	WeightCategory string `db:"weight_category"`

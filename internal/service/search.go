@@ -5,16 +5,16 @@ import (
 	"log/slog"
 
 	"judo_stats_site/internal/handlers/dto"
-	"judo_stats_site/internal/repository/entity"
+	"judo_stats_site/internal/repository/record"
 )
 
 // SearchRepository определяет методы работы с базой данных для поиска
 type SearchRepository interface {
 	GeneralSearch(ctx context.Context, query string) ([]any, error)
-	JudokaSearch(ctx context.Context, query string, filter dto.JudokaFilters) ([]entity.Judoka, error)
-	TournamentSearch(ctx context.Context, query string, filter dto.TournamentFilters) ([]entity.Tournament, error)
-	SportClubSearch(ctx context.Context, query string, filter dto.SportClubFilters) ([]entity.SportClub, error)
-	CitySearch(ctx context.Context, query string, filter dto.CityFilters) ([]entity.City, error)
+	JudokaSearch(ctx context.Context, query string, filter dto.JudokaFilters) ([]record.Judoka, error)
+	TournamentSearch(ctx context.Context, query string, filter dto.TournamentFilters) ([]record.Tournament, error)
+	SportClubSearch(ctx context.Context, query string, filter dto.SportClubFilters) ([]record.SportClub, error)
+	CitySearch(ctx context.Context, query string, filter dto.CityFilters) ([]record.City, error)
 }
 
 type SearchService struct {

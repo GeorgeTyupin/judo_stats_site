@@ -1,10 +1,10 @@
 package pages
 
 import "judo_stats_site/templates/layouts"
-import "judo_stats_site/internal/repository/entity"
-import "fmt"
+import "judo_stats_site/internal/repository/record"
 
-templ City(data entity.City) {
+
+templ City(data record.City) {
 	@layouts.BaseWithJS(data.Name, []string{"judoka.js"}, "judoka.css") {
 		<!-- Breadcrumbs -->
 		<div class="breadcrumbs">
@@ -31,44 +31,44 @@ templ City(data entity.City) {
 
 					<div class="profile-info">
 						<h1 class="profile-name">{ data.Name }</h1>
-						<p class="profile-subtitle">{ data.Republic }</p>
+						<p class="profile-subtitle"></p>
 
 						<div class="info-grid">
 							<div class="info-item">
 								<div class="info-label">Год основания</div>
-								<div class="info-value">{ data.Founded }</div>
+								<div class="info-value">1147 год</div>
 							</div>
 							<div class="info-item">
 								<div class="info-label">Население</div>
-								<div class="info-value">{ fmt.Sprintf("%d", data.Population) }</div>
+								<div class="info-value">12 655 050</div>
 							</div>
 							<div class="info-item">
 								<div class="info-label">Спортивных обществ</div>
-								<div class="info-value">{ fmt.Sprintf("%d", data.SportClubs) }</div>
+								<div class="info-value">45</div>
 							</div>
 							<div class="info-item">
 								<div class="info-label">Всего спортсменов</div>
-								<div class="info-value">{ fmt.Sprintf("%d", data.Athletes) }</div>
+								<div class="info-value">3500</div>
 							</div>
 							<div class="info-item">
 								<div class="info-label">Действующих</div>
-								<div class="info-value">{ fmt.Sprintf("%d", data.ActiveAthletes) }</div>
+								<div class="info-value">2100</div>
 							</div>
 							<div class="info-item">
 								<div class="info-label">Тренеров</div>
-								<div class="info-value">{ fmt.Sprintf("%d", data.Coaches) }</div>
+								<div class="info-value">280</div>
 							</div>
 						</div>
 
 						<div class="achievements-quick">
 							<div class="medal-badge" style="display: flex; align-items: center; gap: 8px;">
-								<i data-lucide="award" style="width: 20px; height: 20px; color: #0F172A;"></i> { fmt.Sprintf("%d", data.GoldMedals) } золотых медалей
+								<i data-lucide="award" style="width: 20px; height: 20px; color: #0F172A;"></i> 1250 золотых медалей
 							</div>
 							<div class="medal-badge silver" style="display: flex; align-items: center; gap: 8px;">
-								<i data-lucide="award" style="width: 20px; height: 20px; color: #0F172A;"></i> { fmt.Sprintf("%d", data.SilverMedals) } серебряных медалей
+								<i data-lucide="award" style="width: 20px; height: 20px; color: #0F172A;"></i> 980 серебряных медалей
 							</div>
 							<div class="medal-badge bronze" style="display: flex; align-items: center; gap: 8px;">
-								<i data-lucide="award" style="width: 20px; height: 20px; color: #0F172A;"></i> { fmt.Sprintf("%d", data.BronzeMedals) } бронзовых медалей
+								<i data-lucide="award" style="width: 20px; height: 20px; color: #0F172A;"></i> 756 бронзовых медалей
 							</div>
 						</div>
 					</div>
@@ -106,19 +106,7 @@ templ City(data entity.City) {
 						<h3>Основные показатели</h3>
 						<div class="stats-grid">
 							<div class="stat-card">
-								<div class="number">{ fmt.Sprintf("%d", data.SportClubs) }</div>
-								<div class="label">Спортивных обществ</div>
-							</div>
-							<div class="stat-card">
-								<div class="number">{ fmt.Sprintf("%d", data.Athletes) }</div>
-								<div class="label">Всего спортсменов</div>
-							</div>
-							<div class="stat-card">
-								<div class="number">{ fmt.Sprintf("%d", data.Coaches) }</div>
-								<div class="label">Тренеров</div>
-							</div>
-							<div class="stat-card">
-								<div class="number">{ fmt.Sprintf("%d", data.TotalMedals) }</div>
+								<div class="number">2986</div>
 								<div class="label">Всего медалей</div>
 							</div>
 						</div>
@@ -227,19 +215,7 @@ templ City(data entity.City) {
 						<h3>Статистика медалей</h3>
 						<div class="stats-grid" style="margin-bottom: 40px;">
 							<div class="stat-card">
-								<div class="number">{ fmt.Sprintf("%d", data.GoldMedals) }</div>
-								<div class="label">Золотых медалей</div>
-							</div>
-							<div class="stat-card">
-								<div class="number">{ fmt.Sprintf("%d", data.SilverMedals) }</div>
-								<div class="label">Серебряных медалей</div>
-							</div>
-							<div class="stat-card">
-								<div class="number">{ fmt.Sprintf("%d", data.BronzeMedals) }</div>
-								<div class="label">Бронзовых медалей</div>
-							</div>
-							<div class="stat-card">
-								<div class="number">{ fmt.Sprintf("%d", data.TotalMedals) }</div>
+								<div class="number">2986</div>
 								<div class="label">Всего медалей</div>
 							</div>
 						</div>

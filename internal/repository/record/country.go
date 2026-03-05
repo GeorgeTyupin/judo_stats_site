@@ -1,4 +1,4 @@
-package entity
+package record
 
 type Country struct {
 	ID          int32  `db:"id"`

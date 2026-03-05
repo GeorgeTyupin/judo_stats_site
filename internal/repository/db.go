@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"judo_stats_site/internal/config"
 	"judo_stats_site/internal/handlers/dto"
-	"judo_stats_site/internal/repository/entity"
+	"judo_stats_site/internal/repository/record"
 	"log/slog"
 	"time"
 
@@ -65,11 +65,11 @@ func (r *DBRepository) GeneralSearch(ctx context.Context, query string) ([]any, 
 	return nil, nil
 }
 
-func (r *DBRepository) JudokaSearch(ctx context.Context, query string, filter dto.JudokaFilters) ([]entity.Judoka, error) {
+func (r *DBRepository) JudokaSearch(ctx context.Context, query string, filter dto.JudokaFilters) ([]record.Judoka, error) {
 	// TODO: Реализовать настоящий поиск в БД
 	// Временные моковые данные для тестирования
 
-	mockJudokas := []entity.Judoka{
+	mockJudokas := []record.Judoka{
 		{
 			ID:               1,
 			Name:             "Teddy RINER",
@@ -78,9 +78,6 @@ func (r *DBRepository) JudokaSearch(ctx context.Context, query string, filter dt
 			WeightCategories: []string{"+100 кг"},
 			BirthDate:        "1989-04-07",
 			BirthPlace:       "Paris, France",
-			GoldMedals:       15,
-			SilverMedals:     3,
-			BronzeMedals:     2,
 		},
 		{
 			ID:               2,
@@ -90,9 +87,6 @@ func (r *DBRepository) JudokaSearch(ctx context.Context, query string, filter dt
 			WeightCategories: []string{"+78 кг"},
 			BirthDate:        "1989-09-27",
 			BirthPlace:       "Havana, Cuba",
-			GoldMedals:       8,
-			SilverMedals:     5,
-			BronzeMedals:     4,
 		},
 		{
 			ID:               3,
@@ -102,9 +96,6 @@ func (r *DBRepository) JudokaSearch(ctx context.Context, query string, filter dt
 			WeightCategories: []string{"-73 кг"},
 			BirthDate:        "1992-02-03",
 			BirthPlace:       "Yamaguchi, Japan",
-			GoldMedals:       12,
-			SilverMedals:     2,
-			BronzeMedals:     1,
 		},
 		{
 			ID:               4,
@@ -114,9 +105,6 @@ func (r *DBRepository) JudokaSearch(ctx context.Context, query string, filter dt
 			WeightCategories: []string{"-63 кг"},
 			BirthDate:        "1992-10-25",
 			BirthPlace:       "Rennes, France",
-			GoldMedals:       10,
-			SilverMedals:     4,
-			BronzeMedals:     3,
 		},
 		{
 			ID:               5,
@@ -126,16 +114,13 @@ func (r *DBRepository) JudokaSearch(ctx context.Context, query string, filter dt
 			WeightCategories: []string{"+100 кг", "-100 кг"},
 			BirthDate:        "1990-11-15",
 			BirthPlace:       "Jihlava, Czech Republic",
-			GoldMedals:       7,
-			SilverMedals:     6,
-			BronzeMedals:     5,
 		},
 	}
 
 	return mockJudokas, nil
 }
 
-func (r *DBRepository) TournamentSearch(ctx context.Context, query string, filter dto.TournamentFilters) ([]entity.Tournament, error) {
+func (r *DBRepository) TournamentSearch(ctx context.Context, query string, filter dto.TournamentFilters) ([]record.Tournament, error) {
 	sqlQuery := `
 		SELECT tournaments.* FROM tournaments
 		LEFT JOIN cities ON tournaments.city_id = cities.id
@@ -162,21 +147,21 @@ func (r *DBRepository) TournamentSearch(ctx context.Context, query string, filte
 		return nil, fmt.Errorf("ошибка выполнения запроса в бд: %w", err)
 	}
 
-	tournaments, err := pgx.CollectRows(rows, pgx.RowToStructByName[entity.Tournament])
+	tournaments, err := pgx.CollectRows(rows, pgx.RowToStructByName[record.Tournament])
 	if err != nil {
-		return nil, fmt.Errorf("ошибка преобразования rows к entity.Tournament: %w", err)
+		return nil, fmt.Errorf("ошибка преобразования rows к record.Tournament: %w", err)
 	}
 
 	return tournaments, nil
 }
 
-func (r *DBRepository) SportClubSearch(ctx context.Context, query string, filter dto.SportClubFilters) ([]entity.SportClub, error) {
+func (r *DBRepository) SportClubSearch(ctx context.Context, query string, filter dto.SportClubFilters) ([]record.SportClub, error) {
 	// TODO Реализовать метод для поиска СО
 
 	return nil, nil
 }
 
-func (r *DBRepository) CitySearch(ctx context.Context, query string, filter dto.CityFilters) ([]entity.City, error) {
+func (r *DBRepository) CitySearch(ctx context.Context, query string, filter dto.CityFilters) ([]record.City, error) {
 	// TODO Реализовать метод для поиска города
 
 	return nil, nil
