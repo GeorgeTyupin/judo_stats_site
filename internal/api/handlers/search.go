@@ -4,7 +4,7 @@ import (
 	"context"
 	"strconv"
 
-	"judo_stats_site/internal/handlers/dto"
+	"judo_stats_site/internal/api/handlers/dto"
 	"judo_stats_site/templates/components"
 	"judo_stats_site/templates/pages"
 	"log/slog"

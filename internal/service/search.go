@@ -4,7 +4,7 @@ import (
 	"context"
 	"log/slog"
 
-	"judo_stats_site/internal/handlers/dto"
+	"judo_stats_site/internal/api/handlers/dto"
 	"judo_stats_site/internal/repository/record"
 )
 

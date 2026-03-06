@@ -1,10 +1,10 @@
-package app
+package api
 
 import (
 	"context"
 	"fmt"
+	"judo_stats_site/internal/api/handlers"
 	"judo_stats_site/internal/config"
-	"judo_stats_site/internal/handlers"
 	"judo_stats_site/internal/repository"
 	"judo_stats_site/internal/service"
 	"log/slog"
@@ -71,7 +71,7 @@ func NewApp(logger *slog.Logger, cfg *config.Config, repo *repository.DBReposito
 }
 
 func (app *ServerApp) Run() error {
-	const op = "app.Run"
+	const op = "api.Run"
 	logger := app.logger.With(slog.String("op", op))
 
 	if app.cfg.TLS.Enabled {
@@ -99,7 +99,7 @@ func (app *ServerApp) Run() error {
 }
 
 func (app *ServerApp) Shutdown() {
-	const op = "app.Shutdown"
+	const op = "api.Shutdown"
 	logger := app.logger.With(slog.String("op", op))
 	logger.Info("Остановка сервера...")
 

@@ -7,7 +7,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"judo_stats_site/internal/app"
+	"judo_stats_site/internal/api"
 	"judo_stats_site/internal/config"
 	"judo_stats_site/internal/repository"
 )
@@ -26,7 +26,7 @@ func main() {
 	}
 	defer pgRepo.Close()
 
-	application := app.NewApp(logger, cfg, pgRepo)
+	application := api.NewApp(logger, cfg, pgRepo)
 
 	signalCh := make(chan os.Signal, 2)
 	signal.Notify(signalCh, os.Interrupt, syscall.SIGTERM)

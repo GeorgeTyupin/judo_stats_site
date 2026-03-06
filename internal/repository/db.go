@@ -3,8 +3,8 @@ package repository
 import (
 	"context"
 	"fmt"
+	"judo_stats_site/internal/api/handlers/dto"
 	"judo_stats_site/internal/config"
-	"judo_stats_site/internal/handlers/dto"
 	"judo_stats_site/internal/repository/record"
 	"log/slog"
 	"time"

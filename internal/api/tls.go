@@ -1,4 +1,4 @@
-package app
+package api
 
 import (
 	"crypto/tls"
@@ -10,7 +10,7 @@ import (
 )
 
 func NewAutocertManager(logger *slog.Logger, cfg *config.TLS) *autocert.Manager {
-	const op = "app.NewAutocertManager"
+	const op = "api.NewAutocertManager"
 	logger = logger.With(slog.String("op", op))
 
 	directoryURL := acme.LetsEncryptURL
