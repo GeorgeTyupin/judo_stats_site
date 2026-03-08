@@ -6,7 +6,7 @@ import (
 	"judo_stats_site/internal/api/handlers"
 	"judo_stats_site/internal/config"
 	"judo_stats_site/internal/repository"
-	"judo_stats_site/internal/service"
+	"judo_stats_site/internal/service/search"
 	"log/slog"
 	"net/http"
 
@@ -143,7 +143,7 @@ func registerHandlers(repo *repository.DBRepository, logger *slog.Logger) *chi.M
 	r.Get("/contribute", handlers.Contribute)
 
 	// HTMX endpoints для поиска
-	searchService := service.NewSearchService(repo, logger)
+	searchService := search.NewSearchService(repo, logger)
 	searchHandler := handlers.NewSearchHandler(searchService, logger)
 
 	r.Get("/search/filters", searchHandler.SearchFiltersHandler)
