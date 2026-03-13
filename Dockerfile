@@ -88,11 +88,19 @@ RUN adduser \
     appuser
 USER appuser
 
+# Create a dedicated directory for the app
+WORKDIR /app
+
 # Copy the executable from the "build" stage.
-COPY --from=build /bin/server /bin/
+COPY --from=build /bin/server .
+
+# Copy static files, templates, and configs
+COPY static ./static
+COPY templates ./templates
+COPY configs ./configs
 
 # Expose the port that the application listens on.
 EXPOSE 8000
 
 # What the container should run when it is started.
-ENTRYPOINT [ "/bin/server" ]
+ENTRYPOINT [ "./server" ]
