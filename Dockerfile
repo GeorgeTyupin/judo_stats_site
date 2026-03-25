@@ -88,8 +88,9 @@ RUN adduser \
     appuser
 USER appuser
 
-# Create a dedicated directory for the app
+# Create a dedicated directory for the app and certs cache
 WORKDIR /app
+RUN mkdir -p /app/certs-cache && chown -R appuser:appuser /app
 
 # Copy the executable from the "build" stage.
 COPY --from=build /bin/server .
