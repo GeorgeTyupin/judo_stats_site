@@ -10,11 +10,18 @@ import (
 	"judo_stats_site/internal/api"
 	"judo_stats_site/internal/config"
 	"judo_stats_site/internal/repository"
+	"judo_stats_site/migrations"
 )
 
 func main() {
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
 	cfg := config.MustLoad(logger)
+
+	if err := migrations.Run(cfg.Database.GetConnString()); err != nil {
+		logger.Error("Ошибка выполнения миграций", slog.String("error", err.Error()))
+		os.Exit(1)
+	}
+	logger.Info("Миграции применены успешно")
 
 	repoCtx, repoCtxCancelFunc := context.WithTimeout(context.Background(), cfg.Database.DBIdle)
 	defer repoCtxCancelFunc()

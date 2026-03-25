@@ -8,10 +8,12 @@ services:
       context: .
       target: development
     ports:
-      - "80:8000"
+      - "80:80"
+      - "443:443"
     volumes:
       - .:/app
       - go-modules:/go/pkg/mod
+      - certs-cache:/app/certs-cache
       - /app/tmp
     restart: unless-stopped
     depends_on:
@@ -27,7 +29,6 @@ services:
       - configs/database.env
     volumes:
       - db-data:/var/lib/postgresql/data
-      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5433:5432"
     healthcheck:
@@ -39,4 +40,5 @@ services:
 volumes:
   go-modules:    # Cache Go modules across container rebuilds
   db-data:       # PostgreSQL data persistence
+  certs-cache:   # Store SSL certificates
 
