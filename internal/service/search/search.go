@@ -82,7 +82,7 @@ func (s *SearchService) SportClubSearch(ctx context.Context, query string, filte
 	responses := make([]dto.SportClubResponse, len(clubs))
 	for i, c := range clubs {
 		responses[i] = dto.SportClubResponse{
-			ID:       int64(c.ID),
+			ID:       c.ID,
 			Name:     c.Name,
 			FullName: c.FullName,
 			Region:   c.Region,
@@ -101,7 +101,7 @@ func (s *SearchService) CitySearch(ctx context.Context, query string, filter dto
 	responses := make([]dto.CityResponse, len(cities))
 	for i, c := range cities {
 		responses[i] = dto.CityResponse{
-			ID:          int64(c.ID),
+			ID:          c.ID,
 			Name:        c.Name,
 			Description: c.Description,
 		}

@@ -11,9 +11,9 @@ type Tournament struct {
 	CreatedAt  time.Time `db:"created_at"`
 	UpdatedAt  time.Time `db:"updated_at"`
 	ID         int64     `db:"id"`
-	CityID     *int32    `db:"city_id"`
-	CountryID  *int32    `db:"country_id"`
-	RepublicID *int32    `db:"republic_id"`
+	CityID     *int64    `db:"city_id"`
+	CountryID  *int64    `db:"country_id"`
+	RepublicID *int64    `db:"republic_id"`
 	Year       int16     `db:"year"`
 	Month      int16     `db:"month"`
 }

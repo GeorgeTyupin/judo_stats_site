@@ -3,7 +3,7 @@ package record
 type Judoka struct {
 	ID               int64    `db:"id"`
 	Name             string   `db:"name"`
-	NAME_RUS         string   `db:"name_rus"`
+	NameRus          string   `db:"name_rus"`
 	Country          string   `db:"country"`
 	WeightCategories []string `db:"weight_category"`
 	BirthDate        string   `db:"birth_date"`

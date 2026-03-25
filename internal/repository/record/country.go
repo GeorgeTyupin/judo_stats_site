@@ -1,7 +1,7 @@
 package record
 
 type Country struct {
-	ID          int32  `db:"id"`
+	ID          int64  `db:"id"`
 	Name        string `db:"name"`
 	Description string `db:"description"`
 }
