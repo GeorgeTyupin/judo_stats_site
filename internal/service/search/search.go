@@ -85,8 +85,6 @@ func (s *SearchService) SportClubSearch(ctx context.Context, query string, filte
 			ID:       c.ID,
 			Name:     c.Name,
 			FullName: c.FullName,
-			Region:   c.Region,
-			Founded:  c.Founded,
 		}
 	}
 	return responses, nil
