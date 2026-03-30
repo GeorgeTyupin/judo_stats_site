@@ -1,0 +1,284 @@
+/* ============================================
+   SEARCH PAGE (/search) STYLES
+   ============================================ */
+
+.search-page-hero {
+    background: linear-gradient(135deg, #0F172A 0%, #1e293b 100%);
+    color: white;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.search-page-hero h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: white;
+}
+
+.search-page-hero p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.65);
+}
+
+.search-page-section {
+    padding: 30px 0 50px;
+}
+
+/* Search card (shared styles used on /search page) */
+.search-card {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+}
+
+.search-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.search-header h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #0F172A;
+}
+
+.toggle-filters {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: #f0f4f8;
+    border: none;
+    padding: 9px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #0F172A;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 13px;
+}
+
+.toggle-filters:hover {
+    background: #14B8A6;
+    color: white;
+    transform: scale(1.04);
+}
+
+.toggle-filters i {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toggle-filters.collapsed i {
+    transform: rotate(180deg);
+}
+
+/* Search box */
+.search-box {
+    position: relative;
+    margin-bottom: 22px;
+    display: flex;
+    gap: 10px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 14px 20px;
+    border: 2px solid #e0e6ed;
+    border-radius: 12px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: #14B8A6;
+    box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.1);
+}
+
+.search-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: linear-gradient(135deg, #14B8A6 0%, #0D9488 100%);
+    color: white;
+    border: none;
+    padding: 14px 22px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+    font-family: inherit;
+}
+
+.search-btn:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 6px 18px rgba(20, 184, 166, 0.35);
+}
+
+.search-btn:active {
+    transform: scale(0.98);
+}
+
+/* Filters wrapper */
+#filters-wrapper {
+    /* анимация через JS */
+}
+
+#filters-wrapper.hidden {
+    display: none;
+}
+
+/* Category section */
+.category-section {
+    margin-bottom: 18px;
+    padding: 16px;
+    background: linear-gradient(135deg, rgba(20, 184, 166, 0.04) 0%, rgba(13, 148, 136, 0.02) 100%);
+    border-radius: 12px;
+    border: 1.5px solid rgba(20, 184, 166, 0.15);
+    animation: fadeInDown 0.35s ease-out;
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.category-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748B;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.category-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.category-tab {
+    flex: 1;
+    min-width: 130px;
+    padding: 10px 16px;
+    border: 1.5px solid #e0e6ed;
+    border-radius: 8px;
+    background: #f8fafc;
+    color: #0F172A;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 13px;
+    font-family: inherit;
+}
+
+.category-tab:hover {
+    border-color: #14B8A6;
+    transform: translateY(-1px);
+    background: white;
+}
+
+.category-tab.active {
+    background: linear-gradient(135deg, #14B8A6 0%, #0D9488 100%);
+    color: white;
+    border-color: #14B8A6;
+    box-shadow: 0 4px 12px rgba(20, 184, 166, 0.25);
+}
+
+/* Filters grid */
+.filters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 12px;
+    margin-bottom: 6px;
+    animation: fadeInUp 0.35s ease-out;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.all-search-hint {
+    grid-column: 1 / -1;
+    padding: 14px 18px;
+    background: rgba(20, 184, 166, 0.06);
+    border-radius: 10px;
+    border-left: 4px solid #14B8A6;
+}
+
+.all-search-hint p {
+    margin: 0;
+    font-size: 13px;
+    color: #334155;
+    line-height: 1.5;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-group label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #0F172A;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.filter-group select,
+.filter-group input,
+.autocomplete-input {
+    padding: 8px 12px;
+    border: 1.5px solid #e0e6ed;
+    border-radius: 8px;
+    font-size: 13px;
+    transition: all 0.25s ease;
+    background: white;
+    color: #0F172A;
+    font-family: inherit;
+}
+
+.filter-group select:hover,
+.filter-group input:hover,
+.autocomplete-input:hover {
+    border-color: #14B8A6;
+}
+
+.filter-group select:focus,
+.filter-group input:focus,
+.autocomplete-input:focus {
+    outline: none;
+    border-color: #14B8A6;
+    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+}
+
+/* Search results container */
+.search-results-container {
+    margin-top: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .search-card { padding: 20px; }
+    .search-box { flex-direction: column; }
+    .search-btn { width: 100%; justify-content: center; }
+    .category-tab { min-width: 100px; font-size: 12px; }
+    .filters { grid-template-columns: 1fr 1fr; }
+    .search-page-hero h1 { font-size: 26px; }
+}
+
+@media (max-width: 480px) {
+    .filters { grid-template-columns: 1fr; }
+    .category-tabs { flex-direction: column; }
+}
