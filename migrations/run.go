@@ -2,6 +2,7 @@ package migrations
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
@@ -21,7 +22,7 @@ func Run(connStr string) error {
 		return fmt.Errorf("настройка диалекта goose: %w", err)
 	}
 
-	if err := goose.Up(db, "."); err != nil {
+	if err := goose.Up(db, "."); err != nil && !errors.Is(err, goose.ErrNoNextVersion) {
 		return fmt.Errorf("выполнение миграций: %w", err)
 	}
 
