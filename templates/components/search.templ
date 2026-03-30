@@ -5,467 +5,7 @@ import (
 	"judo_stats_site/internal/api/handlers/dto"
 )
 
-// CategorySelector отображает выбор категории поиска
-templ CategorySelector(selectedCategory dto.SearchCategory) {
-	<div class="flex gap-2 mb-6">
-		<button
-			hx-get="/search/filters?category=judoka"
-			hx-target="#search-filters"
-			hx-swap="innerHTML"
-			class={ "px-4 py-2 rounded-lg transition-colors",
-				templ.KV("bg-blue-600 text-white", selectedCategory == dto.CategoryJudoka),
-				templ.KV("bg-gray-100 text-gray-700 hover:bg-gray-200", selectedCategory != dto.CategoryJudoka) }
-		>
-			Спортсмены
-		</button>
-		<button
-			hx-get="/search/filters?category=tournament"
-			hx-target="#search-filters"
-			hx-swap="innerHTML"
-			class={ "px-4 py-2 rounded-lg transition-colors",
-				templ.KV("bg-blue-600 text-white", selectedCategory == dto.CategoryTournament),
-				templ.KV("bg-gray-100 text-gray-700 hover:bg-gray-200", selectedCategory != dto.CategoryTournament) }
-		>
-			Турниры
-		</button>
-		<button
-			hx-get="/search/filters?category=sportclub"
-			hx-target="#search-filters"
-			hx-swap="innerHTML"
-			class={ "px-4 py-2 rounded-lg transition-colors",
-				templ.KV("bg-blue-600 text-white", selectedCategory == dto.CategorySportClub),
-				templ.KV("bg-gray-100 text-gray-700 hover:bg-gray-200", selectedCategory != dto.CategorySportClub) }
-		>
-			Спортклубы
-		</button>
-		<button
-			hx-get="/search/filters?category=city"
-			hx-target="#search-filters"
-			hx-swap="innerHTML"
-			class={ "px-4 py-2 rounded-lg transition-colors",
-				templ.KV("bg-blue-600 text-white", selectedCategory == dto.CategoryCity),
-				templ.KV("bg-gray-100 text-gray-700 hover:bg-gray-200", selectedCategory != dto.CategoryCity) }
-		>
-			Города
-		</button>
-	</div>
-}
-
-// SearchBar отображает строку поиска
-templ SearchBar(query string) {
-	<div class="mb-6">
-		<input
-			type="text"
-			name="query"
-			value={ query }
-			placeholder="Введите поисковый запрос..."
-			class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-			hx-get="/search/results"
-			hx-trigger="keyup changed delay:500ms"
-			hx-target="#search-results"
-			hx-include="[name='category'], [name^='filter_']"
-		/>
-	</div>
-}
-
-// JudokaFiltersComponent отображает фильтры для поиска спортсменов
-templ JudokaFiltersComponent() {
-	<div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-6">
-		<h3 class="text-lg font-semibold mb-4 text-gray-900">Фильтры</h3>
-		<input type="hidden" name="category" value="judoka"/>
-
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-			<!-- Весовая категория -->
-			<div>
-				<label class="block text-sm font-medium text-gray-700 mb-2">Весовая категория</label>
-				<select
-					name="filter_weight"
-					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-					hx-get="/search/results"
-					hx-trigger="change"
-					hx-target="#search-results"
-					hx-include="[name='query'], [name='category'], [name^='filter_']"
-				>
-					<option value="">Все</option>
-					<option value="-48">-48 кг</option>
-					<option value="-52">-52 кг</option>
-					<option value="-57">-57 кг</option>
-					<option value="-63">-63 кг</option>
-					<option value="-70">-70 кг</option>
-					<option value="-78">-78 кг</option>
-					<option value="+78">+78 кг</option>
-				</select>
-			</div>
-
-			<!-- Пол -->
-			<div>
-				<label class="block text-sm font-medium text-gray-700 mb-2">Пол</label>
-				<select
-					name="filter_gender"
-					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-					hx-get="/search/results"
-					hx-trigger="change"
-					hx-target="#search-results"
-					hx-include="[name='query'], [name='category'], [name^='filter_']"
-				>
-					<option value="">Все</option>
-					<option value="male">Мужской</option>
-					<option value="female">Женский</option>
-				</select>
-			</div>
-
-			<!-- Возрастная группа -->
-			<div>
-				<label class="block text-sm font-medium text-gray-700 mb-2">Возрастная группа</label>
-				<select
-					name="filter_age_group"
-					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-					hx-get="/search/results"
-					hx-trigger="change"
-					hx-target="#search-results"
-					hx-include="[name='query'], [name='category'], [name^='filter_']"
-				>
-					<option value="">Все</option>
-					<option value="adults">Взрослые</option>
-					<option value="juniors">Юниоры</option>
-					<option value="cadets">Кадеты</option>
-				</select>
-			</div>
-
-			<!-- Страна -->
-			<div>
-				<label class="block text-sm font-medium text-gray-700 mb-2">Страна</label>
-				<input
-					type="text"
-					name="filter_country"
-					placeholder="Введите страну..."
-					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-					hx-get="/search/results"
-					hx-trigger="keyup changed delay:500ms"
-					hx-target="#search-results"
-					hx-include="[name='query'], [name='category'], [name^='filter_']"
-				/>
-			</div>
-
-			<!-- Спортклуб -->
-			<div>
-				<label class="block text-sm font-medium text-gray-700 mb-2">Спортклуб</label>
-				<input
-					type="text"
-					name="filter_sportclub"
-					placeholder="Введите спортклуб..."
-					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-					hx-get="/search/results"
-					hx-trigger="keyup changed delay:500ms"
-					hx-target="#search-results"
-					hx-include="[name='query'], [name='category'], [name^='filter_']"
-				/>
-			</div>
-
-			<!-- Город -->
-			<div>
-				<label class="block text-sm font-medium text-gray-700 mb-2">Город</label>
-				<input
-					type="text"
-					name="filter_city"
-					placeholder="Введите город..."
-					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-					hx-get="/search/results"
-					hx-trigger="keyup changed delay:500ms"
-					hx-target="#search-results"
-					hx-include="[name='query'], [name='category'], [name^='filter_']"
-				/>
-			</div>
-		</div>
-	</div>
-}
-
-// TournamentFiltersComponent отображает фильтры для поиска турниров
-templ TournamentFiltersComponent() {
-	<div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-6">
-		<h3 class="text-lg font-semibold mb-4 text-gray-900">Фильтры</h3>
-		<input type="hidden" name="category" value="tournament"/>
-
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-			<!-- Тип турнира -->
-			<div>
-				<label class="block text-sm font-medium text-gray-700 mb-2">Тип турнира</label>
-				<select
-					name="filter_type"
-					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-					hx-get="/search/results"
-					hx-trigger="change"
-					hx-target="#search-results"
-					hx-include="[name='query'], [name='category'], [name^='filter_']"
-				>
-					<option value="">Все</option>
-					<option value="National Championships">Чемпионат</option>
-					<option value="National Open WC Championships">Открытый чемпионат</option>
-					<option value="National Tournament">Первенство</option>
-				</select>
-			</div>
-
-			<!-- Пол -->
-			<div>
-				<label class="block text-sm font-medium text-gray-700 mb-2">Пол</label>
-				<select
-					name="filter_gender"
-					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-					hx-get="/search/results"
-					hx-trigger="change"
-					hx-target="#search-results"
-					hx-include="[name='query'], [name='category'], [name^='filter_']"
-				>
-					<option value="">Все</option>
-					<option value="Men">Мужчины</option>
-					<option value="Women">Женщины</option>
-				</select>
-			</div>
-
-			<!-- Год -->
-			<div>
-				<label class="block text-sm font-medium text-gray-700 mb-2">Год</label>
-				<select
-					name="filter_year"
-					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-					hx-get="/search/results"
-					hx-trigger="change"
-					hx-target="#search-results"
-					hx-include="[name='query'], [name='category'], [name^='filter_']"
-				>
-					<option value="">Все</option>
-					<option value="1992">1992</option>
-					<option value="1991">1991</option>
-					<option value="1990">1990</option>
-					<option value="1989">1989</option>
-					<option value="1988">1988</option>
-					<option value="1987">1987</option>
-					<option value="1986">1986</option>
-					<option value="1985">1985</option>
-					<option value="1984">1984</option>
-					<option value="1983">1983</option>
-					<option value="1982">1982</option>
-					<option value="1981">1981</option>
-					<option value="1980">1980</option>
-					<option value="1979">1979</option>
-					<option value="1978">1978</option>
-					<option value="1976">1976</option>
-					<option value="1974">1974</option>
-					<option value="1973">1973</option>
-					<option value="1972">1972</option>
-					<option value="1971">1971</option>
-					<option value="1970">1970</option>
-				</select>
-			</div>
-
-			<!-- Город -->
-			<div>
-				<label class="block text-sm font-medium text-gray-700 mb-2">Город</label>
-				<input
-					type="text"
-					name="filter_city"
-					placeholder="Введите город..."
-					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-					hx-get="/search/results"
-					hx-trigger="keyup changed delay:500ms"
-					hx-target="#search-results"
-					hx-include="[name='query'], [name='category'], [name^='filter_']"
-				/>
-			</div>
-
-			<!-- Страна -->
-			<div>
-				<label class="block text-sm font-medium text-gray-700 mb-2">Страна</label>
-				<input
-					type="text"
-					name="filter_country"
-					placeholder="Введите страну..."
-					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-					hx-get="/search/results"
-					hx-trigger="keyup changed delay:500ms"
-					hx-target="#search-results"
-					hx-include="[name='query'], [name='category'], [name^='filter_']"
-				/>
-			</div>
-
-			<!-- Республика -->
-			<div>
-				<label class="block text-sm font-medium text-gray-700 mb-2">Республика</label>
-				<input
-					type="text"
-					name="filter_republic"
-					placeholder="Введите республику..."
-					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-					hx-get="/search/results"
-					hx-trigger="keyup changed delay:500ms"
-					hx-target="#search-results"
-					hx-include="[name='query'], [name='category'], [name^='filter_']"
-				/>
-			</div>
-		</div>
-	</div>
-}
-
-// SportClubFiltersComponent отображает фильтры для поиска спортклубов
-templ SportClubFiltersComponent() {
-	<div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-6">
-		<h3 class="text-lg font-semibold mb-4 text-gray-900">Фильтры</h3>
-		<input type="hidden" name="category" value="sportclub"/>
-
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-			<!-- Город -->
-			<div>
-				<label class="block text-sm font-medium text-gray-700 mb-2">Город</label>
-				<input
-					type="text"
-					name="filter_city"
-					placeholder="Введите город..."
-					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-					hx-get="/search/results"
-					hx-trigger="keyup changed delay:500ms"
-					hx-target="#search-results"
-					hx-include="[name='query'], [name='category'], [name^='filter_']"
-				/>
-			</div>
-
-			<!-- Регион -->
-			<div>
-				<label class="block text-sm font-medium text-gray-700 mb-2">Регион</label>
-				<input
-					type="text"
-					name="filter_region"
-					placeholder="Введите регион..."
-					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-					hx-get="/search/results"
-					hx-trigger="keyup changed delay:500ms"
-					hx-target="#search-results"
-					hx-include="[name='query'], [name='category'], [name^='filter_']"
-				/>
-			</div>
-
-			<!-- Год основания от -->
-			<div>
-				<label class="block text-sm font-medium text-gray-700 mb-2">Год основания от</label>
-				<input
-					type="number"
-					name="filter_founded"
-					placeholder="2000"
-					min="1900"
-					max="2024"
-					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-					hx-get="/search/results"
-					hx-trigger="keyup changed delay:500ms"
-					hx-target="#search-results"
-					hx-include="[name='query'], [name='category'], [name^='filter_']"
-				/>
-			</div>
-
-			<!-- Наличие главного тренера -->
-			<div>
-				<label class="flex items-center space-x-2 cursor-pointer">
-					<input
-						type="checkbox"
-						name="filter_has_coach"
-						value="true"
-						class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-						hx-get="/search/results"
-						hx-trigger="change"
-						hx-target="#search-results"
-						hx-include="[name='query'], [name='category'], [name^='filter_']"
-					/>
-					<span class="text-sm font-medium text-gray-700">Есть главный тренер</span>
-				</label>
-			</div>
-		</div>
-	</div>
-}
-
-// CityFiltersComponent отображает фильтры для поиска городов
-templ CityFiltersComponent() {
-	<div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-6">
-		<h3 class="text-lg font-semibold mb-4 text-gray-900">Фильтры</h3>
-		<input type="hidden" name="category" value="city"/>
-
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-			<!-- Республика -->
-			<div>
-				<label class="block text-sm font-medium text-gray-700 mb-2">Республика</label>
-				<input
-					type="text"
-					name="filter_republic"
-					placeholder="Введите республику..."
-					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-					hx-get="/search/results"
-					hx-trigger="keyup changed delay:500ms"
-					hx-target="#search-results"
-					hx-include="[name='query'], [name='category'], [name^='filter_']"
-				/>
-			</div>
-
-			<!-- Минимальное население -->
-			<div>
-				<label class="block text-sm font-medium text-gray-700 mb-2">Население от</label>
-				<input
-					type="number"
-					name="filter_min_population"
-					placeholder="100000"
-					min="0"
-					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-					hx-get="/search/results"
-					hx-trigger="keyup changed delay:500ms"
-					hx-target="#search-results"
-					hx-include="[name='query'], [name='category'], [name^='filter_']"
-				/>
-			</div>
-
-			<!-- Минимальное количество спортклубов -->
-			<div>
-				<label class="block text-sm font-medium text-gray-700 mb-2">Спортклубов от</label>
-				<input
-					type="number"
-					name="filter_min_sportclubs"
-					placeholder="5"
-					min="0"
-					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-					hx-get="/search/results"
-					hx-trigger="keyup changed delay:500ms"
-					hx-target="#search-results"
-					hx-include="[name='query'], [name='category'], [name^='filter_']"
-				/>
-			</div>
-
-			<!-- Минимальное количество спортсменов -->
-			<div>
-				<label class="block text-sm font-medium text-gray-700 mb-2">Спортсменов от</label>
-				<input
-					type="number"
-					name="filter_min_athletes"
-					placeholder="100"
-					min="0"
-					class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-					hx-get="/search/results"
-					hx-trigger="keyup changed delay:500ms"
-					hx-target="#search-results"
-					hx-include="[name='query'], [name='category'], [name^='filter_']"
-				/>
-			</div>
-		</div>
-	</div>
-}
-
-// SearchResults отображает контейнер для результатов поиска
-templ SearchResults() {
-	<div id="search-results" class="mt-6">
-		<div class="text-center text-gray-500 py-12">
-			<svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-			</svg>
-			<p class="mt-4 text-lg">Введите запрос для поиска</p>
-		</div>
-	</div>
-}
-
-// EmptySearchResults отображает улучшенное сообщение о пустых результатах поиска
+// EmptySearchResults отображает сообщение об отсутствии результатов
 templ EmptySearchResults() {
 	<div class="empty-search-results">
 		<div class="empty-search-icon">
@@ -484,199 +24,215 @@ templ EmptySearchResults() {
 	</div>
 }
 
-// JudokaSearchResults отображает список результатов поиска дзюдоистов
-templ JudokaSearchResults(judokas []dto.JudokaResponse) {
-	<div class="search-results-list">
+// JudokaSearchResults отображает результаты поиска дзюдоистов в виде таблицы
+templ JudokaSearchResults(judokas []dto.JudokaResponse, sortBy, sortDir string) {
+	<div class="results-wrapper">
 		<div class="results-header">
 			Найдено: <span class="results-count">{ fmt.Sprintf("%d", len(judokas)) }</span>
 		</div>
-		for i, judoka := range judokas {
-			<a
-				href={ templ.SafeURL(fmt.Sprintf("/judoka/%d", judoka.ID)) }
-				class="result-card"
-				style={ fmt.Sprintf("animation-delay: %dms;", i*50) }
-			>
-				<div class="result-content">
-					<h3 class="result-title">{ judoka.Name }</h3>
-					<div class="result-meta-grid">
-						if judoka.Country != "" {
-							<div class="meta-item-full">
-								<i data-lucide="flag" class="meta-icon"></i>
-								<span class="meta-text">
-									<span class="meta-label">Страна:</span>
-									<span class="meta-value">{ judoka.Country }</span>
-								</span>
-							</div>
-						}
-						if judoka.BirthPlace != "" {
-							<div class="meta-item-full">
-								<i data-lucide="map-pin" class="meta-icon"></i>
-								<span class="meta-text">
-									<span class="meta-label">Место рождения:</span>
-									<span class="meta-value">{ judoka.BirthPlace }</span>
-								</span>
-							</div>
-						}
-						if len(judoka.WeightCategories) > 0 {
-							<div class="meta-item-full">
-								<i data-lucide="ruler" class="meta-icon"></i>
-								<span class="meta-text">
-									<span class="meta-label">Весовые категории:</span>
-									<span class="meta-value">{ judoka.WeightCategories[0] }</span>
-								</span>
-							</div>
-						}
-						if judoka.BirthDate != "" {
-							<div class="meta-item-full">
-								<i data-lucide="calendar" class="meta-icon"></i>
-								<span class="meta-text">
-									<span class="meta-label">Дата рождения:</span>
-									<span class="meta-value">{ judoka.BirthDate }</span>
-								</span>
-							</div>
-						}
-					</div>
-				</div>
-			</a>
-		}
+		<div class="sort-bar">
+			<span class="sort-bar-label">Сортировка:</span>
+			<button class="sort-bar-btn" data-sort-col="name" data-sort-dir={ nextDir("name", sortBy, sortDir) }>
+				Имя
+				@sortArrow("name", sortBy, sortDir)
+			</button>
+			<button class="sort-bar-btn" data-sort-col="country" data-sort-dir={ nextDir("country", sortBy, sortDir) }>
+				Страна
+				@sortArrow("country", sortBy, sortDir)
+			</button>
+			<button class="sort-bar-btn" data-sort-col="birth_date" data-sort-dir={ nextDir("birth_date", sortBy, sortDir) }>
+				Дата рождения
+				@sortArrow("birth_date", sortBy, sortDir)
+			</button>
+		</div>
+		<div class="table-scroll">
+			<table class="results-table">
+				<thead>
+					<tr>
+						<th class="col-num">#</th>
+						<th>Имя</th>
+						<th>Страна</th>
+						<th>Дата рождения</th>
+					</tr>
+				</thead>
+				<tbody>
+					for i, judoka := range judokas {
+						<tr
+							class="result-row"
+							data-href={ fmt.Sprintf("/judoka/%d", judoka.ID) }
+							style={ fmt.Sprintf("animation-delay:%dms", i*20) }
+						>
+							<td class="col-num">{ fmt.Sprintf("%d", i+1) }</td>
+							<td class="col-name">{ judoka.Name }</td>
+							<td>{ judoka.Country }</td>
+							<td>{ judoka.BirthDate }</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
 	</div>
 }
 
-// TournamentSearchResults отображает список результатов поиска турниров
-templ TournamentSearchResults(tournaments []dto.TournamentResponse) {
-	<div class="search-results-list">
+// TournamentSearchResults отображает результаты поиска турниров в виде таблицы
+templ TournamentSearchResults(tournaments []dto.TournamentResponse, sortBy, sortDir string) {
+	<div class="results-wrapper">
 		<div class="results-header">
 			Найдено: <span class="results-count">{ fmt.Sprintf("%d", len(tournaments)) }</span>
 		</div>
-		for i, tournament := range tournaments {
-			<a
-				href={ templ.SafeURL(fmt.Sprintf("/tournament/%d", tournament.ID)) }
-				class="result-card"
-				style={ fmt.Sprintf("animation-delay: %dms;", i*50) }
-			>
-				<div class="result-content">
-					<h3 class="result-title">{ tournament.Name }</h3>
-					<div class="result-meta-grid">
-						if tournament.Type != "" {
-							<div class="meta-item-full">
-								<i data-lucide="trophy" class="meta-icon"></i>
-								<span class="meta-text">
-									<span class="meta-label">Тип турнира:</span>
-									<span class="meta-value">{ tournament.Type }</span>
-								</span>
-							</div>
-						}
-						if tournament.Place != "" {
-							<div class="meta-item-full">
-								<i data-lucide="map-pin" class="meta-icon"></i>
-								<span class="meta-text">
-									<span class="meta-label">Место проведения:</span>
-									<span class="meta-value">{ tournament.Place }</span>
-								</span>
-							</div>
-						}
-						if tournament.Date != "" {
-							<div class="meta-item-full">
-								<i data-lucide="calendar" class="meta-icon"></i>
-								<span class="meta-text">
-									<span class="meta-label">Дата:</span>
-									<span class="meta-value">{ tournament.Date }</span>
-								</span>
-							</div>
-						}
-						if tournament.Gender != "" {
-							<div class="meta-item-full">
-								<i data-lucide="users" class="meta-icon"></i>
-								<span class="meta-text">
-									<span class="meta-label">Пол:</span>
-									<span class="meta-value">{ tournament.Gender }</span>
-								</span>
-							</div>
-						}
-					</div>
-				</div>
-			</a>
-		}
+		<div class="sort-bar">
+			<span class="sort-bar-label">Сортировка:</span>
+			<button class="sort-bar-btn" data-sort-col="name" data-sort-dir={ nextDir("name", sortBy, sortDir) }>
+				Название
+				@sortArrow("name", sortBy, sortDir)
+			</button>
+			<button class="sort-bar-btn" data-sort-col="type" data-sort-dir={ nextDir("type", sortBy, sortDir) }>
+				Тип
+				@sortArrow("type", sortBy, sortDir)
+			</button>
+			<button class="sort-bar-btn" data-sort-col="place" data-sort-dir={ nextDir("place", sortBy, sortDir) }>
+				Место
+				@sortArrow("place", sortBy, sortDir)
+			</button>
+			<button class="sort-bar-btn" data-sort-col="date" data-sort-dir={ nextDir("date", sortBy, sortDir) }>
+				Дата
+				@sortArrow("date", sortBy, sortDir)
+			</button>
+		</div>
+		<div class="table-scroll">
+			<table class="results-table">
+				<thead>
+					<tr>
+						<th class="col-num">#</th>
+						<th>Название</th>
+						<th class="col-hide-mobile">Тип</th>
+						<th class="col-hide-mobile">Место</th>
+						<th>Дата</th>
+						<th class="col-hide-mobile">Пол</th>
+					</tr>
+				</thead>
+				<tbody>
+					for i, t := range tournaments {
+						<tr
+							class="result-row"
+							data-href={ fmt.Sprintf("/tournament/%d", t.ID) }
+							style={ fmt.Sprintf("animation-delay:%dms", i*20) }
+						>
+							<td class="col-num">{ fmt.Sprintf("%d", i+1) }</td>
+							<td class="col-name">{ t.Name }</td>
+							<td class="col-hide-mobile">{ t.Type }</td>
+							<td class="col-hide-mobile">{ t.Place }</td>
+							<td>{ t.Date }</td>
+							<td class="col-hide-mobile">{ t.Gender }</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
 	</div>
 }
 
-// SportClubSearchResults отображает список результатов поиска спортклубов
-templ SportClubSearchResults(clubs []dto.SportClubResponse) {
-	<div class="search-results-list">
+// SportClubSearchResults отображает результаты поиска спортивных обществ в виде таблицы
+templ SportClubSearchResults(clubs []dto.SportClubResponse, sortBy, sortDir string) {
+	<div class="results-wrapper">
 		<div class="results-header">
 			Найдено: <span class="results-count">{ fmt.Sprintf("%d", len(clubs)) }</span>
 		</div>
-		for i, club := range clubs {
-			<a
-				href={ templ.SafeURL(fmt.Sprintf("/sportclub/%d", club.ID)) }
-				class="result-card"
-				style={ fmt.Sprintf("animation-delay: %dms;", i*50) }
-			>
-				<div class="result-content">
-					<h3 class="result-title">{ club.Name }</h3>
-					<div class="result-meta-grid">
-						if club.FullName != "" {
-							<div class="meta-item-full">
-								<i data-lucide="building" class="meta-icon"></i>
-								<span class="meta-text">
-									<span class="meta-label">Полное название:</span>
-									<span class="meta-value">{ club.FullName }</span>
-								</span>
-							</div>
-						}
-						if club.Region != "" {
-							<div class="meta-item-full">
-								<i data-lucide="map" class="meta-icon"></i>
-								<span class="meta-text">
-									<span class="meta-label">Регион:</span>
-									<span class="meta-value">{ club.Region }</span>
-								</span>
-							</div>
-						}
-						if club.Founded != "" {
-							<div class="meta-item-full">
-								<i data-lucide="calendar" class="meta-icon"></i>
-								<span class="meta-text">
-									<span class="meta-label">Год основания:</span>
-									<span class="meta-value">{ club.Founded }</span>
-								</span>
-							</div>
-						}
-						if club.HeadCoach != "" {
-							<div class="meta-item-full">
-								<i data-lucide="user" class="meta-icon"></i>
-								<span class="meta-text">
-									<span class="meta-label">Главный тренер:</span>
-									<span class="meta-value">{ club.HeadCoach }</span>
-								</span>
-							</div>
-						}
-					</div>
-				</div>
-			</a>
-		}
+		<div class="sort-bar">
+			<span class="sort-bar-label">Сортировка:</span>
+			<button class="sort-bar-btn" data-sort-col="name" data-sort-dir={ nextDir("name", sortBy, sortDir) }>
+				Название
+				@sortArrow("name", sortBy, sortDir)
+			</button>
+		</div>
+		<div class="table-scroll">
+			<table class="results-table">
+				<thead>
+					<tr>
+						<th class="col-num">#</th>
+						<th>Название</th>
+						<th>Полное название</th>
+						<th>Республика</th>
+						<th>Город</th>
+					</tr>
+				</thead>
+				<tbody>
+					for i, club := range clubs {
+						<tr
+							class="result-row"
+							data-href={ fmt.Sprintf("/sportclub/%d", club.ID) }
+							style={ fmt.Sprintf("animation-delay:%dms", i*20) }
+						>
+							<td class="col-num">{ fmt.Sprintf("%d", i+1) }</td>
+							<td class="col-name">{ club.Name }</td>
+							<td>{ club.FullName }</td>
+							<td>{ club.Republic }</td>
+							<td>{ club.City }</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
 	</div>
 }
 
-// CitySearchResults отображает список результатов поиска городов
-templ CitySearchResults(cities []dto.CityResponse) {
-	<div class="search-results-list">
+// CitySearchResults отображает результаты поиска городов в виде таблицы
+templ CitySearchResults(cities []dto.CityResponse, sortBy, sortDir string) {
+	<div class="results-wrapper">
 		<div class="results-header">
 			Найдено: <span class="results-count">{ fmt.Sprintf("%d", len(cities)) }</span>
 		</div>
-		for i, city := range cities {
-			<a
-				href={ templ.SafeURL(fmt.Sprintf("/city/%d", city.ID)) }
-				class="result-card"
-				style={ fmt.Sprintf("animation-delay: %dms;", i*50) }
-			>
-				<div class="result-content">
-					<h3 class="result-title">{ city.Name }</h3>
-					if city.Description != "" {
-						<div class="result-description">{ city.Description }</div>
+		<div class="sort-bar">
+			<span class="sort-bar-label">Сортировка:</span>
+			<button class="sort-bar-btn" data-sort-col="name" data-sort-dir={ nextDir("name", sortBy, sortDir) }>
+				Название
+				@sortArrow("name", sortBy, sortDir)
+			</button>
+		</div>
+		<div class="table-scroll">
+			<table class="results-table">
+				<thead>
+					<tr>
+						<th class="col-num">#</th>
+						<th>Название</th>
+						<th>Описание</th>
+					</tr>
+				</thead>
+				<tbody>
+					for i, city := range cities {
+						<tr
+							class="result-row"
+							data-href={ fmt.Sprintf("/city/%d", city.ID) }
+							style={ fmt.Sprintf("animation-delay:%dms", i*20) }
+						>
+							<td class="col-num">{ fmt.Sprintf("%d", i+1) }</td>
+							<td class="col-name">{ city.Name }</td>
+							<td>{ city.Description }</td>
+						</tr>
 					}
-				</div>
-			</a>
-		}
+				</tbody>
+			</table>
+		</div>
 	</div>
+}
+
+// sortArrow рендерит иконку стрелки сортировки для sort-bar кнопок
+templ sortArrow(col, currentSortBy, currentSortDir string) {
+	if col == currentSortBy {
+		if currentSortDir == "desc" {
+			<i data-lucide="arrow-down" class="sort-arrow sort-arrow-active"></i>
+		} else {
+			<i data-lucide="arrow-up" class="sort-arrow sort-arrow-active"></i>
+		}
+	} else {
+		<i data-lucide="arrow-up-down" class="sort-arrow"></i>
+	}
+}
+
+// nextDir возвращает следующее направление сортировки
+func nextDir(col, currentSortBy, currentSortDir string) string {
+	if col == currentSortBy && currentSortDir == "asc" {
+		return "desc"
+	}
+	return "asc"
 }

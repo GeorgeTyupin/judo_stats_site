@@ -1,0 +1,133 @@
+package pages
+
+import "judo_stats_site/templates/layouts"
+
+templ SearchPage() {
+	@layouts.BaseWithJS("Поиск", []string{"search.js"}, "search-page.css", "search.css") {
+		<section class="search-page-hero">
+			<div class="container">
+				<h1>Поиск по архиву</h1>
+				<p>Дзюдоисты, турниры, спортивные общества и города</p>
+			</div>
+		</section>
+
+		<section class="search-page-section">
+			<div class="container">
+				<div class="search-card">
+					<div class="search-header">
+						<h2>Поиск</h2>
+						<button class="toggle-filters" onclick="toggleFilters()">
+							<span id="filterText">Скрыть фильтры</span>
+							<i data-lucide="settings" class="icon-md"></i>
+						</button>
+					</div>
+
+					<!-- Строка поиска -->
+					<div class="search-box">
+						<input
+							type="text"
+							name="query"
+							id="searchInput"
+							placeholder="Введите запрос для поиска..."
+							hx-get="/search/results"
+							hx-trigger="keyup changed delay:500ms"
+							hx-target="#search-results"
+							hx-include="[name='category'], [name^='filter_'], [name='sort_by'], [name='sort_dir']"
+						/>
+						<button
+							id="searchBtn"
+							class="search-btn"
+							hx-get="/search/results"
+							hx-target="#search-results"
+							hx-include="[name='query'], [name='category'], [name^='filter_'], [name='sort_by'], [name='sort_dir']"
+						>
+							<i data-lucide="search" class="icon-sm"></i>
+							Найти
+						</button>
+					</div>
+
+					<!-- Скрытые инпуты сортировки -->
+					<input type="hidden" name="sort_by" id="sortBy" value=""/>
+					<input type="hidden" name="sort_dir" id="sortDir" value="asc"/>
+
+					<!-- Фильтры -->
+					<div id="filters-wrapper">
+						<!-- Активные фильтры -->
+						<div id="active-filters" class="active-filters" style="display:none">
+							<div class="active-filters-chips" id="filter-chips"></div>
+							<button class="clear-filters-btn" onclick="clearAllFilters()">
+								<i data-lucide="x" class="icon-sm"></i>
+								Очистить фильтры
+							</button>
+						</div>
+
+						<!-- Категории поиска -->
+						<div class="category-section">
+							<label class="category-label">Категория поиска</label>
+							<div class="category-tabs">
+								<button
+									hx-get="/search/filters?category=all"
+									hx-target="#search-filters"
+									hx-swap="innerHTML"
+									onclick="setActiveCategory(this)"
+									class="category-tab active"
+									data-category="all"
+								>
+									Общий поиск
+								</button>
+								<button
+									hx-get="/search/filters?category=judoka"
+									hx-target="#search-filters"
+									hx-swap="innerHTML"
+									onclick="setActiveCategory(this)"
+									class="category-tab"
+									data-category="judoka"
+								>
+									Дзюдоисты
+								</button>
+								<button
+									hx-get="/search/filters?category=tournament"
+									hx-target="#search-filters"
+									hx-swap="innerHTML"
+									onclick="setActiveCategory(this)"
+									class="category-tab"
+									data-category="tournament"
+								>
+									Турниры
+								</button>
+								<button
+									hx-get="/search/filters?category=sportclub"
+									hx-target="#search-filters"
+									hx-swap="innerHTML"
+									onclick="setActiveCategory(this)"
+									class="category-tab"
+									data-category="sportclub"
+								>
+									Спортивные общества
+								</button>
+								<button
+									hx-get="/search/filters?category=city"
+									hx-target="#search-filters"
+									hx-swap="innerHTML"
+									onclick="setActiveCategory(this)"
+									class="category-tab"
+									data-category="city"
+								>
+									Города
+								</button>
+							</div>
+						</div>
+
+						<!-- Контейнер фильтров (динамически через HTMX) -->
+						<div id="search-filters">
+							@IndexAllFilters()
+						</div>
+					</div>
+
+					<!-- Результаты поиска -->
+					<div id="search-results" class="search-results-container"></div>
+				</div>
+			</div>
+		</section>
+	}
+}

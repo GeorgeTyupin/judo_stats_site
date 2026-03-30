@@ -3,115 +3,80 @@ package pages
 import "judo_stats_site/templates/layouts"
 
 templ Index() {
-	@layouts.BaseWithJS("Главная", []string{"index.js"}, "index.css", "search.css") {
+	@layouts.BaseWithJS("Главная", []string{"index.js"}, "index.css") {
 		<!-- Hero Section -->
 		<section class="hero">
 			<div class="container">
-				<h1>Международный архив дзюдо</h1>
-				<p>Полная база данных спортсменов, турниров и результатов со всего мира</p>
+				<h1>История отечественного дзюдо</h1>
+				<p>Уникальная база данных дзюдоистов, школ и результатов турниров</p>
 			</div>
 		</section>
 
-		<!-- Search Section -->
-		<section class="search-section">
+		<!-- Search CTA -->
+		<section class="search-cta-section">
 			<div class="container">
-				<div class="search-card">
-					<div class="search-header">
-						<h2>Поиск</h2>
-						<button class="toggle-filters" onclick="toggleFilters()" class="flex-align-center-gap-8">
-							<span id="filterText">Скрыть фильтры</span> <i data-lucide="settings" class="icon-md"></i>
-						</button>
+				<div class="search-cta-card">
+					<i data-lucide="search" class="search-cta-icon"></i>
+					<div class="search-cta-text">
+						<span class="search-cta-title">Найдите дзюдоиста, турнир или спортивное общество</span>
+						<span class="search-cta-sub">Поиск по всей базе архива</span>
 					</div>
+					<a href="/search" class="search-cta-btn">
+						Перейти к поиску
+						<i data-lucide="arrow-right" class="icon-sm"></i>
+					</a>
+				</div>
+			</div>
+		</section>
 
-					<!-- Строка поиска -->
-					<div class="search-box">
-						<input
-							type="text"
-							name="query"
-							id="searchInput"
-							placeholder="Введите запрос для поиска..."
-							hx-get="/search/results"
-							hx-trigger="keyup changed delay:500ms"
-							hx-target="#search-results"
-							hx-include="[name='category'], [name^='filter_']"
-						/>
-						<button
-							class="search-btn"
-							hx-get="/search/results"
-							hx-target="#search-results"
-							hx-include="[name='query'], [name='category'], [name^='filter_']"
-						>
-							Найти
-						</button>
-					</div>
-
-					<!-- Контейнер для фильтров и категорий -->
-					<div id="filters-wrapper">
-						<!-- Категории поиска -->
-						<div class="category-section">
-							<label class="category-label">Категория поиска</label>
-							<div class="category-tabs">
-								<button
-									hx-get="/search/filters?category=all"
-									hx-target="#search-filters"
-									hx-swap="innerHTML"
-									onclick="setActiveCategory(this)"
-									class="category-tab active"
-									data-category="all"
-								>
-									Общий поиск
-								</button>
-								<button
-									hx-get="/search/filters?category=judoka"
-									hx-target="#search-filters"
-									hx-swap="innerHTML"
-									onclick="setActiveCategory(this)"
-									class="category-tab"
-									data-category="judoka"
-								>
-									Спортсмены
-								</button>
-								<button
-									hx-get="/search/filters?category=tournament"
-									hx-target="#search-filters"
-									hx-swap="innerHTML"
-									onclick="setActiveCategory(this)"
-									class="category-tab"
-									data-category="tournament"
-								>
-									Турниры
-								</button>
-								<button
-									hx-get="/search/filters?category=sportclub"
-									hx-target="#search-filters"
-									hx-swap="innerHTML"
-									onclick="setActiveCategory(this)"
-									class="category-tab"
-									data-category="sportclub"
-								>
-									Спортивные общества
-								</button>
-								<button
-									hx-get="/search/filters?category=city"
-									hx-target="#search-filters"
-									hx-swap="innerHTML"
-									onclick="setActiveCategory(this)"
-									class="category-tab"
-									data-category="city"
-								>
-									Города
-								</button>
-							</div>
+		<!-- Разделы архива -->
+		<section class="sections-nav">
+			<div class="container">
+				<h2 class="section-title">Разделы архива</h2>
+				<div class="sections-grid">
+					<a href="/search?category=judoka" class="section-card">
+						<div class="section-card-icon">
+							<i data-lucide="users" class="section-icon-size"></i>
 						</div>
-
-						<!-- Контейнер для фильтров (динамически загружается через HTMX) -->
-						<div id="search-filters">
-							@IndexAllFilters()
+						<div class="section-card-body">
+							<h3>Дзюдоисты</h3>
+							<p>Профили спортсменов с биографией, результатами и весовыми категориями</p>
 						</div>
-					</div>
+						<i data-lucide="arrow-right" class="section-card-arrow"></i>
+					</a>
 
-					<!-- Контейнер для результатов поиска -->
-					<div id="search-results" class="search-results-container"></div>
+					<a href="/search?category=tournament" class="section-card">
+						<div class="section-card-icon">
+							<i data-lucide="trophy" class="section-icon-size"></i>
+						</div>
+						<div class="section-card-body">
+							<h3>Турниры</h3>
+							<p>Чемпионаты, первенства и открытые соревнования советской эпохи</p>
+						</div>
+						<i data-lucide="arrow-right" class="section-card-arrow"></i>
+					</a>
+
+					<a href="/search?category=sportclub" class="section-card">
+						<div class="section-card-icon">
+							<i data-lucide="building" class="section-icon-size"></i>
+						</div>
+						<div class="section-card-body">
+							<h3>Спортивные общества</h3>
+							<p>Клубы и секции дзюдо по всему Советскому Союзу</p>
+						</div>
+						<i data-lucide="arrow-right" class="section-card-arrow"></i>
+					</a>
+
+					<a href="/search?category=city" class="section-card">
+						<div class="section-card-icon">
+							<i data-lucide="map-pin" class="section-icon-size"></i>
+						</div>
+						<div class="section-card-body">
+							<h3>Города</h3>
+							<p>География советского дзюдо — от Москвы до Владивостока</p>
+						</div>
+						<i data-lucide="arrow-right" class="section-card-arrow"></i>
+					</a>
 				</div>
 			</div>
 		</section>
@@ -126,7 +91,7 @@ templ Index() {
 							<i data-lucide="users" class="stat-icon-size stat-icon-color"></i>
 						</div>
 						<div class="stat-number">15,847</div>
-						<div class="stat-label">Спортсменов</div>
+						<div class="stat-label">Дзюдоистов</div>
 					</div>
 
 					<div class="stat-card">
@@ -152,14 +117,24 @@ templ Index() {
 						<div class="stat-number">89,234</div>
 						<div class="stat-label">Результатов</div>
 					</div>
+
+					<div class="stat-card">
+						<div class="stat-icon">
+							<i data-lucide="globe-2" class="stat-icon-size stat-icon-color"></i>
+						</div>
+						<div class="stat-number">15</div>
+						<div class="stat-label">Республик СССР</div>
+					</div>
 				</div>
 
 				<!-- Contribution Notice -->
 				<div class="index-contribution-notice">
-					<p >
+					<p>
 						<i data-lucide="lightbulb" class="icon-bulb"></i>
-						<span><strong >Помогите развивать архив!</strong> Если вы обнаружили ошибку в фамилии или имени, а также обладаете более ценной информацией, поделитесь ей с нами, пожалуйста.
-						<a href="/contribute" >Отправить информацию →</a></span>
+						<span>
+							<strong>Помогите развивать архив!</strong> Если вы обнаружили ошибку или располагаете ценной информацией — поделитесь ею с нами.
+							<a href="/contribute">Отправить информацию →</a>
+						</span>
 					</p>
 				</div>
 			</div>
@@ -169,21 +144,13 @@ templ Index() {
 		<section class="features">
 			<div class="container">
 				<h2 class="section-title">Возможности архива</h2>
-				<div class="features-grid">
+				<div class="features-grid features-grid-5">
 					<div class="feature-card">
 						<div class="feature-icon">
 							<i data-lucide="search" class="feature-icon-size"></i>
 						</div>
 						<h3>Расширенный поиск</h3>
-						<p>Мощная система поиска с множеством фильтров для быстрого нахождения нужных спортсменов и турниров</p>
-					</div>
-
-					<div class="feature-card">
-						<div class="feature-icon">
-							<i data-lucide="trending-up" class="feature-icon-size"></i>
-						</div>
-						<h3>Детальная статистика</h3>
-						<p>Полная статистика выступлений, динамика результатов и сравнительный анализ спортсменов</p>
+						<p>Поиск по дзюдоистам, турнирам, обществам и городам с многоуровневой фильтрацией</p>
 					</div>
 
 					<div class="feature-card">
@@ -191,15 +158,15 @@ templ Index() {
 							<i data-lucide="award" class="feature-icon-size"></i>
 						</div>
 						<h3>История турниров</h3>
-						<p>Архив всех значимых турниров с результатами, составами и подробной информацией</p>
+						<p>Архив всех значимых соревнований с результатами, составами и подробной информацией</p>
 					</div>
 
 					<div class="feature-card">
 						<div class="feature-icon">
 							<i data-lucide="user-circle" class="feature-icon-size"></i>
 						</div>
-						<h3>Профили спортсменов</h3>
-						<p>Подробные профили с фотографиями, биографией, достижениями и карьерной статистикой</p>
+						<h3>Профили дзюдоистов</h3>
+						<p>Подробные карточки спортсменов с биографией, достижениями и карьерной статистикой</p>
 					</div>
 
 					<div class="feature-card">
@@ -207,15 +174,37 @@ templ Index() {
 							<i data-lucide="map-pin" class="feature-icon-size"></i>
 						</div>
 						<h3>География дзюдо</h3>
-						<p>Информация о школах дзюдо, тренерах и спортивных обществах по всему миру</p>
+						<p>Спортивные общества, тренеры и секции дзюдо по республикам и городам СССР</p>
 					</div>
 
 					<div class="feature-card">
 						<div class="feature-icon">
 							<i data-lucide="zap" class="feature-icon-size"></i>
 						</div>
-						<h3>Быстрое обновление</h3>
-						<p>Оперативное добавление результатов соревнований и актуализация данных</p>
+						<h3>Пополнение базы</h3>
+						<p>Возможность добавить данные и исправить неточности — архив живёт вместе с сообществом</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- History Block -->
+		<section class="history-block">
+			<div class="container">
+				<div class="history-content">
+					<div class="history-text">
+						<h2>История советского дзюдо</h2>
+						<p>
+							Дзюдо в СССР прошло путь от экзотической японской борьбы до олимпийской дисциплины, в которой советские спортсмены завоевали признание всего мира.
+							Этот архив хранит записи о тысячах турниров, спортсменов и тренеров, вписавших свои имена в историю отечественного дзюдо.
+						</p>
+						<a href="/history" class="btn-outline">
+							Узнать больше
+							<i data-lucide="arrow-right" class="icon-sm"></i>
+						</a>
+					</div>
+					<div class="history-decoration">
+						<i data-lucide="medal" class="history-icon"></i>
 					</div>
 				</div>
 			</div>
@@ -228,12 +217,12 @@ templ IndexAllFilters() {
 	<div class="filters">
 		<input type="hidden" name="category" value="all"/>
 		<div class="all-search-hint">
-			<p>Введите запрос для поиска по всем категориям: спортсменам, турнирам, спортивным обществам и городам</p>
+			<p>Введите запрос для поиска по всем категориям: дзюдоистам, турнирам, спортивным обществам и городам</p>
 		</div>
 	</div>
 }
 
-// IndexJudokaFilters отображает фильтры для спортсменов на главной странице
+// IndexJudokaFilters отображает фильтры для дзюдоистов
 templ IndexJudokaFilters() {
 	<div class="filters">
 		<input type="hidden" name="category" value="judoka"/>
@@ -245,7 +234,7 @@ templ IndexJudokaFilters() {
 				hx-get="/search/results"
 				hx-trigger="change"
 				hx-target="#search-results"
-				hx-include="[name='query'], [name='category'], [name^='filter_']"
+				hx-include="[name='query'], [name='category'], [name^='filter_'], [name='sort_by'], [name='sort_dir']"
 			>
 				<option value="">Все</option>
 				<option value="-48">-48 кг</option>
@@ -265,7 +254,7 @@ templ IndexJudokaFilters() {
 				hx-get="/search/results"
 				hx-trigger="change"
 				hx-target="#search-results"
-				hx-include="[name='query'], [name='category'], [name^='filter_']"
+				hx-include="[name='query'], [name='category'], [name^='filter_'], [name='sort_by'], [name='sort_dir']"
 			>
 				<option value="">Все</option>
 				<option value="male">Мужской</option>
@@ -274,63 +263,77 @@ templ IndexJudokaFilters() {
 		</div>
 
 		<div class="filter-group">
-			<label>Возрастная группа</label>
-			<select
-				name="filter_age_group"
+			<label>Год рождения</label>
+			<input
+				type="number"
+				name="filter_birth_year"
+				placeholder="1960"
+				min="1920"
+				max="1985"
 				hx-get="/search/results"
-				hx-trigger="change"
+				hx-trigger="keyup changed delay:500ms"
 				hx-target="#search-results"
-				hx-include="[name='query'], [name='category'], [name^='filter_']"
-			>
-				<option value="">Все</option>
-				<option value="adults">Взрослые</option>
-				<option value="juniors">Юниоры</option>
-				<option value="cadets">Кадеты</option>
-			</select>
+				hx-include="[name='query'], [name='category'], [name^='filter_'], [name='sort_by'], [name='sort_dir']"
+			/>
 		</div>
 
 		<div class="filter-group">
 			<label>Страна</label>
-			<input
-				type="text"
-				name="filter_country"
-				placeholder="Введите страну..."
-				hx-get="/search/results"
-				hx-trigger="keyup changed delay:500ms"
-				hx-target="#search-results"
-				hx-include="[name='query'], [name='category'], [name^='filter_']"
-			/>
+			<div class="autocomplete-wrapper">
+				<input
+					type="text"
+					name="filter_country"
+					placeholder="Введите страну..."
+					class="autocomplete-input"
+					autocomplete="off"
+					hx-get="/search/results"
+					hx-trigger="keyup changed delay:500ms"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_'], [name='sort_by'], [name='sort_dir']"
+				/>
+				<div class="autocomplete-dropdown" hidden></div>
+			</div>
 		</div>
 
 		<div class="filter-group">
 			<label>Спортивное общество</label>
-			<input
-				type="text"
-				name="filter_sportclub"
-				placeholder="Введите спортивное общество..."
-				hx-get="/search/results"
-				hx-trigger="keyup changed delay:500ms"
-				hx-target="#search-results"
-				hx-include="[name='query'], [name='category'], [name^='filter_']"
-			/>
+			<div class="autocomplete-wrapper">
+				<input
+					type="text"
+					name="filter_sportclub"
+					placeholder="Введите общество..."
+					class="autocomplete-input"
+					autocomplete="off"
+					hx-get="/search/results"
+					hx-trigger="keyup changed delay:500ms"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_'], [name='sort_by'], [name='sort_dir']"
+				/>
+				<div class="autocomplete-dropdown" hidden></div>
+			</div>
 		</div>
 
 		<div class="filter-group">
 			<label>Город</label>
-			<input
-				type="text"
-				name="filter_city"
-				placeholder="Введите город..."
-				hx-get="/search/results"
-				hx-trigger="keyup changed delay:500ms"
-				hx-target="#search-results"
-				hx-include="[name='query'], [name='category'], [name^='filter_']"
-			/>
+			<div class="autocomplete-wrapper">
+				<input
+					type="text"
+					name="filter_city"
+					placeholder="Введите город..."
+					class="autocomplete-input"
+					autocomplete="off"
+					hx-get="/search/results"
+					hx-trigger="keyup changed delay:500ms"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_'], [name='sort_by'], [name='sort_dir']"
+				/>
+				<div class="autocomplete-dropdown" hidden></div>
+			</div>
 		</div>
 	</div>
 }
 
-// IndexTournamentFilters отображает фильтры для турниров на главной странице
+// IndexTournamentFilters отображает фильтры для турниров
 templ IndexTournamentFilters() {
 	<div class="filters">
 		<input type="hidden" name="category" value="tournament"/>
@@ -342,7 +345,7 @@ templ IndexTournamentFilters() {
 				hx-get="/search/results"
 				hx-trigger="change"
 				hx-target="#search-results"
-				hx-include="[name='query'], [name='category'], [name^='filter_']"
+				hx-include="[name='query'], [name='category'], [name^='filter_'], [name='sort_by'], [name='sort_dir']"
 			>
 				<option value="">Все</option>
 				<option value="National Championships">Чемпионат</option>
@@ -352,13 +355,107 @@ templ IndexTournamentFilters() {
 		</div>
 
 		<div class="filter-group">
+			<label>Год</label>
+			<input
+				type="number"
+				name="filter_year"
+				placeholder="например, 1980"
+				min="1960"
+				max="1992"
+				hx-get="/search/results"
+				hx-trigger="keyup changed delay:500ms"
+				hx-target="#search-results"
+				hx-include="[name='query'], [name='category'], [name^='filter_'], [name='sort_by'], [name='sort_dir']"
+			/>
+		</div>
+
+		<div class="filter-group">
+			<label>Месяц</label>
+			<select
+				name="filter_month"
+				hx-get="/search/results"
+				hx-trigger="change"
+				hx-target="#search-results"
+				hx-include="[name='query'], [name='category'], [name^='filter_'], [name='sort_by'], [name='sort_dir']"
+			>
+				<option value="">Все</option>
+				<option value="1">Январь</option>
+				<option value="2">Февраль</option>
+				<option value="3">Март</option>
+				<option value="4">Апрель</option>
+				<option value="5">Май</option>
+				<option value="6">Июнь</option>
+				<option value="7">Июль</option>
+				<option value="8">Август</option>
+				<option value="9">Сентябрь</option>
+				<option value="10">Октябрь</option>
+				<option value="11">Ноябрь</option>
+				<option value="12">Декабрь</option>
+			</select>
+		</div>
+
+		<div class="filter-group">
+			<label>Город</label>
+			<div class="autocomplete-wrapper">
+				<input
+					type="text"
+					name="filter_city"
+					placeholder="Введите город..."
+					class="autocomplete-input"
+					autocomplete="off"
+					hx-get="/search/results"
+					hx-trigger="keyup changed delay:500ms"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_'], [name='sort_by'], [name='sort_dir']"
+				/>
+				<div class="autocomplete-dropdown" hidden></div>
+			</div>
+		</div>
+
+		<div class="filter-group">
+			<label>Республика СССР</label>
+			<div class="autocomplete-wrapper">
+				<input
+					type="text"
+					name="filter_republic"
+					placeholder="Введите республику..."
+					class="autocomplete-input"
+					autocomplete="off"
+					hx-get="/search/results"
+					hx-trigger="keyup changed delay:500ms"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_'], [name='sort_by'], [name='sort_dir']"
+				/>
+				<div class="autocomplete-dropdown" hidden></div>
+			</div>
+		</div>
+
+		<div class="filter-group">
+			<label>Страна</label>
+			<div class="autocomplete-wrapper">
+				<input
+					type="text"
+					name="filter_country"
+					placeholder="Введите страну..."
+					class="autocomplete-input"
+					autocomplete="off"
+					hx-get="/search/results"
+					hx-trigger="keyup changed delay:500ms"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_'], [name='sort_by'], [name='sort_dir']"
+				/>
+				<div class="autocomplete-dropdown" hidden></div>
+			</div>
+		</div>
+
+		<div class="filter-group">
 			<label>Пол</label>
 			<select
 				name="filter_gender"
 				hx-get="/search/results"
 				hx-trigger="change"
 				hx-target="#search-results"
-				hx-include="[name='query'], [name='category'], [name^='filter_']"
+				hx-include="[name='query'], [name='category'], [name^='filter_'], [name='sort_by'], [name='sort_dir']"
 			>
 				<option value="">Все</option>
 				<option value="Men">Мужчины</option>
@@ -367,185 +464,99 @@ templ IndexTournamentFilters() {
 		</div>
 
 		<div class="filter-group">
-			<label>Год</label>
+			<label>Возрастная группа</label>
 			<select
-				name="filter_year"
+				name="filter_age_group"
 				hx-get="/search/results"
 				hx-trigger="change"
 				hx-target="#search-results"
-				hx-include="[name='query'], [name='category'], [name^='filter_']"
+				hx-include="[name='query'], [name='category'], [name^='filter_'], [name='sort_by'], [name='sort_dir']"
 			>
 				<option value="">Все</option>
-				<option value="1992">1992</option>
-				<option value="1991">1991</option>
-				<option value="1990">1990</option>
-				<option value="1989">1989</option>
-				<option value="1988">1988</option>
-				<option value="1987">1987</option>
-				<option value="1986">1986</option>
-				<option value="1985">1985</option>
-				<option value="1984">1984</option>
-				<option value="1983">1983</option>
-				<option value="1982">1982</option>
-				<option value="1981">1981</option>
-				<option value="1980">1980</option>
-				<option value="1979">1979</option>
-				<option value="1978">1978</option>
-				<option value="1976">1976</option>
-				<option value="1974">1974</option>
-				<option value="1973">1973</option>
-				<option value="1972">1972</option>
-				<option value="1971">1971</option>
-				<option value="1970">1970</option>
+				<option value="adults">Взрослые</option>
+				<option value="juniors">Юниоры</option>
+				<option value="cadets">Кадеты</option>
 			</select>
-		</div>
-
-		<div class="filter-group">
-			<label>Город</label>
-			<input
-				type="text"
-				name="filter_city"
-				placeholder="Введите город..."
-				hx-get="/search/results"
-				hx-trigger="keyup changed delay:500ms"
-				hx-target="#search-results"
-				hx-include="[name='query'], [name='category'], [name^='filter_']"
-			/>
-		</div>
-
-		<div class="filter-group">
-			<label>Страна</label>
-			<input
-				type="text"
-				name="filter_country"
-				placeholder="Введите страну..."
-				hx-get="/search/results"
-				hx-trigger="keyup changed delay:500ms"
-				hx-target="#search-results"
-				hx-include="[name='query'], [name='category'], [name^='filter_']"
-			/>
-		</div>
-
-		<div class="filter-group">
-			<label>Республика</label>
-			<input
-				type="text"
-				name="filter_republic"
-				placeholder="Введите республику..."
-				hx-get="/search/results"
-				hx-trigger="keyup changed delay:500ms"
-				hx-target="#search-results"
-				hx-include="[name='query'], [name='category'], [name^='filter_']"
-			/>
 		</div>
 	</div>
 }
 
-// IndexSportClubFilters отображает фильтры для спортклубов на главной странице
+// IndexSportClubFilters отображает фильтры для спортивных обществ
 templ IndexSportClubFilters() {
 	<div class="filters">
 		<input type="hidden" name="category" value="sportclub"/>
 
 		<div class="filter-group">
 			<label>Город</label>
-			<input
-				type="text"
-				name="filter_city"
-				placeholder="Введите город..."
-				hx-get="/search/results"
-				hx-trigger="keyup changed delay:500ms"
-				hx-target="#search-results"
-				hx-include="[name='query'], [name='category'], [name^='filter_']"
-			/>
+			<div class="autocomplete-wrapper">
+				<input
+					type="text"
+					name="filter_city"
+					placeholder="Введите город..."
+					class="autocomplete-input"
+					autocomplete="off"
+					hx-get="/search/results"
+					hx-trigger="keyup changed delay:500ms"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_'], [name='sort_by'], [name='sort_dir']"
+				/>
+				<div class="autocomplete-dropdown" hidden></div>
+			</div>
 		</div>
 
 		<div class="filter-group">
-			<label>Регион</label>
-			<input
-				type="text"
-				name="filter_region"
-				placeholder="Введите регион..."
-				hx-get="/search/results"
-				hx-trigger="keyup changed delay:500ms"
-				hx-target="#search-results"
-				hx-include="[name='query'], [name='category'], [name^='filter_']"
-			/>
-		</div>
-
-		<div class="filter-group">
-			<label>Год основания от</label>
-			<input
-				type="number"
-				name="filter_founded"
-				placeholder="2000"
-				min="1900"
-				max="2024"
-				hx-get="/search/results"
-				hx-trigger="keyup changed delay:500ms"
-				hx-target="#search-results"
-				hx-include="[name='query'], [name='category'], [name^='filter_']"
-			/>
+			<label>Республика СССР</label>
+			<div class="autocomplete-wrapper">
+				<input
+					type="text"
+					name="filter_republic"
+					placeholder="Введите республику..."
+					class="autocomplete-input"
+					autocomplete="off"
+					hx-get="/search/results"
+					hx-trigger="keyup changed delay:500ms"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_'], [name='sort_by'], [name='sort_dir']"
+				/>
+				<div class="autocomplete-dropdown" hidden></div>
+			</div>
 		</div>
 	</div>
 }
 
-// IndexCityFilters отображает фильтры для городов на главной странице
+// IndexCityFilters отображает фильтры для городов
 templ IndexCityFilters() {
 	<div class="filters">
 		<input type="hidden" name="category" value="city"/>
 
 		<div class="filter-group">
-			<label>Республика</label>
+			<label>Республика СССР</label>
+			<div class="autocomplete-wrapper">
+				<input
+					type="text"
+					name="filter_republic"
+					placeholder="Введите республику..."
+					class="autocomplete-input"
+					autocomplete="off"
+					hx-get="/search/results"
+					hx-trigger="keyup changed delay:500ms"
+					hx-target="#search-results"
+					hx-include="[name='query'], [name='category'], [name^='filter_'], [name='sort_by'], [name='sort_dir']"
+				/>
+				<div class="autocomplete-dropdown" hidden></div>
+			</div>
+		</div>
+
+		<div class="filter-group">
+			<label>Область</label>
 			<input
 				type="text"
-				name="filter_republic"
-				placeholder="Введите республику..."
+				name="filter_oblast"
+				placeholder="Введите область..."
 				hx-get="/search/results"
 				hx-trigger="keyup changed delay:500ms"
 				hx-target="#search-results"
-				hx-include="[name='query'], [name='category'], [name^='filter_']"
-			/>
-		</div>
-
-		<div class="filter-group">
-			<label>Население от</label>
-			<input
-				type="number"
-				name="filter_min_population"
-				placeholder="100000"
-				min="0"
-				hx-get="/search/results"
-				hx-trigger="keyup changed delay:500ms"
-				hx-target="#search-results"
-				hx-include="[name='query'], [name='category'], [name^='filter_']"
-			/>
-		</div>
-
-		<div class="filter-group">
-			<label>Спортивных обществ от</label>
-			<input
-				type="number"
-				name="filter_min_sportclubs"
-				placeholder="5"
-				min="0"
-				hx-get="/search/results"
-				hx-trigger="keyup changed delay:500ms"
-				hx-target="#search-results"
-				hx-include="[name='query'], [name='category'], [name^='filter_']"
-			/>
-		</div>
-
-		<div class="filter-group">
-			<label>Спортсменов от</label>
-			<input
-				type="number"
-				name="filter_min_athletes"
-				placeholder="100"
-				min="0"
-				hx-get="/search/results"
-				hx-trigger="keyup changed delay:500ms"
-				hx-target="#search-results"
-				hx-include="[name='query'], [name='category'], [name^='filter_']"
+				hx-include="[name='query'], [name='category'], [name^='filter_'], [name='sort_by'], [name='sort_dir']"
 			/>
 		</div>
 	</div>
