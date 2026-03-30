@@ -1,7 +1,7 @@
 env : "production"
 
 http_server:
-  address: "0.0.0.0:8000"
+  address: "0.0.0.0:80"
   timeouts:
     request: 4s
     idle: 60s

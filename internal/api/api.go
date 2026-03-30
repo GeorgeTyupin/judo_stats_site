@@ -146,6 +146,7 @@ func registerHandlers(repo *repository.DBRepository, logger *slog.Logger) *chi.M
 	searchService := search.NewSearchService(repo, logger)
 	searchHandler := handlers.NewSearchHandler(searchService, logger)
 
+	r.Get("/search", searchHandler.SearchPageHandler)
 	r.Get("/search/filters", searchHandler.SearchFiltersHandler)
 	r.Get("/search/results", searchHandler.SearchResultsHandler)
 
