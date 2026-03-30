@@ -1,8 +1,8 @@
 package migrations
 
 import (
+	"context"
 	"database/sql"
-	"errors"
 	"fmt"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
@@ -16,13 +16,12 @@ func Run(connStr string) error {
 	}
 	defer db.Close()
 
-	goose.SetBaseFS(Files)
-
-	if err := goose.SetDialect("postgres"); err != nil {
-		return fmt.Errorf("настройка диалекта goose: %w", err)
+	provider, err := goose.NewProvider(goose.DialectPostgres, db, Files)
+	if err != nil {
+		return fmt.Errorf("создание goose provider: %w", err)
 	}
 
-	if err := goose.Up(db, "."); err != nil && !errors.Is(err, goose.ErrNoNextVersion) {
+	if _, err := provider.Up(context.Background()); err != nil {
 		return fmt.Errorf("выполнение миграций: %w", err)
 	}
 
