@@ -15,20 +15,16 @@ import (
 	"golang.org/x/crypto/acme/autocert"
 )
 
-const component = "HTTPServer"
-
 type ServerApp struct {
 	logger       *slog.Logger
 	server       *http.Server
 	httpRedirect *http.Server
 	cfg          *config.Config
 	autocertMgr  *autocert.Manager
-	db           *repository.DBRepository
+	db           *repository.SearchRepository
 }
 
-func NewApp(logger *slog.Logger, cfg *config.Config, repo *repository.DBRepository) *ServerApp {
-	logger = logger.With(slog.String("place", component))
-
+func NewApp(logger *slog.Logger, cfg *config.Config, repo *repository.SearchRepository) *ServerApp {
 	handler := registerHandlers(repo, logger)
 
 	app := &ServerApp{
@@ -126,7 +122,7 @@ func (app *ServerApp) Shutdown() {
 	}
 }
 
-func registerHandlers(repo *repository.DBRepository, logger *slog.Logger) *chi.Mux {
+func registerHandlers(repo *repository.SearchRepository, logger *slog.Logger) *chi.Mux {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 

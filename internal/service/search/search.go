@@ -25,7 +25,7 @@ type SearchService struct {
 func NewSearchService(repo SearchRepository, logger *slog.Logger) *SearchService {
 	return &SearchService{
 		repo:   repo,
-		logger: logger.With(slog.String("component", "SearchService")),
+		logger: logger,
 	}
 }
 

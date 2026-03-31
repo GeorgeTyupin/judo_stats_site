@@ -56,6 +56,7 @@ type Database struct {
 	MaxConns        int32         `yaml:"max_conns"`
 	MinConns        int32         `yaml:"min_conns"`
 	Port            int32         `env:"DB_PORT"`
+	SelectRowsLimit int32         `yaml:"select_rows_limit" env-default:"100"`
 }
 
 func (d *Database) GetConnString() string {

@@ -26,14 +26,16 @@ func main() {
 	repoCtx, repoCtxCancelFunc := context.WithTimeout(context.Background(), cfg.Database.DBIdle)
 	defer repoCtxCancelFunc()
 
-	pgRepo, err := repository.NewDBRepository(repoCtx, &cfg.Database, logger)
+	dbPool, err := repository.NewDBPool(repoCtx, &cfg.Database, logger)
 	if err != nil {
 		logger.Error("Ошибка подключения к базе данных", slog.String("error", err.Error()))
+		dbPool.Close()
 		os.Exit(1)
 	}
-	defer pgRepo.Close()
+	defer dbPool.Close()
+	searchRepo := repository.NewSearchRepository(dbPool, logger, &cfg.Database)
 
-	application := api.NewApp(logger, cfg, pgRepo)
+	application := api.NewApp(logger, cfg, searchRepo)
 
 	signalCh := make(chan os.Signal, 2)
 	signal.Notify(signalCh, os.Interrupt, syscall.SIGTERM)
