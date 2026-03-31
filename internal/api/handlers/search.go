@@ -11,8 +11,6 @@ import (
 	"log/slog"
 )
 
-const component = "SearchHandler"
-
 type SearchService interface {
 	GeneralSearch(ctx context.Context, query string) ([]any, error)
 	JudokaSearch(ctx context.Context, query string, filter dto.JudokaFilters) ([]dto.JudokaResponse, error)
@@ -27,8 +25,6 @@ type SearchHandler struct {
 }
 
 func NewSearchHandler(service SearchService, logger *slog.Logger) *SearchHandler {
-	logger = logger.With(slog.String("component", component))
-
 	return &SearchHandler{
 		service: service,
 		logger:  logger,
@@ -182,7 +178,6 @@ func parseTournamentFilters(r *http.Request) dto.TournamentFilters {
 	filters := dto.TournamentFilters{
 		Type:       r.URL.Query().Get("filter_type"),
 		Gender:     r.URL.Query().Get("filter_gender"),
-		AgeGroup:   r.URL.Query().Get("filter_age_group"),
 		City:       r.URL.Query().Get("filter_city"),
 		Republic:   r.URL.Query().Get("filter_republic"),
 		Country:    r.URL.Query().Get("filter_country"),

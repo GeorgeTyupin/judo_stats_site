@@ -463,21 +463,6 @@ templ IndexTournamentFilters() {
 			</select>
 		</div>
 
-		<div class="filter-group">
-			<label>Возрастная группа</label>
-			<select
-				name="filter_age_group"
-				hx-get="/search/results"
-				hx-trigger="change"
-				hx-target="#search-results"
-				hx-include="[name='query'], [name='category'], [name^='filter_'], [name='sort_by'], [name='sort_dir']"
-			>
-				<option value="">Все</option>
-				<option value="adults">Взрослые</option>
-				<option value="juniors">Юниоры</option>
-				<option value="cadets">Кадеты</option>
-			</select>
-		</div>
 	</div>
 }
 

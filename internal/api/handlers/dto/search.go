@@ -32,7 +32,6 @@ type JudokaFilters struct {
 type TournamentFilters struct {
 	Type     string // National Championships, National Open WC Championships, National Tournament
 	Gender   string // Men, Women
-	AgeGroup string // Взрослые, Юниоры, Кадеты
 	Year     int    // Год проведения (точное значение)
 	Month    int    // Месяц проведения (1-12)
 	City     string // Город проведения
@@ -69,7 +68,6 @@ type TournamentResponse struct {
 	ID       int64  `json:"id"`
 	Name     string `json:"name"`
 	Type     string `json:"type,omitempty"`
-	AgeGroup string `json:"age_group,omitempty"`
 	Place    string `json:"place,omitempty"`
 	Date     string `json:"date,omitempty"`
 	Gender   string `json:"gender,omitempty"`
