@@ -63,3 +63,4 @@ docker-compose.override.yaml
 
 Data.json
 *.env
+*pptx
