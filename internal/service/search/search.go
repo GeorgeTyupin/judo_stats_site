@@ -2,10 +2,12 @@ package search
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 
 	"judo_stats_site/internal/api/handlers/dto"
 	"judo_stats_site/internal/repository/record"
+	"judo_stats_site/pkg/lib/canonize"
 )
 
 // SearchRepository определяет методы работы с базой данных для поиска
@@ -36,9 +38,14 @@ func (s *SearchService) GeneralSearch(ctx context.Context, query string) ([]any,
 }
 
 func (s *SearchService) JudokaSearch(ctx context.Context, query string, filter dto.JudokaFilters) ([]dto.JudokaResponse, error) {
+	query, err := canonize.Canonize(query)
+	if err != nil {
+		return nil, fmt.Errorf("не удалось канонизировать запрос: %w", err)
+	}
+
 	judokas, err := s.repo.JudokaSearch(ctx, query, filter)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("не удалось выполнить поиск: %w", err)
 	}
 
 	responses := make([]dto.JudokaResponse, len(judokas))
