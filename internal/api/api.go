@@ -9,9 +9,11 @@ import (
 	"judo_stats_site/internal/service/search"
 	"log/slog"
 	"net/http"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/httprate"
 	"golang.org/x/crypto/acme/autocert"
 )
 
@@ -25,7 +27,7 @@ type ServerApp struct {
 }
 
 func NewApp(logger *slog.Logger, cfg *config.Config, repo *repository.SearchRepository) *ServerApp {
-	handler := registerHandlers(repo, logger)
+	handler := registerHandlers(cfg, repo, logger)
 
 	app := &ServerApp{
 		logger: logger,
@@ -122,9 +124,11 @@ func (app *ServerApp) Shutdown() {
 	}
 }
 
-func registerHandlers(repo *repository.SearchRepository, logger *slog.Logger) *chi.Mux {
+func registerHandlers(cfg *config.Config, repo *repository.SearchRepository, logger *slog.Logger) *chi.Mux {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
+	r.Use(middleware.Recoverer)
+	r.Use(httprate.LimitByIP(cfg.HTTPServer.RequestsLimit, time.Minute))
 
 	// Статические файлы
 	fileServer := http.FileServer(http.Dir("static"))

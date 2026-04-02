@@ -24,8 +24,9 @@ type Config struct {
 }
 
 type HTTPServer struct {
-	Timeouts HTTPTimeouts `yaml:"timeouts"`
-	Address  string       `yaml:"address" env-default:"0.0.0.0:5000"`
+	Timeouts      HTTPTimeouts `yaml:"timeouts"`
+	Address       string       `yaml:"address" env-default:"0.0.0.0:5000"`
+	RequestsLimit int          `yaml:"requests_limit" env-default:"100"`
 }
 
 type HTTPTimeouts struct {
