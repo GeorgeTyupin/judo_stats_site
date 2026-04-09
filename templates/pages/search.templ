@@ -16,10 +16,16 @@ templ SearchPage() {
 				<div class="search-card">
 					<div class="search-header">
 						<h2>Поиск</h2>
-						<button class="toggle-filters" onclick="toggleFilters()">
-							<span id="filterText">Скрыть фильтры</span>
-							<i data-lucide="settings" class="icon-md"></i>
-						</button>
+						<div class="search-header-actions">
+							<button class="clear-all-btn" onclick="clearAllFilters()">
+								<i data-lucide="x" class="icon-sm"></i>
+								Очистить фильтры
+							</button>
+							<button class="toggle-filters" onclick="toggleFilters()">
+								<span id="filterText">Скрыть фильтры</span>
+								<i data-lucide="settings" class="icon-md"></i>
+							</button>
+						</div>
 					</div>
 
 					<!-- Строка поиска -->
@@ -55,10 +61,6 @@ templ SearchPage() {
 						<!-- Активные фильтры -->
 						<div id="active-filters" class="active-filters" style="display:none">
 							<div class="active-filters-chips" id="filter-chips"></div>
-							<button class="clear-filters-btn" onclick="clearAllFilters()">
-								<i data-lucide="x" class="icon-sm"></i>
-								Очистить фильтры
-							</button>
 						</div>
 
 						<!-- Категории поиска -->

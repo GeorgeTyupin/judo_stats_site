@@ -164,13 +164,13 @@ func parseSortParams(r *http.Request) dto.SortParams {
 
 func parseJudokaFilters(r *http.Request) dto.JudokaFilters {
 	return dto.JudokaFilters{
-		WeightCategory: r.URL.Query().Get("filter_weight"),
-		Gender:         r.URL.Query().Get("filter_gender"),
-		BirthYear:      r.URL.Query().Get("filter_birth_year"),
-		Country:        r.URL.Query().Get("filter_country"),
-		SportClub:      r.URL.Query().Get("filter_sportclub"),
-		City:           r.URL.Query().Get("filter_city"),
-		SortParams:     parseSortParams(r),
+		WeightCategories: r.URL.Query()["filter_weight"],
+		Gender:           r.URL.Query().Get("filter_gender"),
+		BirthYear:        r.URL.Query().Get("filter_birth_year"),
+		Country:          r.URL.Query().Get("filter_country"),
+		SportClub:        r.URL.Query().Get("filter_sportclub"),
+		City:             r.URL.Query().Get("filter_city"),
+		SortParams:       parseSortParams(r),
 	}
 }
 

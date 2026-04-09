@@ -227,24 +227,39 @@ templ IndexJudokaFilters() {
 	<div class="filters">
 		<input type="hidden" name="category" value="judoka"/>
 
-		<div class="filter-group">
+		<div class="filter-group filter-group-full">
 			<label>Весовая категория</label>
-			<select
-				name="filter_weight"
-				hx-get="/search/results"
-				hx-trigger="change"
-				hx-target="#search-results"
-				hx-include="[name='query'], [name='category'], [name^='filter_'], [name='sort_by'], [name='sort_dir']"
-			>
-				<option value="">Все</option>
-				<option value="-48">-48 кг</option>
-				<option value="-52">-52 кг</option>
-				<option value="-57">-57 кг</option>
-				<option value="-63">-63 кг</option>
-				<option value="-70">-70 кг</option>
-				<option value="-78">-78 кг</option>
-				<option value="+78">+78 кг</option>
-			</select>
+			<div class="weight-toggle-group">
+				for _, cat := range []struct{ val, label string }{
+					{"-48", "-48 кг"},
+					{"-52", "-52 кг"},
+					{"-57", "-57 кг"},
+					{"-60", "-60 кг"},
+					{"-63", "-63 кг"},
+					{"-66", "-66 кг"},
+					{"-70", "-70 кг"},
+					{"-73", "-73 кг"},
+					{"-78", "-78 кг"},
+					{"-81", "-81 кг"},
+					{"+78", "+78 кг"},
+					{"-90", "-90 кг"},
+					{"-100", "-100 кг"},
+					{"+100", "+100 кг"},
+				} {
+					<label class="weight-toggle">
+						<input
+							type="checkbox"
+							name="filter_weight"
+							value={ cat.val }
+							hx-get="/search/results"
+							hx-trigger="change"
+							hx-target="#search-results"
+							hx-include="[name='query'], [name='category'], [name^='filter_'], [name='sort_by'], [name='sort_dir']"
+						/>
+						<span>{ cat.label }</span>
+					</label>
+				}
+			</div>
 		</div>
 
 		<div class="filter-group">

@@ -135,18 +135,16 @@ document.addEventListener('DOMContentLoaded', function () {
 	// Filter chips
 	// ============================================================
 	var filterLabels = {
+		'filter_weight':      'Вес',
 		'filter_country':     'Страна',
 		'filter_gender':      'Пол',
 		'filter_birth_year':  'Год рождения',
-		'filter_sport_club':  'Спортивное общество',
+		'filter_sportclub':   'Спортивное общество',
 		'filter_city':        'Город',
 		'filter_type':        'Тип',
-		'filter_year_from':   'Год от',
-		'filter_year_to':     'Год до',
-		'filter_month_from':  'Месяц от',
-		'filter_month_to':    'Месяц до',
+		'filter_year':        'Год',
+		'filter_month':       'Месяц',
 		'filter_republic':    'Республика',
-		'filter_age_group':   'Возраст. группа',
 		'filter_oblast':      'Область',
 	};
 
@@ -158,7 +156,29 @@ document.addEventListener('DOMContentLoaded', function () {
 		chipsContainer.innerHTML = '';
 		var hasActive = false;
 
-		document.querySelectorAll('[name^="filter_"]').forEach(function (input) {
+		// Сгруппировать чекбоксы по name и создать один chip на группу
+		var checkboxGroups = {};
+		document.querySelectorAll('[name^="filter_"][type="checkbox"]').forEach(function (cb) {
+			if (!cb.checked) return;
+			if (!checkboxGroups[cb.name]) checkboxGroups[cb.name] = [];
+			checkboxGroups[cb.name].push(cb.value);
+		});
+		Object.keys(checkboxGroups).forEach(function (name) {
+			var values = checkboxGroups[name];
+			hasActive = true;
+			var label = filterLabels[name] || name;
+			var chip = document.createElement('span');
+			chip.className = 'filter-chip';
+			chip.innerHTML =
+				'<span>' + label + ': ' + escapeHtml(values.join(', ')) + '</span>' +
+				'<button class="filter-chip-remove" type="button" data-target="' + name + '" data-is-checkbox="true">' +
+					'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
+				'</button>';
+			chipsContainer.appendChild(chip);
+		});
+
+		// Обычные инпуты (не чекбоксы)
+		document.querySelectorAll('[name^="filter_"]:not([type="checkbox"])').forEach(function (input) {
 			var val = input.value.trim();
 			if (!val) return;
 			hasActive = true;
@@ -188,18 +208,26 @@ document.addEventListener('DOMContentLoaded', function () {
 		var btn = e.target.closest('.filter-chip-remove');
 		if (!btn) return;
 		var targetName = btn.dataset.target;
-		var input = document.querySelector('[name="' + targetName + '"]');
-		if (input) {
-			input.value = '';
-			updateFilterChips();
-			triggerSearch();
+		if (btn.dataset.isCheckbox === 'true') {
+			document.querySelectorAll('[name="' + targetName + '"][type="checkbox"]').forEach(function (cb) {
+				cb.checked = false;
+			});
+		} else {
+			var input = document.querySelector('[name="' + targetName + '"]');
+			if (input) input.value = '';
 		}
+		updateFilterChips();
+		triggerSearch();
 	});
 
 	// Clear all filters
 	window.clearAllFilters = function () {
 		document.querySelectorAll('[name^="filter_"]').forEach(function (input) {
-			input.value = '';
+			if (input.type === 'checkbox') {
+				input.checked = false;
+			} else {
+				input.value = '';
+			}
 		});
 		updateFilterChips();
 		triggerSearch();

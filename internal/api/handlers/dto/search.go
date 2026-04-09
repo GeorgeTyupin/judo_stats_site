@@ -19,12 +19,12 @@ type SortParams struct {
 
 // JudokaFilters представляет фильтры для поиска дзюдоистов
 type JudokaFilters struct {
-	WeightCategory string // -48, -52, -57, -63, -70, -78, +78
-	Country        string // Страна
-	Gender         string // Мужской/Женский
-	BirthYear      string // Год рождения
-	SportClub      string // Название спортивного общества
-	City           string // Город
+	WeightCategories []string // -48, -52, -57, -63, -70, -78, +78 (множественный выбор)
+	Country          string   // Страна
+	Gender           string   // Мужской/Женский
+	BirthYear        string   // Год рождения
+	SportClub        string   // Название спортивного общества
+	City             string   // Город
 	SortParams
 }
 
