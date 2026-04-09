@@ -162,7 +162,7 @@
     background: white;
     border-radius: 12px;
     padding: 18px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+    box-shadow: var(--shadow-xl);
     margin-bottom: 20px;
 }
 
@@ -199,15 +199,15 @@
     padding: 12px;
     border-radius: 10px;
     text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: var(--shadow-md);
     border: 2px solid #E3F2FD;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .stat-card:hover {
-    transform: translateY(-4px) scale(1.02);
+    transform: translateY(-6px) scale(1.02);
     border-color: #14B8A6;
-    box-shadow: 0 8px 20px rgba(20, 184, 166, 0.2);
+    box-shadow: var(--shadow-hover);
 }
 
 .stat-card:hover .stat-number {
@@ -366,7 +366,7 @@
 
 /* Previous Champions Section */
 .prev-champions-section {
-    padding: 20px 0 30px 0;
+    padding: 16px 0 24px 0;
     background: #F1F5F9;
     border-top: 2px dashed #CBD5E1;
     margin-top: 10px;
@@ -381,7 +381,7 @@
 .prev-champions-card {
     background: #F8FAFC;
     border-radius: 12px;
-    padding: 20px;
+    padding: 16px;
     border: 1px solid #E2E8F0;
     border-left: 4px solid #0D9488;
 }
@@ -420,7 +420,7 @@
 .prev-champions-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 8px;
+    gap: 6px;
 }
 
 .prev-champ-row {
@@ -436,7 +436,7 @@
 
 .prev-champ-row:hover {
     border-color: #0D9488;
-    box-shadow: 0 2px 8px rgba(13, 148, 136, 0.1);
+    box-shadow: 0 4px 12px rgba(13, 148, 136, 0.20);
 }
 
 .prev-champ-category {
@@ -467,7 +467,7 @@
 
 /* Years Navigation Section */
 .years-navigation-section {
-    padding: 20px 0;
+    padding: 16px 0;
 }
 
 .years-navigation-section .container {
@@ -479,8 +479,8 @@
 .years-navigation-card {
     background: white;
     border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    padding: 16px;
+    box-shadow: var(--shadow-md);
 }
 
 .tournament-years-header {
@@ -551,7 +551,7 @@
     border-color: #14B8A6;
     background: white;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(20, 184, 166, 0.15);
+    box-shadow: var(--shadow-hover);
 }
 
 .timeline-card.current {
@@ -588,7 +588,7 @@
 
 /* Weight Categories Section */
 .weight-categories {
-    padding: 20px 0;
+    padding: 16px 0;
 }
 
 .weight-categories .container {
@@ -646,7 +646,7 @@
 .gender-sections {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: var(--grid-gap);
     margin-bottom: 20px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -658,8 +658,8 @@
 .gender-section {
     background: white;
     border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    padding: 16px;
+    box-shadow: var(--shadow-md);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 1;
     transform: scale(1);
@@ -685,7 +685,7 @@
 .categories-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: var(--grid-gap-sm);
 }
 
 .category-card {
@@ -693,17 +693,17 @@
     border: 2px solid #E3F2FD;
     border-left: 4px solid #14B8A6;
     border-radius: 12px;
-    padding: 15px;
+    padding: 12px;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    box-shadow: var(--shadow-md);
     margin-bottom: 10px;
 }
 
 .category-card:hover {
     border-left-color: #0D9488;
     border-left-width: 6px;
-    box-shadow: 0 8px 24px rgba(20, 184, 166, 0.2);
-    transform: translateY(-3px) translateX(2px);
+    box-shadow: var(--shadow-hover-deep);
+    transform: translateY(-5px) translateX(2px);
 }
 
 .category-header {

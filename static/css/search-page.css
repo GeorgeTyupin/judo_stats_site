@@ -5,7 +5,7 @@
 .search-page-hero {
     background: linear-gradient(135deg, #0F172A 0%, #1e293b 100%);
     color: white;
-    padding: 40px 0;
+    padding: var(--section-padding-sm);
     text-align: center;
 }
 
@@ -22,22 +22,22 @@
 }
 
 .search-page-section {
-    padding: 30px 0 50px;
+    padding: 30px 0 40px;
 }
 
 /* Search card (shared styles used on /search page) */
 .search-card {
     background: white;
     border-radius: 16px;
-    padding: 30px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    padding: var(--card-padding);
+    box-shadow: var(--shadow-lg);
 }
 
 .search-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 22px;
+    margin-bottom: 16px;
 }
 
 .search-header h2 {
@@ -151,7 +151,7 @@
 
 .search-btn:hover {
     transform: translateY(-2px) scale(1.03);
-    box-shadow: 0 6px 18px rgba(20, 184, 166, 0.35);
+    box-shadow: var(--shadow-hover);
 }
 
 .search-btn:active {
@@ -169,8 +169,8 @@
 
 /* Category section */
 .category-section {
-    margin-bottom: 18px;
-    padding: 16px;
+    margin-bottom: 14px;
+    padding: 14px;
     background: linear-gradient(135deg, rgba(20, 184, 166, 0.04) 0%, rgba(13, 148, 136, 0.02) 100%);
     border-radius: 12px;
     border: 1.5px solid rgba(20, 184, 166, 0.15);
@@ -230,7 +230,7 @@
 .filters {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-    gap: 12px;
+    gap: var(--grid-gap-sm);
     margin-bottom: 6px;
     animation: fadeInUp 0.35s ease-out;
 }
