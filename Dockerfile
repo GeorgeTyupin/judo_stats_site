@@ -16,7 +16,7 @@ set -e\n\
 echo "🔨 Generating Templ templates..."\n\
 templ generate\n\
 echo "🚀 Starting server..."\n\
-exec go run ./cmd' > /usr/local/bin/docker-entrypoint.sh && \
+exec go run ./cmd/server' > /usr/local/bin/docker-entrypoint.sh && \
     chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Copy go mod files
