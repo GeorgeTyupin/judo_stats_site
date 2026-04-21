@@ -8,7 +8,10 @@ import (
 
 func Judoka(w http.ResponseWriter, r *http.Request) {
 	data := record.Judoka{
-		Name:             "Федор Емельяненко",
+		LastName:         "Emelianenko",
+		FirstName:        "Fedor",
+		LastNameRus:      "Емельяненко",
+		FirstNameRus:     "Федор",
 		Country:          "Россия",
 		WeightCategories: []string{"+100 кг"},
 		BirthDate:        "28 сентября 1976",

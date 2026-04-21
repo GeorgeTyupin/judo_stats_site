@@ -29,6 +29,13 @@ func NewSearchRepository(db *pgxpool.Pool, logger *slog.Logger, cfg *config.Data
 	}
 }
 
+// judokaSortFields — whitelist допустимых полей сортировки для дзюдоистов
+var judokaSortFields = map[string]string{
+	"name":       "j.last_name",
+	"country":    "ca.country",
+	"birth_date": "j.birth_date",
+}
+
 // tournamentSortFields — whitelist допустимых полей сортировки для турниров
 var tournamentSortFields = map[string]string{
 	"name":  "tournaments.name",
@@ -51,8 +58,76 @@ func (r *SearchRepository) GeneralSearch(ctx context.Context, query string) ([]a
 }
 
 func (r *SearchRepository) JudokaSearch(ctx context.Context, query string, filter dto.JudokaFilters) ([]record.Judoka, error) {
-	// TODO: Реализовать поиск дзюдоистов в БД
-	return nil, nil
+	sortCol := resolveSortField(judokaSortFields, filter.SortBy, "j.last_name")
+	sortDir := "ASC"
+	if filter.SortDir == "desc" {
+		sortDir = "DESC"
+	}
+
+	sqlQuery := fmt.Sprintf(`
+		SELECT
+			j.id, j.last_name, j.first_name,
+			COALESCE(j.last_name_rus,  '') AS last_name_rus,
+			COALESCE(j.first_name_rus, '') AS first_name_rus,
+			COALESCE(j.gender,         '') AS gender,
+			COALESCE(j.weight_category, '{}'::text[]) AS weight_category,
+			COALESCE(j.birth_date,     '') AS birth_date,
+			COALESCE(j.birth_place,    '') AS birth_place,
+			COALESCE(ca.country,       '') AS country,
+			COALESCE(ci.city,          '') AS city,
+			COALESCE(clubs.sport_club,  '') AS sport_club
+		FROM judokas j
+		LEFT JOIN (
+			SELECT jco.judoka_id, STRING_AGG(c.name, ', ') AS country
+			FROM judoka_countries jco
+			JOIN countries c ON jco.country_id = c.id
+			GROUP BY jco.judoka_id
+		) ca ON j.id = ca.judoka_id
+		LEFT JOIN (
+			SELECT jcit.judoka_id, STRING_AGG(ct.name, ', ') AS city
+			FROM judoka_cities jcit
+			JOIN cities ct ON jcit.city_id = ct.id
+			GROUP BY jcit.judoka_id
+		) ci ON j.id = ci.judoka_id
+		LEFT JOIN (
+			SELECT jsc.judoka_id, STRING_AGG(sclub.name, ', ') AS sport_club
+			FROM judoka_sport_clubs jsc
+			JOIN sport_clubs sclub ON jsc.sport_club_id = sclub.id
+			GROUP BY jsc.judoka_id
+		) clubs ON j.id = clubs.judoka_id
+		WHERE
+			concat_ws(' ', j.last_name, j.first_name, j.last_name_rus, j.first_name_rus)
+				ILIKE '%%' || $1 || '%%'
+		AND ($2 = '' OR j.gender = $2)
+		AND ($3 = '' OR j.birth_date LIKE '%%' || $3 || '%%')
+		AND ($4 = '' OR ca.country      ILIKE '%%' || $4 || '%%')
+		AND ($5 = '' OR clubs.sport_club ILIKE '%%' || $5 || '%%')
+		AND ($6 = '' OR ci.city         ILIKE '%%' || $6 || '%%')
+		AND (coalesce(cardinality($7::text[]), 0) = 0 OR j.weight_category && $7::text[])
+		ORDER BY %s %s
+		LIMIT %d`,
+		sortCol, sortDir, r.selectRowsLimit,
+	)
+
+	rows, err := r.db.Query(ctx, sqlQuery,
+		query,
+		filter.Gender,
+		filter.BirthYear,
+		filter.Country,
+		filter.SportClub,
+		filter.City,
+		filter.WeightCategories,
+	)
+	if err != nil {
+		return nil, fmt.Errorf("ошибка выполнения запроса в бд: %w", err)
+	}
+
+	judokas, err := pgx.CollectRows(rows, pgx.RowToStructByName[record.Judoka])
+	if err != nil {
+		return nil, fmt.Errorf("ошибка преобразования rows к record.Judoka: %w", err)
+	}
+
+	return judokas, nil
 }
 
 func (r *SearchRepository) TournamentSearch(ctx context.Context, query string, filter dto.TournamentFilters) ([]record.Tournament, error) {

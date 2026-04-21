@@ -59,6 +59,8 @@ type JudokaResponse struct {
 	Name             string   `json:"name"`
 	Gender           string   `json:"gender,omitempty"`
 	Country          string   `json:"country,omitempty"`
+	City             string   `json:"city,omitempty"`
+	SportClub        string   `json:"sport_club,omitempty"`
 	BirthPlace       string   `json:"birth_place,omitempty"`
 	WeightCategories []string `json:"weight_categories,omitempty"`
 	BirthDate        string   `json:"birth_date,omitempty"`

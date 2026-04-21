@@ -63,7 +63,25 @@ templ JudokaSearchResults(judokas []dto.JudokaResponse, sortBy, sortDir string) 
 							style={ fmt.Sprintf("animation-delay:%dms", i*20) }
 						>
 							<td class="col-num">{ fmt.Sprintf("%d", i+1) }</td>
-							<td class="col-name">{ judoka.Name }</td>
+							<td class="col-name">
+								<div>{ judoka.Name }</div>
+								if judoka.City != "" || judoka.SportClub != "" || len(judoka.WeightCategories) > 0 {
+									<div class="result-sub">
+										if judoka.City != "" {
+											<span>{ judoka.City }</span>
+										}
+										if judoka.SportClub != "" {
+											if judoka.City != "" {
+												<span class="result-sub-sep">·</span>
+											}
+											<span>{ judoka.SportClub }</span>
+										}
+										for _, cat := range judoka.WeightCategories {
+											<span class="result-tag">{ cat }</span>
+										}
+									</div>
+								}
+							</td>
 							<td>{ judoka.Country }</td>
 							<td>{ judoka.BirthDate }</td>
 						</tr>

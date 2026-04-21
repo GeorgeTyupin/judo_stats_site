@@ -5,7 +5,7 @@ import "judo_stats_site/internal/repository/record"
 
 
 templ Judoka(data record.Judoka) {
-	@layouts.BaseWithJS(data.Name, []string{"judoka.js"}, "judoka.css") {
+	@layouts.BaseWithJS(data.LastName+" "+data.FirstName, []string{"judoka.js"}, "judoka.css") {
 		<!-- Breadcrumbs -->
 		<div class="breadcrumbs">
 			<div class="container">
@@ -13,7 +13,7 @@ templ Judoka(data record.Judoka) {
 				<span>/</span>
 				<a href="/search">Поиск</a>
 				<span>/</span>
-				<span class="breadcrumb-active">{ data.Name }</span>
+				<span class="breadcrumb-active">{ data.LastNameRus + " " + data.FirstNameRus }</span>
 			</div>
 		</div>
 
@@ -30,7 +30,7 @@ templ Judoka(data record.Judoka) {
 					</div>
 
 					<div class="profile-info">
-						<h1 class="profile-name">{ data.Name }</h1>
+						<h1 class="profile-name">{ data.LastNameRus + " " + data.FirstNameRus }</h1>
 						if len(data.WeightCategories) > 0 {
 							<p class="profile-subtitle">{ data.Country } • Весовая категория { data.WeightCategories[0] }</p>
 						} else {

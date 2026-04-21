@@ -43,8 +43,10 @@ func (s *SearchService) JudokaSearch(ctx context.Context, query string, filter d
 	for i, j := range judokas {
 		responses[i] = dto.JudokaResponse{
 			ID:               j.ID,
-			Name:             j.Name,
+			Name:             j.LastNameRus + " " + j.FirstNameRus,
 			Country:          j.Country,
+			City:             j.City,
+			SportClub:        j.SportClub,
 			BirthPlace:       j.BirthPlace,
 			WeightCategories: j.WeightCategories,
 			BirthDate:        j.BirthDate,
