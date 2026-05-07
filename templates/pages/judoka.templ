@@ -3,10 +3,8 @@ package pages
 import "judo_stats_site/templates/layouts"
 import "judo_stats_site/internal/repository/record"
 
-
 templ Judoka(data record.Judoka) {
 	@layouts.BaseWithJS(data.LastName+" "+data.FirstName, []string{"judoka.js"}, "judoka.css") {
-		<!-- Breadcrumbs -->
 		<div class="breadcrumbs">
 			<div class="container">
 				<a href="/">Главная</a>
@@ -17,7 +15,6 @@ templ Judoka(data record.Judoka) {
 			</div>
 		</div>
 
-		<!-- Profile Hero -->
 		<div class="container">
 			<div class="profile-hero">
 				<div class="profile-main">
@@ -33,19 +30,23 @@ templ Judoka(data record.Judoka) {
 						<h1 class="profile-name">{ data.LastNameRus + " " + data.FirstNameRus }</h1>
 						if len(data.WeightCategories) > 0 {
 							<p class="profile-subtitle">{ data.Country } • Весовая категория { data.WeightCategories[0] }</p>
-						} else {
+						} else if data.Country != "" {
 							<p class="profile-subtitle">{ data.Country }</p>
 						}
 
 						<div class="info-grid">
-							<div class="info-item">
-								<div class="info-label">Дата рождения</div>
-								<div class="info-value">{ data.BirthDate }</div>
-							</div>
-							<div class="info-item">
-								<div class="info-label">Место рождения</div>
-								<div class="info-value">{ data.BirthPlace }</div>
-							</div>
+							if data.BirthDate != "" {
+								<div class="info-item">
+									<div class="info-label">Дата рождения</div>
+									<div class="info-value">{ data.BirthDate }</div>
+								</div>
+							}
+							if data.BirthPlace != "" {
+								<div class="info-item">
+									<div class="info-label">Место рождения</div>
+									<div class="info-value">{ data.BirthPlace }</div>
+								</div>
+							}
 							if len(data.WeightCategories) > 0 {
 								<div class="info-item">
 									<div class="info-label">Весовые категории</div>
@@ -60,247 +61,39 @@ templ Judoka(data record.Judoka) {
 								</div>
 							}
 						</div>
-
-						<div class="achievements-quick">
-							<div class="medal-badge" class="flex-align-center-gap-8">
-								<i data-lucide="award" class="achievement-medal-icon"></i> 5 золотых медалей
-							</div>
-							<div class="medal-badge silver" class="flex-align-center-gap-8">
-								<i data-lucide="award" class="achievement-medal-icon"></i> 3 серебряных медалей
-							</div>
-							<div class="medal-badge bronze" class="flex-align-center-gap-8">
-								<i data-lucide="award" class="achievement-medal-icon"></i> 2 бронзовых медалей
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>
 
-			<!-- Tabs Section -->
 			<div class="tabs-section">
 				<div class="tabs">
 					<button class="tab active" onclick="openTab('career')">Карьера</button>
 					<button class="tab" onclick="openTab('results')">Результаты</button>
-					<button class="tab" onclick="openTab('statistics')">Статистика</button>
 					<button class="tab" onclick="openTab('media')">Медиа</button>
 				</div>
 
-				<!-- Career Tab -->
 				<div id="career" class="tab-content active">
 					<div class="career-overview">
-						<h3>О спортсмене</h3>
-						<div class="bio-text">
-							<p class="bio-text-spacing-1">
-								Федор Емельяненко - выдающийся российский дзюдоист и боец смешанных единоборств,
-								многократный чемпион России и призер международных турниров по дзюдо. Начал заниматься
-								дзюдо в возрасте 11 лет под руководством тренера Виталия Бородина.
-							</p>
-							<p class="bio-text-spacing-1">
-								За свою карьеру в дзюдо завоевал множество наград на российских и международных соревнованиях.
-								Выступал в тяжелой весовой категории (+100 кг), где демонстрировал высокий уровень
-								технического мастерства и тактической подготовки.
-							</p>
-							<p>
-								Представлял спортивное общество ЦСКА. Известен своим фирменным броском через бедро
-								и мощными удержаниями. После завершения карьеры в дзюдо успешно перешел в смешанные
-								единоборства, где стал одним из самых титулованных бойцов в истории.
-							</p>
-						</div>
 						<div class="judoka-bio-notice">
-							<p >
+							<p>
 								<i data-lucide="lightbulb" class="judoka-icon-bulb"></i>
 								<span><strong>Нашли неточность?</strong> Если вы обнаружили ошибку в фамилии или имени, а также обладаете более ценной информацией, поделитесь ей с нами, пожалуйста.
-								<a href="/contribute" >Отправить информацию </a></span>
+								<a href="/contribute">Отправить информацию </a></span>
 							</p>
-						</div>
-					</div>
-
-					<div class="results-section">
-						<h3>Основные достижения</h3>
-						<div class="stats-grid">
-							<div class="stat-card">
-								<div class="number">24</div>
-								<div class="label">Всего турниров</div>
-							</div>
-							<div class="stat-card">
-								<div class="number">12</div>
-								<div class="label">Победы</div>
-							</div>
-							<div class="stat-card">
-								<div class="number">7</div>
-								<div class="label">2-е места</div>
-							</div>
-							<div class="stat-card">
-								<div class="number">5</div>
-								<div class="label">3-и места</div>
-							</div>
 						</div>
 					</div>
 				</div>
 
-				<!-- Results Tab -->
 				<div id="results" class="tab-content">
 					<div class="results-section">
 						<h3>Результаты турниров</h3>
-						<table class="results-table">
-							<thead>
-								<tr>
-									<th>Год</th>
-									<th>Турнир</th>
-									<th>Место</th>
-									<th>Категория</th>
-									<th>Город</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>1999</td>
-									<td><a href="/tournament" class="tournament-link">Чемпионат России по дзюдо</a></td>
-									<td><span class="place-badge place-1" ><i data-lucide="award" class="place-icon medal-gold-icon"></i> 1 место</span></td>
-									<td>+100 кг</td>
-									<td>Москва</td>
-								</tr>
-								<tr>
-									<td>1999</td>
-									<td><a href="/tournament" class="tournament-link">Кубок России</a></td>
-									<td><span class="place-badge place-2" ><i data-lucide="award" class="place-icon medal-silver-icon"></i> 2 место</span></td>
-									<td>+100 кг</td>
-									<td>Санкт-Петербург</td>
-								</tr>
-								<tr>
-									<td>1998</td>
-									<td><a href="/tournament" class="tournament-link">Первенство ЦФО</a></td>
-									<td><span class="place-badge place-1" ><i data-lucide="award" class="place-icon medal-gold-icon"></i> 1 место</span></td>
-									<td>+100 кг</td>
-									<td>Воронеж</td>
-								</tr>
-								<tr>
-									<td>1998</td>
-									<td><a href="/tournament" class="tournament-link">Международный турнир памяти В.С. Ощепкова</a></td>
-									<td><span class="place-badge place-3" ><i data-lucide="award" class="place-icon medal-bronze-icon"></i> 3 место</span></td>
-									<td>+100 кг</td>
-									<td>Владивосток</td>
-								</tr>
-								<tr>
-									<td>1997</td>
-									<td><a href="/tournament" class="tournament-link">Чемпионат Сибирского федерального округа</a></td>
-									<td><span class="place-badge place-1" ><i data-lucide="award" class="place-icon medal-gold-icon"></i> 1 место</span></td>
-									<td>+100 кг</td>
-									<td>Новосибирск</td>
-								</tr>
-								<tr>
-									<td>1997</td>
-									<td><a href="/tournament" class="tournament-link">Кубок Губернатора Алтайского края</a></td>
-									<td><span class="place-badge place-1" ><i data-lucide="award" class="place-icon medal-gold-icon"></i> 1 место</span></td>
-									<td>+100 кг</td>
-									<td>Барнаул</td>
-								</tr>
-								<tr>
-									<td>1996</td>
-									<td><a href="/tournament" class="tournament-link">Первенство России среди юниоров</a></td>
-									<td><span class="place-badge place-2" ><i data-lucide="award" class="place-icon medal-silver-icon"></i> 2 место</span></td>
-									<td>+100 кг</td>
-									<td>Екатеринбург</td>
-								</tr>
-							</tbody>
-						</table>
+						<p class="tab-placeholder-text">Данные о результатах пока не добавлены.</p>
 					</div>
 				</div>
 
-				<!-- Statistics Tab -->
-				<div id="statistics" class="tab-content">
-					<div class="results-section">
-						<h3>Статистика по годам</h3>
-						<div class="stats-grid" >
-							<div class="stat-card">
-								<div class="number">85%</div>
-								<div class="label">Процент побед</div>
-							</div>
-							<div class="stat-card">
-								<div class="number">156</div>
-								<div class="label">Всего боев</div>
-							</div>
-							<div class="stat-card">
-								<div class="number">12</div>
-								<div class="label">Лет в спорте</div>
-							</div>
-							<div class="stat-card">
-								<div class="number">67</div>
-								<div class="label">Иппоны</div>
-							</div>
-						</div>
-
-						<h3 >Статистика по типам турниров</h3>
-						<table class="results-table">
-							<thead>
-								<tr>
-									<th>Тип турнира</th>
-									<th>Участий</th>
-									<th>Золото</th>
-									<th>Серебро</th>
-									<th>Бронза</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>Чемпионаты России</td>
-									<td>8</td>
-									<td>4</td>
-									<td>3</td>
-									<td>1</td>
-								</tr>
-								<tr>
-									<td>Кубки России</td>
-									<td>6</td>
-									<td>3</td>
-									<td>2</td>
-									<td>1</td>
-								</tr>
-								<tr>
-									<td>Региональные турниры</td>
-									<td>7</td>
-									<td>4</td>
-									<td>2</td>
-									<td>1</td>
-								</tr>
-								<tr>
-									<td>Международные турниры</td>
-									<td>3</td>
-									<td>1</td>
-									<td>0</td>
-									<td>2</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-
-				<!-- Media Tab -->
 				<div id="media" class="tab-content">
 					<div class="results-section">
 						<h3>Фото и медиа</h3>
-						<div class="media-grid">
-							<div class="media-item">
-								<div class="profile-photo-gradient">
-									<i data-lucide="camera" class="media-icon-size"></i>
-								</div>
-							</div>
-							<div class="media-item">
-								<div class="profile-photo-gradient">
-									<i data-lucide="trophy" class="media-icon-size"></i>
-								</div>
-							</div>
-							<div class="media-item">
-								<div class="profile-photo-gradient">
-									<i data-lucide="user" class="media-icon-size"></i>
-								</div>
-							</div>
-							<div class="media-item">
-								<div class="profile-photo-gradient">
-									<i data-lucide="newspaper" class="media-icon-size"></i>
-								</div>
-							</div>
-						</div>
 						<p class="media-notice-text">
 							Загрузка фотографий будет доступна после подключения к базе данных
 						</p>

@@ -5,7 +5,6 @@ import "judo_stats_site/internal/repository/record"
 
 templ Tournament(data record.Tournament) {
 	@layouts.BaseWithJS(data.Name, []string{"tournament.js"}, "tournament.css") {
-		<!-- Breadcrumbs -->
 		<div class="breadcrumbs">
 			<div class="container">
 				<a href="/">Главная</a>
@@ -16,79 +15,60 @@ templ Tournament(data record.Tournament) {
 			</div>
 		</div>
 
-		<!-- Tournament Hero -->
 		<div class="tournament-hero">
 			<div class="container">
 				<div class="hero-top-row">
 					<div class="tournament-title">
 						<a href="#" class="tournament-title-link"><h1>{ data.Name }</h1></a>
-						<p class="tournament-subtitle">Всероссийский турнир • Высший уровень</p>
 					</div>
 					<button class="share-btn" title="Поделиться">
 						<i data-lucide="share-2" class="share-icon-size"></i>
 					</button>
 				</div>
 				<div class="tournament-quick-info">
-					<div class="quick-info-item">
-						<div class="quick-info-icon"><i data-lucide="calendar" class="quick-info-icon-size"></i></div>
-						<div class="quick-info-text">
-							<div class="quick-info-label">Даты проведения</div>
-							<div class="quick-info-value">{ data.Date }</div>
+					if data.Date != "" {
+						<div class="quick-info-item">
+							<div class="quick-info-icon"><i data-lucide="calendar" class="quick-info-icon-size"></i></div>
+							<div class="quick-info-text">
+								<div class="quick-info-label">Даты проведения</div>
+								<div class="quick-info-value">{ data.Date }</div>
+							</div>
 						</div>
-					</div>
-					<div class="quick-info-item">
-						<div class="quick-info-icon"><i data-lucide="map-pin" class="quick-info-icon-size"></i></div>
-						<div class="quick-info-text">
-							<div class="quick-info-label">Место</div>
-							<div class="quick-info-value">{ data.Place }</div>
+					}
+					if data.Place != "" {
+						<div class="quick-info-item">
+							<div class="quick-info-icon"><i data-lucide="map-pin" class="quick-info-icon-size"></i></div>
+							<div class="quick-info-text">
+								<div class="quick-info-label">Место</div>
+								<div class="quick-info-value">{ data.Place }</div>
+							</div>
 						</div>
-					</div>
-					<div class="quick-info-item">
-						<div class="quick-info-icon"><i data-lucide="activity" class="quick-info-icon-size"></i></div>
-						<div class="quick-info-text">
-							<div class="quick-info-label">Тип</div>
-							<div class="quick-info-value">{ data.Type }</div>
+					}
+					if data.Type != "" {
+						<div class="quick-info-item">
+							<div class="quick-info-icon"><i data-lucide="activity" class="quick-info-icon-size"></i></div>
+							<div class="quick-info-text">
+								<div class="quick-info-label">Тип</div>
+								<div class="quick-info-value">{ data.Type }</div>
+							</div>
 						</div>
-					</div>
-					<div class="quick-info-item">
-						<div class="quick-info-icon"><i data-lucide="globe" class="quick-info-icon-size"></i></div>
-						<div class="quick-info-text">
-							<div class="quick-info-label">Страна, Город</div>
-							<div class="quick-info-value">Россия • Москва</div>
+					}
+					if data.Gender != "" {
+						<div class="quick-info-item">
+							<div class="quick-info-icon"><i data-lucide="users" class="quick-info-icon-size"></i></div>
+							<div class="quick-info-text">
+								<div class="quick-info-label">Пол</div>
+								<div class="quick-info-value">{ data.Gender }</div>
+							</div>
 						</div>
-					</div>
-					<div class="quick-info-item">
-						<div class="quick-info-icon"><i data-lucide="user-check" class="quick-info-icon-size"></i></div>
-						<div class="quick-info-text">
-							<div class="quick-info-label">Возраст</div>
-							<div class="quick-info-value">Взрослые</div>
-						</div>
-					</div>
-					<div class="quick-info-item">
-						<div class="quick-info-icon"><i data-lucide="cake" class="quick-info-icon-size"></i></div>
-						<div class="quick-info-text">
-							<div class="quick-info-label">Годы рождения</div>
-							<div class="quick-info-value">1975–1981</div>
-						</div>
-					</div>
-					<div class="quick-info-item">
-						<div class="quick-info-icon"><i data-lucide="users" class="quick-info-icon-size"></i></div>
-						<div class="quick-info-text">
-							<div class="quick-info-label">Пол</div>
-							<div class="quick-info-value">{ data.Gender }</div>
-						</div>
-					</div>
+					}
 				</div>
 			</div>
 		</div>
 
-		<!-- Tournament Description -->
 		<div class="tournament-description-section">
 			<div class="container">
 				<div class="tournament-description-card">
-					<p class="tournament-desc-text">
-						Чемпионат России по дзюдо 1999 года — крупнейшее всероссийское соревнование, собравшее сильнейших дзюдоистов страны из всех федеральных округов. Турнир проходил в Москве и определял состав национальной сборной на международные соревнования сезона.
-					</p>
 					<div class="contribution-notice">
 						<p>
 							<i data-lucide="lightbulb" class="tournament-icon-bulb"></i>
@@ -100,7 +80,6 @@ templ Tournament(data record.Tournament) {
 			</div>
 		</div>
 
-		<!-- Tournament Tabs -->
 		<div class="tournament-tabs-section">
 			<div class="container">
 				<div class="tournament-tabs">
@@ -111,287 +90,16 @@ templ Tournament(data record.Tournament) {
 			</div>
 		</div>
 
-		<!-- Tab: Results -->
 		<div class="tab-content" data-tab-content="results">
-
-			<!-- Years Navigation -->
 			<div class="years-navigation-section">
 				<div class="container">
 					<div class="years-navigation-card">
-						<div class="tournament-years-header">
-							<h2><i data-lucide="calendar" class="quick-info-icon-size"></i> Чемпионат России по годам</h2>
-							<div class="years-selector">
-								<select>
-									<option value="">Все годы</option>
-									<option value="1999" selected>1999 • Москва</option>
-									<option value="2000">2000 • Челябинск</option>
-									<option value="2001">2001 • Екатеринбург</option>
-								</select>
-							</div>
-						</div>
-
-						<!-- Timeline Navigation -->
-						<div class="timeline-navigation">
-							<a href="/tournament/1997" class="timeline-card">
-								<div class="timeline-year">1997</div>
-								<div class="timeline-city">Красноярск</div>
-							</a>
-							<a href="/tournament/1998" class="timeline-card">
-								<div class="timeline-year">1998</div>
-								<div class="timeline-city">СПб</div>
-							</a>
-							<div class="timeline-arrow">→</div>
-							<div class="timeline-card current">
-								<div class="timeline-year">1999</div>
-								<div class="timeline-city">Москва</div>
-							</div>
-							<div class="timeline-arrow">→</div>
-							<a href="/tournament/2000" class="timeline-card">
-								<div class="timeline-year">2000</div>
-								<div class="timeline-city">Челябинск</div>
-							</a>
-							<a href="/tournament/2001" class="timeline-card">
-								<div class="timeline-year">2001</div>
-								<div class="timeline-city">Екб</div>
-							</a>
-						</div>
+						<p class="tab-placeholder-text">Результаты турнира пока не добавлены.</p>
 					</div>
 				</div>
 			</div>
+		</div>
 
-			<!-- Weight Categories -->
-			<div class="weight-categories">
-				<div class="container">
-					<div class="categories-header">
-						<h2>Весовые категории</h2>
-						<div class="filter-buttons">
-							<button class="filter-btn active" data-filter="all">Все</button>
-							<button class="filter-btn" data-filter="men">Мужчины</button>
-							<button class="filter-btn" data-filter="women">Женщины</button>
-							<button class="filter-btn champions-btn" data-filter="champions">
-								<i data-lucide="trophy" class="filter-icon-size"></i> Чемпионы
-							</button>
-						</div>
-					</div>
-
-					<div class="gender-sections" id="gender-sections">
-						<!-- Men's Categories -->
-						<div class="gender-section" data-gender="men">
-							<h3>Мужчины</h3>
-							<div class="categories-grid">
-								<div class="category-card">
-									<div class="category-header">
-										<div class="category-name">-60 кг</div>
-										<div class="gender-badge">М</div>
-									</div>
-									<div class="category-results">
-										<div class="result-item" data-place="1">
-											<div class="result-place"><div class="place-badge place-1">1</div></div>
-											<div class="result-athlete">
-												<a href="/judoka" class="result-athlete-name">Алексей Буданов</a>
-												<div class="result-athlete-info">Динамо Москва</div>
-											</div>
-										</div>
-										<div class="result-item" data-place="2">
-											<div class="result-place"><div class="place-badge place-2">2</div></div>
-											<div class="result-athlete">
-												<a href="/judoka" class="result-athlete-name">Олег Малышев</a>
-												<div class="result-athlete-info">ЦСКА СПб</div>
-											</div>
-										</div>
-										<div class="result-item" data-place="3">
-											<div class="result-place"><div class="place-badge place-3">3</div></div>
-											<div class="result-athlete">
-												<a href="/judoka" class="result-athlete-name">Сергей Косоротов</a>
-												<div class="result-athlete-info">Спартак Волгоград</div>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="category-card">
-									<div class="category-header">
-										<div class="category-name">-66 кг</div>
-										<div class="gender-badge">М</div>
-									</div>
-									<div class="category-results">
-										<div class="result-item" data-place="1">
-											<div class="result-place"><div class="place-badge place-1">1</div></div>
-											<div class="result-athlete">
-												<a href="/judoka" class="result-athlete-name">Арсен Галстян</a>
-												<div class="result-athlete-info">ЦСКА Москва</div>
-											</div>
-										</div>
-										<div class="result-item" data-place="2">
-											<div class="result-place"><div class="place-badge place-2">2</div></div>
-											<div class="result-athlete">
-												<a href="/judoka" class="result-athlete-name">Михаил Пулаев</a>
-												<div class="result-athlete-info">Динамо Москва</div>
-											</div>
-										</div>
-										<div class="result-item" data-place="3">
-											<div class="result-place"><div class="place-badge place-3">3</div></div>
-											<div class="result-athlete">
-												<a href="/judoka" class="result-athlete-name">Давид Мойсеев</a>
-												<div class="result-athlete-info">Спартак СПб</div>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="category-card">
-									<div class="category-header">
-										<div class="category-name">+100 кг</div>
-										<div class="gender-badge">М</div>
-									</div>
-									<div class="category-results">
-										<div class="result-item" data-place="1">
-											<div class="result-place"><div class="place-badge place-1">1</div></div>
-											<div class="result-athlete">
-												<a href="/judoka" class="result-athlete-name">Федор Емельяненко</a>
-												<div class="result-athlete-info">ЦСКА Москва</div>
-											</div>
-										</div>
-										<div class="result-item" data-place="2">
-											<div class="result-place"><div class="place-badge place-2">2</div></div>
-											<div class="result-athlete">
-												<a href="/judoka" class="result-athlete-name">Александр Поветкин</a>
-												<div class="result-athlete-info">Динамо Челябинск</div>
-											</div>
-										</div>
-										<div class="result-item" data-place="3">
-											<div class="result-place"><div class="place-badge place-3">3</div></div>
-											<div class="result-athlete">
-												<a href="/judoka" class="result-athlete-name">Руслан Шарафеев</a>
-												<div class="result-athlete-info">Спартак Москва</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Women's Categories -->
-						<div class="gender-section" data-gender="women">
-							<h3>Женщины</h3>
-							<div class="categories-grid">
-								<div class="category-card">
-									<div class="category-header">
-										<div class="category-name">-48 кг</div>
-										<div class="gender-badge">Ж</div>
-									</div>
-									<div class="category-results">
-										<div class="result-item" data-place="1">
-											<div class="result-place"><div class="place-badge place-1">1</div></div>
-											<div class="result-athlete">
-												<a href="/judoka" class="result-athlete-name">Ольга Смирнова</a>
-												<div class="result-athlete-info">Динамо Москва</div>
-											</div>
-										</div>
-										<div class="result-item" data-place="2">
-											<div class="result-place"><div class="place-badge place-2">2</div></div>
-											<div class="result-athlete">
-												<a href="/judoka" class="result-athlete-name">Татьяна Москалёва</a>
-												<div class="result-athlete-info">ЦСКА СПб</div>
-											</div>
-										</div>
-										<div class="result-item" data-place="3">
-											<div class="result-place"><div class="place-badge place-3">3</div></div>
-											<div class="result-athlete">
-												<a href="/judoka" class="result-athlete-name">Любовь Бруле</a>
-												<div class="result-athlete-info">Спартак Москва</div>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="category-card">
-									<div class="category-header">
-										<div class="category-name">-52 кг</div>
-										<div class="gender-badge">Ж</div>
-									</div>
-									<div class="category-results">
-										<div class="result-item" data-place="1">
-											<div class="result-place"><div class="place-badge place-1">1</div></div>
-											<div class="result-athlete">
-												<a href="/judoka" class="result-athlete-name">Наталья Юшкова</a>
-												<div class="result-athlete-info">ЦСКА Москва</div>
-											</div>
-										</div>
-										<div class="result-item" data-place="2">
-											<div class="result-place"><div class="place-badge place-2">2</div></div>
-											<div class="result-athlete">
-												<a href="/judoka" class="result-athlete-name">Алина Думкина</a>
-												<div class="result-athlete-info">Динамо Москва</div>
-											</div>
-										</div>
-										<div class="result-item" data-place="3">
-											<div class="result-place"><div class="place-badge place-3">3</div></div>
-											<div class="result-athlete">
-												<a href="/judoka" class="result-athlete-name">Евгения Подрезова</a>
-												<div class="result-athlete-info">Спартак СПб</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- Previous Champions -->
-			<div class="prev-champions-section">
-				<div class="container">
-					<div class="prev-champions-card">
-						<div class="prev-champions-header">
-							<div class="prev-champ-label">Чемпионы предыдущего турнира</div>
-							<h2><i data-lucide="trophy" class="prev-champ-icon"></i> 1998 • СПб</h2>
-						</div>
-						<div class="prev-champions-grid">
-							<div class="prev-champ-row">
-								<div class="prev-champ-category">-60 кг</div>
-								<a href="/judoka" class="prev-champ-name">Владимир Лушников</a>
-								<div class="prev-champ-club">Динамо СПб</div>
-							</div>
-							<div class="prev-champ-row">
-								<div class="prev-champ-category">-66 кг</div>
-								<a href="/judoka" class="prev-champ-name">Сергей Новиков</a>
-								<div class="prev-champ-club">ЦСКА Москва</div>
-							</div>
-							<div class="prev-champ-row">
-								<div class="prev-champ-category">-73 кг</div>
-								<a href="/judoka" class="prev-champ-name">Роман Фёдоров</a>
-								<div class="prev-champ-club">Спартак Екб</div>
-							</div>
-							<div class="prev-champ-row">
-								<div class="prev-champ-category">-81 кг</div>
-								<a href="/judoka" class="prev-champ-name">Антон Власов</a>
-								<div class="prev-champ-club">Динамо Москва</div>
-							</div>
-							<div class="prev-champ-row">
-								<div class="prev-champ-category">-90 кг</div>
-								<a href="/judoka" class="prev-champ-name">Константин Орлов</a>
-								<div class="prev-champ-club">ЦСКА СПб</div>
-							</div>
-							<div class="prev-champ-row">
-								<div class="prev-champ-category">-100 кг</div>
-								<a href="/judoka" class="prev-champ-name">Евгений Рыбаков</a>
-								<div class="prev-champ-club">Динамо Челябинск</div>
-							</div>
-							<div class="prev-champ-row">
-								<div class="prev-champ-category">+100 кг</div>
-								<a href="/judoka" class="prev-champ-name">Иван Белов</a>
-								<div class="prev-champ-club">ЦСКА Москва</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-		</div><!-- /tab-content results -->
-
-		<!-- Tab: Medal Tally -->
 		<div class="tab-content tab-content-hidden" data-tab-content="medal-tally">
 			<div class="years-navigation-section">
 				<div class="container">
@@ -405,7 +113,6 @@ templ Tournament(data record.Tournament) {
 			</div>
 		</div>
 
-		<!-- Tab: Media -->
 		<div class="tab-content tab-content-hidden" data-tab-content="media">
 			<div class="years-navigation-section">
 				<div class="container">
