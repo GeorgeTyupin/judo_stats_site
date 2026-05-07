@@ -131,12 +131,23 @@ func registerHandlers(repo *repository.SearchRepository, logger *slog.Logger) *c
 	r.Handle("/static/*", http.StripPrefix("/static/", fileServer))
 
 	// Страницы
-	r.Get("/", handlers.Index)
-	r.Get("/judoka", handlers.Judoka)
-	r.Get("/tournament", handlers.Tournament)
-	r.Get("/sportclub", handlers.SportClub)
-	r.Get("/city", handlers.City)
-	r.Get("/contribute", handlers.Contribute)
+	indexHandler := handlers.NewIndexHandler(logger)
+	r.Get("/", indexHandler.Page)
+
+	judokaHandler := handlers.NewJudokaHandler(logger)
+	r.Get("/judoka", judokaHandler.Page)
+
+	tournamentHandler := handlers.NewTournamentHandler(logger)
+	r.Get("/tournament", tournamentHandler.Page)
+
+	sportClubHandler := handlers.NewSportClubHandler(logger)
+	r.Get("/sportclub", sportClubHandler.Page)
+
+	cityHandler := handlers.NewCityHandler(logger)
+	r.Get("/city", cityHandler.Page)
+
+	contributeHandler := handlers.NewContributeHandler(logger)
+	r.Get("/contribute", contributeHandler.Page)
 
 	// HTMX endpoints для поиска
 	searchService := search.NewSearchService(repo, logger)

@@ -1,12 +1,25 @@
 package handlers
 
 import (
+	"judo_stats_site/internal/api/httputil"
 	"judo_stats_site/internal/repository/record"
 	"judo_stats_site/templates/pages"
+	"log/slog"
 	"net/http"
 )
 
-func Tournament(w http.ResponseWriter, r *http.Request) {
+type TournamentHandler struct {
+	logger *slog.Logger
+}
+
+func NewTournamentHandler(logger *slog.Logger) *TournamentHandler {
+	return &TournamentHandler{logger: logger}
+}
+
+func (h *TournamentHandler) Page(w http.ResponseWriter, r *http.Request) {
+	const op = "handlers.TournamentHandler.Page"
+	logger := h.logger.With(slog.String("op", op))
+
 	data := record.Tournament{
 		Name:   "Чемпионат России по дзюдо 1999",
 		Type:   "Чемпионат России",
@@ -16,7 +29,5 @@ func Tournament(w http.ResponseWriter, r *http.Request) {
 		Month:  4,
 		Gender: "Men",
 	}
-
-	component := pages.Tournament(data)
-	component.Render(r.Context(), w)
+	httputil.Render(r.Context(), w, logger, pages.Tournament(data))
 }

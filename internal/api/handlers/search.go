@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"judo_stats_site/internal/api/handlers/dto"
+	"judo_stats_site/internal/api/httputil"
 	"judo_stats_site/templates/components"
 	"judo_stats_site/templates/pages"
 	"log/slog"
@@ -20,44 +21,50 @@ type SearchService interface {
 }
 
 type SearchHandler struct {
-	service SearchService
 	logger  *slog.Logger
+	service SearchService
 }
 
 func NewSearchHandler(service SearchService, logger *slog.Logger) *SearchHandler {
 	return &SearchHandler{
-		service: service,
 		logger:  logger,
+		service: service,
 	}
 }
 
-// SearchPageHandler рендерит страницу /search
 func (h *SearchHandler) SearchPageHandler(w http.ResponseWriter, r *http.Request) {
-	pages.SearchPage().Render(r.Context(), w)
+	const op = "handlers.SearchHandler.SearchPageHandler"
+	logger := h.logger.With(slog.String("op", op))
+
+	httputil.Render(r.Context(), w, logger, pages.SearchPage())
 }
 
-// SearchFiltersHandler возвращает фильтры для выбранной категории
 func (h *SearchHandler) SearchFiltersHandler(w http.ResponseWriter, r *http.Request) {
+	const op = "handlers.SearchHandler.SearchFiltersHandler"
+	logger := h.logger.With(slog.String("op", op))
+
 	category := r.URL.Query().Get("category")
 
 	switch dto.SearchCategory(category) {
 	case dto.CategoryAll:
-		pages.IndexAllFilters().Render(r.Context(), w)
+		httputil.Render(r.Context(), w, logger, pages.IndexAllFilters())
 	case dto.CategoryJudoka:
-		pages.IndexJudokaFilters().Render(r.Context(), w)
+		httputil.Render(r.Context(), w, logger, pages.IndexJudokaFilters())
 	case dto.CategoryTournament:
-		pages.IndexTournamentFilters().Render(r.Context(), w)
+		httputil.Render(r.Context(), w, logger, pages.IndexTournamentFilters())
 	case dto.CategorySportClub:
-		pages.IndexSportClubFilters().Render(r.Context(), w)
+		httputil.Render(r.Context(), w, logger, pages.IndexSportClubFilters())
 	case dto.CategoryCity:
-		pages.IndexCityFilters().Render(r.Context(), w)
+		httputil.Render(r.Context(), w, logger, pages.IndexCityFilters())
 	default:
-		pages.IndexAllFilters().Render(r.Context(), w)
+		httputil.Render(r.Context(), w, logger, pages.IndexAllFilters())
 	}
 }
 
-// SearchResultsHandler возвращает результаты поиска
 func (h *SearchHandler) SearchResultsHandler(w http.ResponseWriter, r *http.Request) {
+	const op = "handlers.SearchHandler.SearchResultsHandler"
+	logger := h.logger.With(slog.String("op", op))
+
 	query := r.URL.Query().Get("query")
 	category := dto.SearchCategory(r.URL.Query().Get("category"))
 	ctx := r.Context()
@@ -70,84 +77,84 @@ func (h *SearchHandler) SearchResultsHandler(w http.ResponseWriter, r *http.Requ
 	case dto.CategoryAll:
 		results, err := h.service.GeneralSearch(ctx, query)
 		if err != nil {
-			h.logger.Error("Ошибка получения результатов поиска", slog.String("error", err.Error()))
+			logger.Error("ошибка получения результатов поиска", slog.String("error", err.Error()))
 			http.Error(w, "Внутренняя ошибка сервера", http.StatusInternalServerError)
 			return
 		}
 
 		if len(results) == 0 {
-			components.EmptySearchResults().Render(ctx, w)
+			httputil.Render(ctx, w, logger, components.EmptySearchResults())
 			return
 		}
 
-		components.EmptySearchResults().Render(ctx, w)
+		httputil.Render(ctx, w, logger, components.EmptySearchResults())
 
 	case dto.CategoryJudoka:
 		filters := parseJudokaFilters(r)
 		judokas, err := h.service.JudokaSearch(ctx, query, filters)
 		if err != nil {
-			h.logger.Error("Ошибка получения дзюдоистов", slog.String("error", err.Error()))
+			logger.Error("ошибка получения дзюдоистов", slog.String("error", err.Error()))
 			http.Error(w, "Внутренняя ошибка сервера", http.StatusInternalServerError)
 			return
 		}
 
 		if len(judokas) == 0 {
-			components.EmptySearchResults().Render(ctx, w)
+			httputil.Render(ctx, w, logger, components.EmptySearchResults())
 			return
 		}
 
-		components.JudokaSearchResults(judokas, filters.SortBy, filters.SortDir).Render(ctx, w)
+		httputil.Render(ctx, w, logger, components.JudokaSearchResults(judokas, filters.SortBy, filters.SortDir))
 
 	case dto.CategoryTournament:
 		filters := parseTournamentFilters(r)
 		tournaments, err := h.service.TournamentSearch(ctx, query, filters)
 		if err != nil {
-			h.logger.Error("Ошибка получения турниров", slog.String("error", err.Error()))
+			logger.Error("ошибка получения турниров", slog.String("error", err.Error()))
 			http.Error(w, "Внутренняя ошибка сервера", http.StatusInternalServerError)
 			return
 		}
 
 		if len(tournaments) == 0 {
-			components.EmptySearchResults().Render(ctx, w)
+			httputil.Render(ctx, w, logger, components.EmptySearchResults())
 			return
 		}
 
-		components.TournamentSearchResults(tournaments, filters.SortBy, filters.SortDir).Render(ctx, w)
+		httputil.Render(ctx, w, logger, components.TournamentSearchResults(tournaments, filters.SortBy, filters.SortDir))
 
 	case dto.CategorySportClub:
 		filters := parseSportClubFilters(r)
 		clubs, err := h.service.SportClubSearch(ctx, query, filters)
 		if err != nil {
-			h.logger.Error("Ошибка получения обществ", slog.String("error", err.Error()))
+			logger.Error("ошибка получения обществ", slog.String("error", err.Error()))
 			http.Error(w, "Внутренняя ошибка сервера", http.StatusInternalServerError)
 			return
 		}
 
 		if len(clubs) == 0 {
-			components.EmptySearchResults().Render(ctx, w)
+			httputil.Render(ctx, w, logger, components.EmptySearchResults())
 			return
 		}
 
-		components.SportClubSearchResults(clubs, filters.SortBy, filters.SortDir).Render(ctx, w)
+		httputil.Render(ctx, w, logger, components.SportClubSearchResults(clubs, filters.SortBy, filters.SortDir))
 
 	case dto.CategoryCity:
 		filters := parseCityFilters(r)
 		cities, err := h.service.CitySearch(ctx, query, filters)
 		if err != nil {
-			h.logger.Error("Ошибка получения городов", slog.String("error", err.Error()))
+			logger.Error("ошибка получения городов", slog.String("error", err.Error()))
 			http.Error(w, "Внутренняя ошибка сервера", http.StatusInternalServerError)
 			return
 		}
 
 		if len(cities) == 0 {
-			components.EmptySearchResults().Render(ctx, w)
+			httputil.Render(ctx, w, logger, components.EmptySearchResults())
 			return
 		}
 
-		components.CitySearchResults(cities, filters.SortBy, filters.SortDir).Render(ctx, w)
+		httputil.Render(ctx, w, logger, components.CitySearchResults(cities, filters.SortBy, filters.SortDir))
 
 	default:
-		components.EmptySearchResults().Render(ctx, w)
+		httputil.Render(ctx, w, logger, components.EmptySearchResults())
 	}
 }
 

@@ -67,12 +67,12 @@ type JudokaResponse struct {
 }
 
 type TournamentResponse struct {
-	ID       int64  `json:"id"`
-	Name     string `json:"name"`
-	Type     string `json:"type,omitempty"`
-	Place    string `json:"place,omitempty"`
-	Date     string `json:"date,omitempty"`
-	Gender   string `json:"gender,omitempty"`
+	ID     int64  `json:"id"`
+	Name   string `json:"name"`
+	Type   string `json:"type,omitempty"`
+	Place  string `json:"place,omitempty"`
+	Date   string `json:"date,omitempty"`
+	Gender string `json:"gender,omitempty"`
 }
 
 type SportClubResponse struct {
