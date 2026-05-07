@@ -15,6 +15,8 @@ type SearchRepository interface {
 	TournamentSearch(ctx context.Context, query string, filter dto.TournamentFilters) ([]record.Tournament, error)
 	SportClubSearch(ctx context.Context, query string, filter dto.SportClubFilters) ([]record.SportClub, error)
 	CitySearch(ctx context.Context, query string, filter dto.CityFilters) ([]record.City, error)
+	GetJudokaByID(ctx context.Context, id int64) (record.Judoka, error)
+	GetTournamentByID(ctx context.Context, id int64) (record.Tournament, error)
 }
 
 type SearchService struct {
@@ -90,6 +92,14 @@ func (s *SearchService) SportClubSearch(ctx context.Context, query string, filte
 		}
 	}
 	return responses, nil
+}
+
+func (s *SearchService) GetJudokaByID(ctx context.Context, id int64) (record.Judoka, error) {
+	return s.repo.GetJudokaByID(ctx, id)
+}
+
+func (s *SearchService) GetTournamentByID(ctx context.Context, id int64) (record.Tournament, error) {
+	return s.repo.GetTournamentByID(ctx, id)
 }
 
 func (s *SearchService) CitySearch(ctx context.Context, query string, filter dto.CityFilters) ([]dto.CityResponse, error) {

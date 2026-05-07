@@ -177,6 +177,73 @@ func (r *SearchRepository) TournamentSearch(ctx context.Context, query string, f
 	return tournaments, nil
 }
 
+func (r *SearchRepository) GetJudokaByID(ctx context.Context, id int64) (record.Judoka, error) {
+	ctx, cancel := context.WithTimeout(ctx, r.timeout)
+	defer cancel()
+
+	sqlQuery := `
+		SELECT
+			j.id, j.last_name, j.first_name,
+			COALESCE(j.last_name_rus,  '') AS last_name_rus,
+			COALESCE(j.first_name_rus, '') AS first_name_rus,
+			COALESCE(j.gender,         '') AS gender,
+			COALESCE(j.weight_category, '{}'::text[]) AS weight_category,
+			COALESCE(j.birth_date,     '') AS birth_date,
+			COALESCE(j.birth_place,    '') AS birth_place,
+			COALESCE(ca.country,       '') AS country,
+			COALESCE(ci.city,          '') AS city,
+			COALESCE(clubs.sport_club,  '') AS sport_club
+		FROM judokas j
+		LEFT JOIN (
+			SELECT jco.judoka_id, STRING_AGG(c.name, ', ') AS country
+			FROM judoka_countries jco
+			JOIN countries c ON jco.country_id = c.id
+			GROUP BY jco.judoka_id
+		) ca ON j.id = ca.judoka_id
+		LEFT JOIN (
+			SELECT jcit.judoka_id, STRING_AGG(ct.name, ', ') AS city
+			FROM judoka_cities jcit
+			JOIN cities ct ON jcit.city_id = ct.id
+			GROUP BY jcit.judoka_id
+		) ci ON j.id = ci.judoka_id
+		LEFT JOIN (
+			SELECT jsc.judoka_id, STRING_AGG(sclub.name, ', ') AS sport_club
+			FROM judoka_sport_clubs jsc
+			JOIN sport_clubs sclub ON jsc.sport_club_id = sclub.id
+			GROUP BY jsc.judoka_id
+		) clubs ON j.id = clubs.judoka_id
+		WHERE j.id = $1`
+
+	rows, err := r.db.Query(ctx, sqlQuery, id)
+	if err != nil {
+		return record.Judoka{}, fmt.Errorf("ошибка запроса дзюдоиста по ID: %w", err)
+	}
+
+	judoka, err := pgx.CollectOneRow(rows, pgx.RowToStructByName[record.Judoka])
+	if err != nil {
+		return record.Judoka{}, fmt.Errorf("ошибка получения дзюдоиста по ID %d: %w", id, err)
+	}
+
+	return judoka, nil
+}
+
+func (r *SearchRepository) GetTournamentByID(ctx context.Context, id int64) (record.Tournament, error) {
+	ctx, cancel := context.WithTimeout(ctx, r.timeout)
+	defer cancel()
+
+	rows, err := r.db.Query(ctx, `SELECT * FROM tournaments WHERE id = $1`, id)
+	if err != nil {
+		return record.Tournament{}, fmt.Errorf("ошибка запроса турнира по ID: %w", err)
+	}
+
+	tournament, err := pgx.CollectOneRow(rows, pgx.RowToStructByName[record.Tournament])
+	if err != nil {
+		return record.Tournament{}, fmt.Errorf("ошибка получения турнира по ID %d: %w", id, err)
+	}
+
+	return tournament, nil
+}
+
 func (r *SearchRepository) SportClubSearch(ctx context.Context, query string, filter dto.SportClubFilters) ([]record.SportClub, error) {
 	// TODO Реализовать метод для поиска СО
 	return nil, nil

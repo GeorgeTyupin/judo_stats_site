@@ -134,11 +134,15 @@ func registerHandlers(repo *repository.SearchRepository, logger *slog.Logger) *c
 	indexHandler := handlers.NewIndexHandler(logger)
 	r.Get("/", indexHandler.Page)
 
-	judokaHandler := handlers.NewJudokaHandler(logger)
-	r.Get("/judoka", judokaHandler.Page)
+	searchService := search.NewSearchService(repo, logger)
 
-	tournamentHandler := handlers.NewTournamentHandler(logger)
+	judokaHandler := handlers.NewJudokaHandler(searchService, logger)
+	r.Get("/judoka", judokaHandler.Page)
+	r.Get("/judoka/{id}", judokaHandler.PageByID)
+
+	tournamentHandler := handlers.NewTournamentHandler(searchService, logger)
 	r.Get("/tournament", tournamentHandler.Page)
+	r.Get("/tournament/{id}", tournamentHandler.PageByID)
 
 	sportClubHandler := handlers.NewSportClubHandler(logger)
 	r.Get("/sportclub", sportClubHandler.Page)
@@ -150,7 +154,6 @@ func registerHandlers(repo *repository.SearchRepository, logger *slog.Logger) *c
 	r.Get("/contribute", contributeHandler.Page)
 
 	// HTMX endpoints для поиска
-	searchService := search.NewSearchService(repo, logger)
 	searchHandler := handlers.NewSearchHandler(searchService, logger)
 
 	r.Get("/search", searchHandler.SearchPageHandler)
