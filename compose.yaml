@@ -22,6 +22,16 @@ services:
     env_file:
       - configs/database.env
 
+  lint:
+    image: golangci/golangci-lint:latest
+    volumes:
+      - .:/app
+      - go-modules:/go/pkg/mod
+    working_dir: /app
+    command: golangci-lint run ./...
+    profiles:
+      - tools
+
   db:
     image: postgres:16-alpine
     restart: always
