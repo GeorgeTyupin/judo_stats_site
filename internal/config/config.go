@@ -80,7 +80,11 @@ func MustLoad(log *slog.Logger) *Config {
 		log.Error("Не удалось открыть файл с конфигом", slog.String("error", err.Error()))
 		os.Exit(1)
 	}
-	defer file.Close()
+	defer func() {
+		if err := file.Close(); err != nil {
+			log.Error("не удалось закрыть файл конфига", slog.String("error", err.Error()))
+		}
+	}()
 
 	conf, err := LoadConf(file)
 	if err != nil {

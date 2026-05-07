@@ -17,7 +17,7 @@ func main() {
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
 	cfg := config.MustLoad(logger)
 
-	if err := migrations.Run(cfg.Database.GetConnString()); err != nil {
+	if err := migrations.Run(cfg.Database.GetConnString(), logger); err != nil {
 		logger.Error("Ошибка выполнения миграций", slog.String("error", err.Error()))
 		os.Exit(1)
 	}
