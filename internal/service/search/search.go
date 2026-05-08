@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"strings"
 
 	"judo_stats_site/internal/api/handlers/dto"
 	"judo_stats_site/internal/repository/record"
@@ -52,7 +53,7 @@ func (s *SearchService) JudokaSearch(ctx context.Context, query string, filter d
 	for i, j := range judokas {
 		responses[i] = dto.JudokaResponse{
 			ID:               j.ID,
-			Name:             j.LastNameRus + " " + j.FirstNameRus,
+			Name:             strings.TrimSpace(j.LastNameRus + " " + j.FirstNameRus),
 			Country:          j.Country,
 			City:             j.City,
 			SportClub:        j.SportClub,
@@ -96,6 +97,8 @@ func (s *SearchService) SportClubSearch(ctx context.Context, query string, filte
 			ID:       c.ID,
 			Name:     c.Name,
 			FullName: c.FullName,
+			City:     c.City,
+			Republic: c.Republic,
 		}
 	}
 	return responses, nil

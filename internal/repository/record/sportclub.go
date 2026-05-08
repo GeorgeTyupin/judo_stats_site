@@ -7,6 +7,8 @@ type SportClub struct {
 	Region      string `db:"region"`
 	HeadCoach   string `db:"head_coach"`
 	Description string `db:"description"`
+	City        string `db:"city"`
+	Republic    string `db:"republic"`
 	ID          int64  `db:"id"`
 	CityID      int64  `db:"city_id"`
 }

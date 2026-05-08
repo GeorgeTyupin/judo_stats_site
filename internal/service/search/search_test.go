@@ -20,8 +20,14 @@ func (m *mockSearchRepository) JudokaSearch(ctx context.Context, query string, f
 		return []record.Judoka{}, nil
 	}
 	return []record.Judoka{
-		{Name: query},
+		{LastNameRus: query},
 	}, nil
+}
+func (m *mockSearchRepository) GetJudokaByID(ctx context.Context, id int64) (record.Judoka, error) {
+	return record.Judoka{}, nil
+}
+func (m *mockSearchRepository) GetTournamentByID(ctx context.Context, id int64) (record.Tournament, error) {
+	return record.Tournament{}, nil
 }
 func (m *mockSearchRepository) TournamentSearch(ctx context.Context, query string, filter dto.TournamentFilters) ([]record.Tournament, error) {
 	return nil, nil

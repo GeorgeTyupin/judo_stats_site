@@ -45,6 +45,18 @@ var tournamentSortFields = map[string]string{
 	"year":  "tournaments.year",
 }
 
+// sportClubSortFields — whitelist допустимых полей сортировки для спортивных обществ
+var sportClubSortFields = map[string]string{
+	"name": "sc.name",
+	"city": "ct.name",
+}
+
+// citySortFields — whitelist допустимых полей сортировки для городов
+var citySortFields = map[string]string{
+	"name":     "ct.name",
+	"republic": "ur.name",
+}
+
 func resolveSortField(fields map[string]string, sortBy, defaultField string) string {
 	if col, ok := fields[sortBy]; ok {
 		return col
@@ -245,11 +257,85 @@ func (r *SearchRepository) GetTournamentByID(ctx context.Context, id int64) (rec
 }
 
 func (r *SearchRepository) SportClubSearch(ctx context.Context, query string, filter dto.SportClubFilters) ([]record.SportClub, error) {
-	// TODO Реализовать метод для поиска СО
-	return nil, nil
+	ctx, cancel := context.WithTimeout(ctx, r.timeout)
+	defer cancel()
+
+	sortCol := resolveSortField(sportClubSortFields, filter.SortBy, "sc.name")
+	sortDir := "ASC"
+	if filter.SortDir == "desc" {
+		sortDir = "DESC"
+	}
+
+	sqlQuery := fmt.Sprintf(`
+		SELECT
+			sc.id,
+			sc.name,
+			COALESCE(sc.full_name,   '') AS full_name,
+			COALESCE(sc.founded,     '') AS founded,
+			COALESCE(sc.city_id,      0) AS city_id,
+			COALESCE(sc.region,      '') AS region,
+			COALESCE(sc.head_coach,  '') AS head_coach,
+			COALESCE(sc.description, '') AS description,
+			COALESCE(ct.name,        '') AS city,
+			COALESCE(ur.name,        '') AS republic
+		FROM sport_clubs sc
+		LEFT JOIN cities ct ON sc.city_id = ct.id
+		LEFT JOIN ussr_republics ur ON ct.republic_id = ur.id
+		WHERE sc.name ILIKE '%%' || $1 || '%%'
+		AND ($2 = '' OR ct.name ILIKE '%%' || $2 || '%%')
+		AND ($3 = '' OR ur.name ILIKE '%%' || $3 || '%%')
+		ORDER BY %s %s
+		LIMIT %d`,
+		sortCol, sortDir, r.selectRowsLimit,
+	)
+
+	rows, err := r.db.Query(ctx, sqlQuery, query, filter.City, filter.Republic)
+	if err != nil {
+		return nil, fmt.Errorf("ошибка выполнения запроса в бд: %w", err)
+	}
+
+	clubs, err := pgx.CollectRows(rows, pgx.RowToStructByName[record.SportClub])
+	if err != nil {
+		return nil, fmt.Errorf("ошибка преобразования rows к record.SportClub: %w", err)
+	}
+
+	return clubs, nil
 }
 
 func (r *SearchRepository) CitySearch(ctx context.Context, query string, filter dto.CityFilters) ([]record.City, error) {
-	// TODO Реализовать метод для поиска города
-	return nil, nil
+	ctx, cancel := context.WithTimeout(ctx, r.timeout)
+	defer cancel()
+
+	sortCol := resolveSortField(citySortFields, filter.SortBy, "ct.name")
+	sortDir := "ASC"
+	if filter.SortDir == "desc" {
+		sortDir = "DESC"
+	}
+
+	sqlQuery := fmt.Sprintf(`
+		SELECT
+			ct.id,
+			ct.name,
+			COALESCE(ct.description, '') AS description,
+			ct.republic_id
+		FROM cities ct
+		LEFT JOIN ussr_republics ur ON ct.republic_id = ur.id
+		WHERE ct.name ILIKE '%%' || $1 || '%%'
+		AND ($2 = '' OR ur.name ILIKE '%%' || $2 || '%%')
+		ORDER BY %s %s
+		LIMIT %d`,
+		sortCol, sortDir, r.selectRowsLimit,
+	)
+
+	rows, err := r.db.Query(ctx, sqlQuery, query, filter.Republic)
+	if err != nil {
+		return nil, fmt.Errorf("ошибка выполнения запроса в бд: %w", err)
+	}
+
+	cities, err := pgx.CollectRows(rows, pgx.RowToStructByName[record.City])
+	if err != nil {
+		return nil, fmt.Errorf("ошибка преобразования rows к record.City: %w", err)
+	}
+
+	return cities, nil
 }
