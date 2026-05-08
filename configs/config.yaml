@@ -9,7 +9,7 @@ http_server:
     shutdown: 10s
 
 tls:
-  enabled: false
+  enabled: true
   domain: "judostat.ru"
   cache_dir: "./certs-cache"
   use_staging: false
