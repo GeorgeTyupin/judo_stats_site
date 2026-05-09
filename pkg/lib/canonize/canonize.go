@@ -3,6 +3,7 @@ package canonize
 import (
 	"unicode"
 
+	"golang.org/x/text/runes"
 	"golang.org/x/text/transform"
 	"golang.org/x/text/unicode/norm"
 )
@@ -10,9 +11,7 @@ import (
 func Canonize(s string) (string, error) {
 	stripper := transform.Chain(
 		norm.NFD,
-		transform.RemoveFunc(func(r rune) bool {
-			return unicode.Is(unicode.Mn, r)
-		}),
+		runes.Remove(runes.In(unicode.Mn)),
 		norm.NFC,
 	)
 
